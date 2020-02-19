@@ -1,0 +1,51 @@
+.scroll-bar-style (
+  @width: .4rem;
+  @barColor: #f8f8f8;
+  @trackColor: #f8f8f8;
+  @thumbColor: #ccc;
+) {
+  &::-webkit-scrollbar {
+    width: @width;
+    height: @width;
+    cursor: pointer;
+    background: @barColor;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: @trackColor;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: @thumbColor;
+  }
+}
+
+.screen-fit () {
+  @media (max-width: 1280px) {
+    font-size: 14px !important;
+  }
+  @media (min-width: 1281px) and (max-width: 1365px) {
+    font-size: 16px !important;
+  }
+  @media (min-width: 1366px) and (max-width: 1579px) {
+    font-size: 18px !important;
+  }
+  @media (min-width: 1580px) and (max-width: 1920px) {
+    font-size: 20px !important;
+  }
+  @media (min-width: 1921px) and (max-width: 2799px) {
+    font-size: 30px !important;
+  }
+  @media (min-width: 2800px) and (max-width: 3839px) {
+    font-size: 50px !important;
+  }
+  @media (min-width: 3840px) {
+    font-size: 56px !important;
+  }
+}
+
+.text-cannot-select () {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
