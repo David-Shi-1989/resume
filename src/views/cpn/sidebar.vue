@@ -10,11 +10,11 @@
           <span>sa612250@mail.ustc.edu.cn</span>
         </li>
         <li>
-          <Icon type="ios-pin" />
+          <i class="fa fa-map-marker"></i>
           <span>{{$t('myPlace')}}</span>
         </li>
         <li>
-          <Icon type="ios-phone-portrait" />
+          <i class="fa fa-phone"></i>
           <span>+86-15821850559</span>
         </li>
       </ul>
@@ -97,12 +97,13 @@ export default {
       }
       i {
         display: block;
-        width: .7rem;
+        text-align: center;
+        width: 1.2rem;
         height: @item-height;
         line-height: @item-height;
         font-size: .75rem;
-        margin-right: .5rem;
         color: @color-sub-color;
+        margin-right: .2rem;
       }
       span {
         display: block;

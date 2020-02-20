@@ -23,15 +23,32 @@ export default {
       ]
     }
   },
+  created () {
+    this.calActiveIndex()
+  },
   methods: {
     onMenuItemClick (item, index) {
       this.activeIndex = index
       this.$router.push({ path: item.url })
+    },
+    calActiveIndex () {
+      const curPath = this.$route.path
+      for (let i = 0; i < this.list.length; i++) {
+        if (this.list[i].url === curPath) {
+          this.activeIndex = i
+          return
+        }
+      }
     }
   },
   computed: {
     bgLeft () {
       return ((5 + 0.5) * this.activeIndex + 'rem')
+    }
+  },
+  watch: {
+    '$route.path' () {
+      this.calActiveIndex()
     }
   }
 }

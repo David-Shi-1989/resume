@@ -14,7 +14,7 @@ export const cn = {
 export const en = {
   myName: 'David Shi',
   myPosition: 'Front End Developer',
-  myPlace: 'Hefei-Anhui.Province-China',
+  myPlace: 'Hefei-Anhui-China',
   language: 'Language',
   lang_cn: 'CN',
   lang_en: 'EN',

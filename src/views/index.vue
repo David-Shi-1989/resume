@@ -2,8 +2,10 @@
   <div id="main">
     <sideBar></sideBar>
     <div class="mr-right">
-      <myHeader></myHeader>
-      <router-view></router-view>
+      <myHeader :hasBorder="true"></myHeader>
+      <div id="routeWrap">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
@@ -20,13 +22,22 @@ export default {
 
 <style lang="less" scoped>
 @import url('../style/style.less');
+@import url('../style/utils.less');
 #main {
   display: grid;
   width: 100%;
   height: 100%;
   grid-template-columns: @sidebar-width auto;
   .mr-right {
-    padding: 0 1.5rem;
+    padding-left: 0;
+    overflow: hidden;
+    #routeWrap {
+      padding: 1rem;
+      height: calc(100% - 1.5rem - 2rem);
+      overflow-x: hidden;
+      overflow-y: auto;
+      .scroll-bar-style();
+    }
   }
 }
 </style>
