@@ -3,8 +3,8 @@
     <ul class="mr-home-t-ul">
       <li>
         <b>个人自述</b>
-        <p>罗德里戈帮助皇马在伊斯塔布尔做出回应，并在回到伯纳乌主场后用一个完美的帽子戏法点燃了球场，这也让他成为了欧冠历史上第二年轻的帽子戏法先生，仅次于劳尔。</p>
-        <p>在那以后罗德里戈就没有太多的机会，但罗德里戈很冷静，他知道自己的皇马生涯是一场马拉松，而不是短跑，他对自己在皇马的首个赛季感到满意，目前已经参与到了其中的18场比赛中。</p>
+        <p>毕业五年，就职过两家公司。对技术和前端页面的交互有着近乎苛刻的追求，热爱编码，喜欢创造美的东西。</p>
+        <p>处女座的我，对代码有着洁癖。近一年半有项目管理的经验，承担私有云安全页面的开发，从零开始，带领团队逐渐成熟。</p>
       </li>
       <li class="mr-education">
         <b>教育背景</b>
@@ -69,19 +69,81 @@
       </li>
       <li>
         <b>技能清单</b>
+        <ul class="mr-ul-skill">
+          <li v-for="(item,idx) in skillList" :key="idx">
+            <div>
+              <span>{{item.title}}</span>
+              <starScore v-model="item.score"></starScore>
+            </div>
+            <div>
+              <ul>
+                <li v-for="(item2,idx2) in item.description" :key="idx+'_'+idx2">{{item2}}</li>
+              </ul>
+            </div>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import starScore from '../components/skill-line'
 export default {
-  components: {
+  components: { starScore },
+  data () {
+    return {
+      skillList: [
+        {
+          title: 'JavaScript/CSS/HTML',
+          score: 4.2,
+          description: [
+            '熟悉各种js的API以及ES6语法。',
+            '精通JavaScript、Ajax等Web开发技术。',
+            '熟悉CSS排版，有一定页面重构经验，能独立根据设计图制作页面，处理浏览器兼容性。',
+            '熟悉HTTP协议，对网站性能优化有所研究，在实际项目中有经验。'
+          ]
+        },
+        {
+          title: 'NodeJS',
+          score: 4.0,
+          description: [
+            '熟练掌握 Nodejs 的核心模块和 Express 框架的使用。',
+            '熟练掌握 Nodejs 的异步编程方法，熟悉 Promise、Generator、Await/Async。',
+            '熟悉 redis、mongodb 等数据库的基本使用。'
+          ]
+        },
+        {
+          title: 'VueJS',
+          score: 4.5,
+          description: [
+            '熟练掌握 Nodejs 的核心模块和 Express 框架的使用。',
+            '熟练掌握 Nodejs 的异步编程方法，熟悉 Promise、Generator、Await/Async。',
+            '熟悉 redis、mongodb 等数据库的基本使用。'
+          ]
+        },
+        {
+          title: 'Photoshop',
+          score: 3.2,
+          description: [
+            '熟练使用PS的基础操作，能自主完成图标和图片的处理。'
+          ]
+        },
+        {
+          title: 'WeUI/Bootstrap/AntDesign/ElementUI/AmazeUI',
+          score: 3.9,
+          description: [
+            '熟练使用PS的基础操作，能自主完成图标和图片的处理。'
+          ]
+        }
+      ]
+    }
   }
 }
 </script>
 <style lang="less" scoped>
 @import url('../style/color.less');
+@title1-width: 20rem;
 .mr-home {
   ul.mr-home-t-ul {
     list-style: none;
@@ -113,7 +175,7 @@ export default {
           margin-bottom: .2rem;
           & > span:first-child {
             display: inline-block;
-            width: 15rem;
+            width: @title1-width;
           }
         }
         &:last-child {
@@ -185,6 +247,27 @@ export default {
           display: inline-block;
           padding: .1rem .5rem;
           text-align: center;
+        }
+      }
+    }
+  }
+  ul.mr-ul-skill {
+    list-style: none;
+    & > li {
+      &:not(:last-child) {
+        margin-bottom: .4rem;
+      }
+      & > div {
+        display: flex;
+        & > span {
+          display: block;
+          width: @title1-width;
+          font-weight: bolder;
+        }
+        &:last-child {
+          font-size: .5rem;
+          color: @color-sub-color;
+          margin-left: .7rem;
         }
       }
     }

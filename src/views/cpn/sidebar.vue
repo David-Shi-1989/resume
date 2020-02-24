@@ -17,6 +17,10 @@
           <i class="fa fa-phone"></i>
           <span>+86-15821850559</span>
         </li>
+        <li>
+          <i class="fa fa-birthday-cake"></i>
+          <span>1989/08/29</span>
+        </li>
       </ul>
     </div>
     <div>
