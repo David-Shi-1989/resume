@@ -1,5 +1,116 @@
 <template>
-  <div>项目经历</div>
+  <div class="mr-project-wrap">
+    <ul>
+      <li>
+        <div class="mr-p-title">
+          <p>安全云前端项目</p>
+        </div>
+        <div class="mr-p-info">
+          <p><span class="after-comma">项目规模</span><span>100k</span></p>
+          <p><span class="after-comma">项目时间</span><span>2018.1 - 至今</span></p>
+        </div>
+        <div class="mr-p-info mr-p-info-2">
+          <p><span>VueJs</span></p>
+          <p><span>NodeJs</span></p>
+          <p><span>Express</span></p>
+          <p><span>Cas</span></p>
+          <p><span>webpack</span></p>
+        </div>
+        <div class="mr-p-info-tt">
+          <p>项目简介</p>
+          <ul>
+            <li>这是第一条项目简介。</li>
+            <li>这是第2条项目简介。</li>
+            <li>这是第3条项目简介。</li>
+            <li>这是第4条项目简介。</li>
+            <li>这是第5条项目简介。</li>
+          </ul>
+        </div>
+        <div class="mr-p-info-tt">
+          <p>承担任务</p>
+          <ul>
+            <li>这是第一条项目简介。</li>
+            <li>这是第2条项目简介。</li>
+            <li>这是第3条项目简介。</li>
+            <li>这是第4条项目简介。</li>
+            <li>这是第5条项目简介。</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="mr-p-title">
+          <p>安全云前端项目</p>
+        </div>
+        <div class="mr-p-info">
+          <p><span class="after-comma">项目规模</span><span>100k</span></p>
+          <p><span class="after-comma">项目时间</span><span>2018.1 - 至今</span></p>
+        </div>
+        <div class="mr-p-info mr-p-info-2">
+          <p><span>VueJs</span></p>
+          <p><span>NodeJs</span></p>
+          <p><span>Express</span></p>
+          <p><span>Cas</span></p>
+          <p><span>webpack</span></p>
+        </div>
+        <div class="mr-p-info-tt">
+          <p>项目简介</p>
+          <ul>
+            <li>这是第一条项目简介。</li>
+            <li>这是第2条项目简介。</li>
+            <li>这是第3条项目简介。</li>
+            <li>这是第4条项目简介。</li>
+            <li>这是第5条项目简介。</li>
+          </ul>
+        </div>
+        <div class="mr-p-info-tt">
+          <p>承担任务</p>
+          <ul>
+            <li>这是第一条项目简介。</li>
+            <li>这是第2条项目简介。</li>
+            <li>这是第3条项目简介。</li>
+            <li>这是第4条项目简介。</li>
+            <li>这是第5条项目简介。</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="mr-p-title">
+          <p>安全云前端项目</p>
+        </div>
+        <div class="mr-p-info">
+          <p><span class="after-comma">项目规模</span><span>100k</span></p>
+          <p><span class="after-comma">项目时间</span><span>2018.1 - 至今</span></p>
+        </div>
+        <div class="mr-p-info mr-p-info-2">
+          <p><span>VueJs</span></p>
+          <p><span>NodeJs</span></p>
+          <p><span>Express</span></p>
+          <p><span>Cas</span></p>
+          <p><span>webpack</span></p>
+        </div>
+        <div class="mr-p-info-tt">
+          <p>项目简介</p>
+          <ul>
+            <li>这是第一条项目简介。</li>
+            <li>这是第2条项目简介。</li>
+            <li>这是第3条项目简介。</li>
+            <li>这是第4条项目简介。</li>
+            <li>这是第5条项目简介。</li>
+          </ul>
+        </div>
+        <div class="mr-p-info-tt">
+          <p>承担任务</p>
+          <ul>
+            <li>这是第一条项目简介。</li>
+            <li>这是第2条项目简介。</li>
+            <li>这是第3条项目简介。</li>
+            <li>这是第4条项目简介。</li>
+            <li>这是第5条项目简介。</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -8,6 +119,59 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less" scoped>
+@import url('../style/color.less');
+.mr-project-wrap {
+  & > ul {
+    list-style: none;
+    & > li {
+      padding: .3rem;
+    }
+    .mr-p-title {
+      font-size: .9rem;
+      font-weight: bolder;
+      border-left: .2rem solid @color-primary;
+      padding-left: .5rem;
+      margin-bottom: .5rem;
+    }
+    .mr-p-info {
+      display: flex;
+      margin: .2rem 0;
+      & > p {
+        font-size: .6rem;
+        background-color: @color-background;
+        padding: .05rem .2rem;
+        border: .05rem solid @color-border;
+        border-radius: .2rem;
+        &:not(:last-child) {
+          margin-right: 1rem;
+        }
+        span.after-comma {
+          &::after {
+            content: ":";
+            margin: 0 .1rem;
+          }
+        }
+      }
+      &.mr-p-info-2 {
+        font-size: .5rem;
+        & > p:not(:last-child) {
+          margin-right: .3rem;
+        }
+      }
+    }
+    .mr-p-info-tt {
+      margin-bottom: .5rem;
+      & > p:first-child {
+        font-size: .7rem;
+        font-weight: bolder;
+      }
+      & > ul {
+        list-style: disc;
+        padding-left: .8rem;
+        font-size: .7rem;
+      }
+    }
+  }
+}
 </style>
