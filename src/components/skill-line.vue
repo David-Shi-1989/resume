@@ -1,10 +1,12 @@
 <template>
-  <ul :title="this.value">
-    <li v-for="i in max" :key="i">
-      <i :class="['fa', getStartClass(i)]"></i>
-    </li>
-    <li>{{this.value}}</li>
-  </ul>
+  <div class="mr-wrap" :style="{textAlign: align}">
+    <ul :title="this.value">
+      <li v-for="i in max" :key="i">
+        <i :class="['fa', getStartClass(i)]"></i>
+      </li>
+      <li>{{this.value}}</li>
+    </ul>
+  </div>
 </template>
 <script>
 export default {
@@ -16,6 +18,10 @@ export default {
     max: {
       type: Number,
       default: 5
+    },
+    align: {
+      type: String,
+      default: 'left'
     }
   },
   methods: {
@@ -37,19 +43,23 @@ export default {
 
 <style lang="less" scoped>
 @star-color: rgb(255, 215, 0);
-ul {
-  list-style: none;
-  display: flex;
-  & > li {
-    i {
-    color: @star-color;
-    }
-    &:not(:last-child) {
-      margin-right: .1rem;
-    }
-    &:last-child {
-      margin-left: 1rem;
+.mr-wrap {
+  padding: 0 .2rem;
+  ul {
+    list-style: none;
+    display: inline-flex;
+    & > li {
+      i {
+      color: @star-color;
+      }
+      &:not(:last-child) {
+        margin-right: .1rem;
+      }
+      &:last-child {
+        margin-left: 1rem;
+      }
     }
   }
 }
+
 </style>
