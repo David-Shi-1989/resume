@@ -1,7 +1,28 @@
 <template>
   <div class="mr-project-wrap">
     <ul>
-      <li>
+      <li v-for="(item,idx) in data" :key="`item${idx}`">
+        <div class="mr-p-title">
+          <p>{{item.title}}</p>
+        </div>
+        <div class="mr-p-info">
+          <p v-for="(infoItem,infoIdx) in item.info" :key="`item${idx}_info_${infoIdx}`">
+            <span class="after-comma">{{infoItem.label}}</span><span>{{infoItem.value}}</span>
+          </p>
+        </div>
+        <div class="mr-p-info mr-p-info-2">
+          <p v-for="(skillItem,skillIdx) in item.skill" :key="`item${idx}_skill_${skillIdx}`">
+            <span>{{skillItem}}</span>
+          </p>
+        </div>
+        <div class="mr-p-info-tt" v-for="(descItem,descIdx) in item.description" :key="`item${idx}_desc_${descIdx}`">
+          <p>{{descItem.title}}</p>
+          <ul>
+            <li v-for="(descListItem,descListIdx) in descItem.list" :key="`item${idx}_desc_${descIdx}_item${descListIdx}`">{{descListItem}}</li>
+          </ul>
+        </div>
+      </li>
+      <!-- <li>
         <div class="mr-p-title">
           <p>安全云前端项目</p>
         </div>
@@ -72,50 +93,43 @@
             <li>这是第5条项目简介。</li>
           </ul>
         </div>
-      </li>
-      <li>
-        <div class="mr-p-title">
-          <p>安全云前端项目</p>
-        </div>
-        <div class="mr-p-info">
-          <p><span class="after-comma">项目规模</span><span>100k</span></p>
-          <p><span class="after-comma">项目时间</span><span>2018.1 - 至今</span></p>
-        </div>
-        <div class="mr-p-info mr-p-info-2">
-          <p><span>VueJs</span></p>
-          <p><span>NodeJs</span></p>
-          <p><span>Express</span></p>
-          <p><span>Cas</span></p>
-          <p><span>webpack</span></p>
-        </div>
-        <div class="mr-p-info-tt">
-          <p>项目简介</p>
-          <ul>
-            <li>这是第一条项目简介。</li>
-            <li>这是第2条项目简介。</li>
-            <li>这是第3条项目简介。</li>
-            <li>这是第4条项目简介。</li>
-            <li>这是第5条项目简介。</li>
-          </ul>
-        </div>
-        <div class="mr-p-info-tt">
-          <p>承担任务</p>
-          <ul>
-            <li>这是第一条项目简介。</li>
-            <li>这是第2条项目简介。</li>
-            <li>这是第3条项目简介。</li>
-            <li>这是第4条项目简介。</li>
-            <li>这是第5条项目简介。</li>
-          </ul>
-        </div>
-      </li>
+      </li> -->
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-
+  data () {
+    return {
+      data: [
+        {
+          title: 'Preps印刷排版软件',
+          info: [
+            { label: '项目规模', value: '100k' },
+            { label: '项目时间', value: '2018.1 - 至今' }
+          ],
+          skill: ['VueJS', 'NodeJS', 'Express'],
+          description: [
+            {
+              title: '项目简介',
+              list: [
+                '这是第一条项目简介。',
+                '这是第2条项目简介。'
+              ]
+            },
+            {
+              title: '承担任务',
+              list: [
+                '这是第一条承担任务。',
+                '这是第2条承担任务。'
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -126,6 +140,8 @@ export default {
     list-style: none;
     & > li {
       padding: .3rem;
+      margin-bottom: 1rem;
+      border-bottom: .05rem solid @color-border;
     }
     .mr-p-title {
       font-size: .9rem;

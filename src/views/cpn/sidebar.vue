@@ -25,10 +25,18 @@
     </div>
     <div>
       <ul class="mr-link-list">
-        <li><Icon type="logo-github" /></li>
-        <li><i class="fa fa-weibo"></i></li>
-        <li><i class="fa fa-wechat"></i></li>
-        <li><i class="fa fa-wordpress"></i></li>
+        <li>
+          <a href="https://github.com/David-Shi-1989" target="_blank"><Icon type="logo-github" /></a>
+        </li>
+        <li>
+          <a href="https://weibo.com/davidshi1989" target="_blank"><i class="fa fa-weibo"></i></a>
+        </li>
+        <li>
+          <a href="/static/image/wechat-code.jpg" target="_blank"><i class="fa fa-wechat"></i></a>
+        </li>
+        <li>
+          <a href="https://segmentfault.com/u/davidshi" target="_blank"><i class="fa fa-wordpress"></i></a>
+        </li>
       </ul>
       <p class="mr-copyright">
         <i class="fa fa-copyright"></i> 2020 shiwang.wang<br/>All Rights Reserved.<br/>
