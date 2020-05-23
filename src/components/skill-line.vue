@@ -1,10 +1,10 @@
 <template>
   <div class="mr-wrap" :style="{textAlign: align}">
     <ul :title="this.value">
-      <li v-for="i in max" :key="i">
+      <li v-for="i in max" :key="i" class="mr-star">
         <i :class="['fa', getStartClass(i)]"></i>
       </li>
-      <li>{{this.value}}</li>
+      <li v-if="showValue">{{this.value}}</li>
     </ul>
   </div>
 </template>
@@ -22,6 +22,10 @@ export default {
     align: {
       type: String,
       default: 'left'
+    },
+    showValue: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -55,7 +59,7 @@ export default {
       &:not(:last-child) {
         margin-right: .1rem;
       }
-      &:last-child {
+      &:not(.mr-star) {
         margin-left: 1rem;
       }
     }

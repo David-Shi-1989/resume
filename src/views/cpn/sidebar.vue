@@ -21,6 +21,10 @@
           <i class="fa fa-birthday-cake"></i>
           <span>1989/08/29</span>
         </li>
+        <li>
+          <i class="fa fa-heart"></i>
+          <span>{{$t('marrige')}}</span>
+        </li>
       </ul>
     </div>
     <div>
@@ -58,6 +62,7 @@ export default {
   border-right: 0.02rem solid @color-border;
   display: grid;
   grid-template-rows: auto 4rem;
+  min-width: 11rem;
   & > div {
     &:first-child {
       padding: 2rem 1rem;

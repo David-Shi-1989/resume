@@ -3,8 +3,9 @@
     <ul class="mr-home-t-ul">
       <li>
         <b>个人自述</b>
-        <p>毕业五年，就职过两家公司。对技术和前端页面的交互有着近乎苛刻的追求，热爱编码，喜欢创造美的东西。</p>
-        <p>处女座的我，对代码有着洁癖。近一年半有项目管理的经验，承担私有云安全页面的开发，从零开始，带领团队逐渐成熟。</p>
+        <p><span class="mr-bolder">5</span>年前端开发经验</p>
+        <p><span class="mr-bolder">3</span>年团队管理经验</p>
+        <p>热爱前端技术，有完整项目开发经验，目前从事云安全管理平台项目开发工作。</p>
       </li>
       <li class="mr-education">
         <b>教育背景</b>
@@ -108,18 +109,19 @@ export default {
           title: 'NodeJS',
           score: 4.0,
           description: [
-            '熟练掌握 Nodejs 的核心模块和 Express 框架的使用。',
+            '熟练掌握 Nodejs 的核心模块和线程的使用。',
             '熟练掌握 Nodejs 的异步编程方法，熟悉 Promise、Generator、Await/Async。',
-            '熟悉 redis、mongodb 等数据库的基本使用。'
+            '熟悉 redis、mongodb 等数据库的基本使用。',
+            '熟悉Express框架的使用，有中间件开发经验。',
+            '有对接CasServer的经验。'
           ]
         },
         {
           title: 'VueJS',
           score: 4.5,
           description: [
-            '熟练掌握 Nodejs 的核心模块和 Express 框架的使用。',
-            '熟练掌握 Nodejs 的异步编程方法，熟悉 Promise、Generator、Await/Async。',
-            '熟悉 redis、mongodb 等数据库的基本使用。'
+            '熟练掌握VueJS框架的使用及原理和内部机制。',
+            '3年VueJS项目开发经验。'
           ]
         },
         {
@@ -130,10 +132,10 @@ export default {
           ]
         },
         {
-          title: 'WeUI/Bootstrap/AntDesign/ElementUI/AmazeUI',
+          title: 'Axure',
           score: 3.9,
           description: [
-            '熟练使用PS的基础操作，能自主完成图标和图片的处理。'
+            '熟练使用Axure进行原型设计。'
           ]
         }
       ]
@@ -163,7 +165,10 @@ export default {
       a {
         font-size: .5rem;
       }
-      &.mr-education {
+      .mr-bolder {
+        font-size: 1.5rem;
+        font-weight: bolder;
+        margin-right: .2rem;
       }
     }
   }
