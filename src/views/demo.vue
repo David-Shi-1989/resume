@@ -10,13 +10,15 @@
         <p class="mr-d-d">{{item.description}}</p>
       </li>
     </ul>
+    <pieDemo></pieDemo>
   </div>
 </template>
 
 <script>
 import starScore from '../components/skill-line'
+import pieDemo from '@/components/echarts/pie.js'
 export default {
-  components: { starScore },
+  components: { starScore, pieDemo },
   data () {
     return {
       list: [
