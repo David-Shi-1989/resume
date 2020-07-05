@@ -10,15 +10,13 @@
         <p class="mr-d-d">{{item.description}}</p>
       </li>
     </ul>
-    <pieDemo></pieDemo>
   </div>
 </template>
 
 <script>
 import starScore from '../components/skill-line'
-import pieDemo from '@/components/echarts/pie.js'
 export default {
-  components: { starScore, pieDemo },
+  components: { starScore },
   data () {
     return {
       list: [
@@ -82,6 +80,12 @@ export default {
           score: 3.8,
           description: '基于echarts实现环形饼图，支持悬浮展示。',
           url: 'https://david-shi-1989.github.io/MyCodeSnippet/src/component/echarts/index.html'
+        },
+        {
+          title: '滚动日志',
+          score: 4.5,
+          description: 'VueJS编写的日志滚动组件。',
+          routerName: 'Demo_Animate'
         }
       ]
     }
@@ -90,6 +94,8 @@ export default {
     onDemoItemClick (item) {
       if (item.url) {
         window.open(item.url, '_blank')
+      } else if (item.routerName) {
+        this.$router.push({ name: item.routerName })
       }
     }
   }

@@ -34,6 +34,11 @@ const routes = [
         path: 'demo',
         name: 'Demo',
         component: () => import('../views/demo.vue')
+      },
+      {
+        path: 'demo/log-animate',
+        name: 'Demo_Animate',
+        component: () => import('../views/demos/log-animate.vue')
       }
     ]
   }
