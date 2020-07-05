@@ -1,15 +1,7 @@
 <template>
   <div>
-    <div class="sw-demo-wrap dash-card">
-      <div class="sw-loading" v-if="isShowLoading"><i class="fa fa-spinner fa-spin"></i></div>
-      <ul ref="logUl">
-        <li v-for="item in list" :key="item.id" :style="{transform:`translate(0, ${item.top+'px'})`}">
-          <span>{{item.index}}</span>
-          <span>{{item.text}}</span>
-          <span>{{item.datetime}}</span>
-        </li>
-      </ul>
-    </div>
+    <p>基于Vue+Gsap.js的日志轮播组件</p>
+    <logCpn ref="logRef" :isShowLoading="isShowLoading"></logCpn>
     <div class="sw-btn-wrap">
       <Button type="primary" @click="onInsertLogBtn(insertLogNum)">插入日志</Button>
       <InputNumber :min="1" :max="25" v-model="insertLogNum"></InputNumber>
@@ -18,16 +10,15 @@
 </template>
 
 <script>
-import { formatDateTime, getRandomNum } from '@/utils'
+import { formatDateTime } from '@/utils'
+import logCpn from '@/components/demo-cpn/log-animate.vue'
 export default {
+  components: { logCpn },
   data () {
     return {
-      isShowLoading: true,
-      maxSize: 5,
-      itemHeight: 30,
+      isShowLoading: false,
       insertLogNum: 1,
-      list: [],
-      taskList: []
+      index: 1
     }
   },
   created () {
@@ -43,11 +34,11 @@ export default {
         this.isShowLoading = false
       }, 1800)
     },
-    getOneFakeData () {
-      const username = ''.random(6)
-      const ts = (this.list.length > 0 ? (this.list[0].ts + 1000 * getRandomNum(1, 30)) : Date.now())
+    getOneFakeData (arr) {
+      const ts = Date.now()
       const id = ''.random(12)
-      const index = (this.list.length > 0 ? (this.list[0].index + 1) : 1)
+      const username = ''.random(6)
+      const index = (this.index++)
       return {
         index,
         id,
@@ -58,46 +49,12 @@ export default {
     },
     onInsertLogBtn (num) {
       const count = num || this.insertLogNum
+      let tArr = []
       for (let i = 0; i < count; i++) {
-        let curItem = this.getOneFakeData()
-        this.addItem(curItem)
+        let curItem = this.getOneFakeData(tArr)
+        tArr.unshift(curItem)
       }
-      this.$nextTick(() => {
-        this.animateAfterInsert()
-      })
-    },
-    addItem (item) {
-      if (this.list.length < this.maxSize) {
-        item.top = 0
-      } else {
-        const newTop = (this.list.length + 1 - this.maxSize) * this.itemHeight * -1
-        item.top = newTop
-        this.list.forEach(item => (item.top = newTop))
-      }
-      this.list.unshift(item)
-    },
-    animateAfterInsert () {
-      var timeLine = new this.$gsap.timeline()
-      const ulRef = this.$refs.logUl
-      const newCount = this.list.length - this.maxSize
-      const top = (newCount > 0 ? ((this.list.length - this.maxSize) * this.itemHeight) : 0)
-      const duration = newCount * 300
-      if (top) {
-        timeLine.to(ulRef, { duration: duration / 1000, y: top })
-      }
-      let me = this
-      setTimeout(() => {
-        me.list.splice(me.maxSize)
-        me.resetTop()
-      }, duration + 20)
-    },
-    resetTop () {
-      var timeLine = new this.$gsap.timeline()
-      const ulRef = this.$refs.logUl
-      timeLine.to(ulRef, { duration: 0, y: 0 })
-      this.list.forEach(item => {
-        item.top = 0
-      })
+      this.$refs.logRef.addNewItems(tArr)
     }
   }
 }
