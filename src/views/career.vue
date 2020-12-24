@@ -2,15 +2,16 @@
   <div class="mr-career-wrap">
     <div>
       <div class="dash-card">
-        <p><CountTo :end="2"></CountTo><span class="mr-unit">家</span></p>
+        <p><CountTo :end="3"></CountTo><span class="mr-unit">家</span></p>
         <p>就职企业</p>
         <div class="mr-logo-list">
           <img src="/static/career/kodak.png" >
           <img src="/static/career/h3c.png" >
+          <img src="/static/career/arcu.jpg" >
         </div>
       </div>
       <div class="dash-card">
-        <p><CountTo :end="5"></CountTo><span class="mr-unit">年</span></p>
+        <p><CountTo :end="workingYears"></CountTo><span class="mr-unit">年</span></p>
         <p>工作经验</p>
       </div>
     </div>
@@ -94,7 +95,20 @@
 <script>
 import CountTo from '@/components/count-to/index.js'
 export default {
-  components: { CountTo }
+  components: { CountTo },
+  data () {
+    return {
+      workingYears: 5
+    }
+  },
+  created () {
+    this.calWorkingYear()
+  },
+  methods: {
+    calWorkingYear () {
+      this.workingYears = Math.ceil(((new Date()) - (new Date('2015/1/1'))) / (1000 * 60 * 60 * 24 * 365))
+    }
+  }
 }
 </script>
 
@@ -144,8 +158,8 @@ export default {
           }
           &:nth-child(2) {
             i.mr-dot {
-              width: .9rem;
-              height: .9rem;
+              // width: .9rem;
+              // height: .9rem;
             }
           }
           &:last-child {
@@ -168,7 +182,7 @@ export default {
       & > div {
         &:first-child {
           width: 8rem;
-          flex-shrink: 1;
+          flex-shrink: 0;
           font-size: .6rem;
           font-weight: bolder;
           text-align: center;
@@ -203,6 +217,7 @@ export default {
           padding:.5rem .5rem .5rem 1rem;
           position: relative;
           font-size: .65rem;
+          margin-left: 1rem;
           & > ul {
             list-style: none;
             & > li {

@@ -33,36 +33,16 @@
         </ul>
       </li>
       <li class="mr-career">
-        <b>工作经历</b>
+        <b>{{$t('careerPage')}}</b>
         <ul class="mr-ul-display">
-          <li>
+          <li v-for="item in careerList" :key="item.timeRange">
             <div>
-              <span class="mr-ul-t1">柯达（中国）产品研发中心</span>
-              <span class="mr-ul-t-bg">实习生</span>
+              <span class="mr-ul-t1">{{item.company}}</span>
+              <span class="mr-ul-t-bg">{{item.role}}</span>
             </div>
             <div>
-              <span class="mr-ul-t3"><i class="fa fa fa-map-marker"></i>上海-浦东</span>
-              <span class="mr-ul-t3"><i class="fa fa-calendar"></i>2013.6 - 2015.1</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <span class="mr-ul-t1">柯达（中国）产品研发中心</span>
-              <span class="mr-ul-t-bg">软件开发工程师</span>
-            </div>
-            <div>
-              <span class="mr-ul-t3"><i class="fa fa fa-map-marker"></i>上海-浦东</span>
-              <span class="mr-ul-t3"><i class="fa fa-calendar"></i>2015.1 - 2016.6</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <span class="mr-ul-t1">新华三信息安全技术有限公司</span>
-              <span class="mr-ul-t-bg">前端开发工程师</span>
-            </div>
-            <div>
-              <span class="mr-ul-t3"><i class="fa fa fa-map-marker"></i>安徽-合肥</span>
-              <span class="mr-ul-t3"><i class="fa fa-calendar"></i>2016.6 - 至今</span>
+              <span class="mr-ul-t3"><i class="fa fa fa-map-marker"></i>{{item.region}}</span>
+              <span class="mr-ul-t3"><i class="fa fa-calendar"></i>{{item.timeRange}}</span>
             </div>
           </li>
         </ul>
@@ -94,6 +74,32 @@ export default {
   components: { starScore },
   data () {
     return {
+      careerList: [
+        {
+          company: '柯达（中国）产品研发中心',
+          role: '实习生',
+          region: '上海-浦东',
+          timeRange: '2013.6 - 2015.1'
+        },
+        {
+          company: '柯达（中国）产品研发中心',
+          role: '软件开发工程师',
+          region: '上海-浦东',
+          timeRange: '2015.1 - 2016.6'
+        },
+        {
+          company: '屯溪农村商业银行',
+          role: '电子银行部职员',
+          region: '安徽-屯溪',
+          timeRange: '2016.7 - 2017.6'
+        },
+        {
+          company: '新华三信息安全技术有限公司',
+          role: '前端开发工程师',
+          region: '安徽-合肥',
+          timeRange: '2017.6 - 2021.1'
+        }
+      ],
       skillList: [
         {
           title: 'JavaScript/CSS/HTML',
