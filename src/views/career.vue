@@ -17,72 +17,25 @@
     </div>
     <div class="dash-card">
       <ul class="mr-c-ul">
-        <li>
-          <div>2013.7 - 2017.6</div>
+        <li v-for="item in careerList" :key="item.company">
+          <div>{{item.datetime}}</div>
           <div>
             <i class="mr-dot"></i>
           </div>
           <div>
             <p>
-              <span>柯达（中国）投资有限公司 PDC 产品研发中心</span>
-              <span>软件开发工程师</span>
+              <span>{{item.company}}</span>
+              <span>{{item.role}}</span>
               <span>
                 <i class="fa fa-map-marker"></i>
-                <span>上海 浦东</span>
+                <span>{{item.region}}</span>
               </span>
             </p>
             <ul>
-              <li>
-                <p>工作内容</p>
-                <ol>
-                  <li>负责印能捷软件的前端开发任务。</li>
-                  <li>产品的MacOS App的维护和开发。</li>
-                  <li>拼板软件的开发，主要使用C++和C#。</li>
-                </ol>
-              </li>
-              <li>
-                <p>工作业绩</p>
-                <ol>
-                  <li>高质量完成各项开发及维护工作，年度考评获得A。</li>
-                </ol>
-              </li>
-              <li>
-                <p>说明</p>
-                <ol class="mr-no-order">
-                  <li>其中2013年至2015年为实习生。</li>
-                </ol>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li>
-          <div>2017.6 - 至今</div>
-          <div>
-            <i class="mr-dot"></i>
-          </div>
-          <div>
-            <p>
-              <span>新华三信息安全技术有限公司</span>
-              <span>前端项目经理</span>
-              <span>
-                <i class="fa fa-map-marker"></i>
-                <span>安徽 合肥</span>
-              </span>
-            </p>
-            <ul>
-              <li>
-                <p>工作内容</p>
-                <ol>
-                  <li>云安全项目前端Leader，负责部门内3款产品的前端项目管理工作。</li>
-                  <li>前端项目架构设计与搭建，流程优化，制定统一的UI规范和交互。</li>
-                  <li>日常团队管理（组内人数规模10人），包括日常代码评审，技术培训等。</li>
-                </ol>
-              </li>
-              <li>
-                <p>工作业绩</p>
-                <ol>
-                  <li>云安全项目，从零开始，主要负责项目前端架构的设计和实现，并带领团队顺利完成项目任务，在公司展会上圆满展出。获得同年度的年度A+考评。</li>
-                  <li>团队的管理。3年来团队稳定发展，每个人的技术水平快速提升，离职率远低于公司内其他团队。</li>
+              <li v-for="(descItem,idx) in item.descList" :key="'desc'+idx">
+                <p>{{descItem.title}}</p>
+                <ol :class="descItem.noOrder?'mr-no-order':''">
+                  <li v-for="(descListItem, idx2) in descItem.list" :key="'desc2_' + idx2">{{descListItem}}</li>
                 </ol>
               </li>
             </ul>
@@ -98,7 +51,77 @@ export default {
   components: { CountTo },
   data () {
     return {
-      workingYears: 5
+      workingYears: 5,
+      careerList: [
+        {
+          company: '柯达（中国）投资有限公司 PDC 产品研发中心',
+          title: '软件开发工程师',
+          region: '上海 浦东',
+          datetime: '2013.7 - 2016.6',
+          descList: [
+            {
+              title: '工作内容',
+              list: [
+                '负责印能捷软件的前端开发任务。',
+                '产品的MacOS App的维护和开发。',
+                '主要使用技术：Backbone.js、TypeScript、SASS。'
+              ]
+            },
+            {
+              title: '工作业绩',
+              list: [
+                '实习期间获得院优秀实习员工荣誉。',
+                '高质量完成各项开发及维护工作，且临时承担MacOS App开发任务，保证项目版本正常发布。'
+              ]
+            },
+            {
+              title: '说明',
+              noOrder: true,
+              list: [
+                '其中2013年至2015年为实习生。'
+              ]
+            }
+          ]
+        },
+        {
+          company: '屯溪农村商业银行',
+          title: '电子银行部职员',
+          region: '安徽 合肥',
+          datetime: '2016.7 - 2017.5',
+          descList: [
+            {
+              title: '工作内容',
+              list: [
+                '2016年7月至2017年4月，借调省联社，负责安徽农金手机银行的开发和升级。需求文档和测试用例的编写。',
+                '2017年4月，借调省联社，负责新核心系统的开发和升级。'
+              ]
+            }
+          ]
+        },
+        {
+          company: '新华三信息安全技术有限公司',
+          title: '云安全开发部 前端项目经理',
+          region: '安徽 合肥',
+          datetime: '2017.6 - 2020.1.28',
+          descList: [
+            {
+              title: '工作内容',
+              list: [
+                '云安全项目前端Leader，负责部门内3款产品的前端项目管理工作。',
+                '前端项目架构设计与搭建，流程优化，制定统一的UI规范和交互。',
+                '日常团队管理（组内人数规模10人），包括日常代码评审，技术培训等。'
+              ]
+            },
+            {
+              title: '工作业绩',
+              list: [
+                '云安全项目，从零开始，主要负责项目前端架构的设计和实现，并带领团队顺利完成项目任务，在公司展会上圆满展出。获得同年度的年度A+考评。',
+                '团队的管理。3年来团队稳定发展，每个人的技术水平快速提升，离职率远低于公司内其他团队。'
+              ]
+            }
+          ]
+        }
+      ]
     }
   },
   created () {
