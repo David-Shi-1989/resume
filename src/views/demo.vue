@@ -1,9 +1,9 @@
 <template>
   <div class="mr-demo-wrap">
     <ul>
-      <li v-for="(item,idx) in list" :key="idx" @click="onDemoItemClick(item)">
+      <li v-for="(item,idx) in demoList" :key="idx" @click="onDemoItemClick(item)">
         <div class="mr-d-img" :style="{backgroundImage: `url(${item.img})`}">
-          <p v-if="!item.img">懒得上传图片，直接点开查看吧^^</p>
+          <!-- <p v-if="!item.img">懒得上传图片，直接点开查看吧^^</p> -->
         </div>
         <p class="mr-d-t">{{item.title}}</p>
         <div class="mr-d-score"><starScore v-model="item.score" align="right"></starScore></div>
@@ -98,6 +98,17 @@ export default {
         this.$router.push({ name: item.routerName })
       }
     }
+  },
+  computed: {
+    demoList () {
+      let list = this.list
+      list.forEach(item => {
+        if (!item.img){
+          item.img = './static/image/demo/placeholder.jpg'
+        }
+      })
+      return list
+    }
   }
 }
 </script>
@@ -124,6 +135,7 @@ export default {
       border: .05rem solid @color-border;
       transition: all .4s;
       margin-bottom: 1rem;
+      @padding: .4rem;
       &:hover {
         border-color: #f40;
       }
@@ -133,26 +145,27 @@ export default {
       & > div.mr-d-img {
         grid-area: img;
         background-size: cover;
+        border-bottom: 1px solid @color-border;
         & > p {
           margin: 2rem 0.5rem;
         }
       }
       & > p.mr-d-t {
         grid-area: title;
-        padding-left: .2rem;
+        padding-left: @padding;
         height: @title-height;
         line-height: @title-height;
         font-weight: bolder;
       }
       & > div.mr-d-score {
         grid-area: score;
-        padding-right: .2rem;
+        padding-right: @padding;
         height: @title-height;
         line-height: @title-height;
       }
       & > p.mr-d-d {
         grid-area: des;
-        padding: 0 .2rem;
+        padding: 0 @padding;
         color: @color-sub-color;
         overflow: hidden;
         flex-wrap: nowrap;
