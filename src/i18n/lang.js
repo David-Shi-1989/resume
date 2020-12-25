@@ -10,7 +10,8 @@ export const cn = {
   hometown: '安徽-黄山',
   careerPage: '工作经历',
   projectPage: '项目经历',
-  demoPage: '作品集'
+  demoPage: '作品集',
+  theme: '主题'
 }
 
 export const en = {
@@ -24,5 +25,6 @@ export const en = {
   marrige: 'Married',
   careerPage: 'Career',
   projectPage: 'Project',
-  demoPage: 'Demo'
+  demoPage: 'Demo',
+  theme: 'Theme'
 }

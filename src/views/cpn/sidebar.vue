@@ -57,9 +57,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url('../../style/color.less');
 .mr-sidebar {
-  border-right: 0.02rem solid @color-border;
   display: grid;
   grid-template-rows: auto 4rem;
   min-width: 11rem;
@@ -81,6 +79,7 @@ export default {
     background-position-y: 140%;
     background-position-x: 70%;
     transition: all .2s;
+    background-color: #fff;
     &:hover {
       background-position-y: 90%;
     }
@@ -92,25 +91,26 @@ export default {
       font-weight: bolder;
       height: 2rem;
       line-height: 2rem;
-      color: @color-title;
+      color: var(--color-text-title);
     }
     &.mr-position {
       font-size: .7rem;
       height: 1rem;
       line-height: 1rem;
-      color: @color-content;
+      color: var(--color-text-content);
     }
   }
   ul.mr-contact-ul {
     list-style: none;
     margin: 2rem auto;
+    color: var(--color-text-content);
     & > li {
       display: flex;
       @item-height: 1.5rem;
       height: @item-height;
       line-height: @item-height;
       &:not(:last-child) {
-        border-bottom: .05rem solid @color-border;
+        border-bottom: .05rem solid #657192;
       }
       i {
         display: block;
@@ -119,13 +119,13 @@ export default {
         height: @item-height;
         line-height: @item-height;
         font-size: .75rem;
-        color: @color-sub-color;
+        color: var(--color-text-sub);
         margin-right: .2rem;
       }
       span {
         display: block;
         font-size: .65rem;
-        color: @color-content;
+        color: var(--color-text-content);
       }
     }
   }
@@ -151,7 +151,7 @@ export default {
     padding: 0 .5rem;
     height: .7rem;
     line-height: .7rem;
-    color: @color-sub-color;
+    color: var(--color-text-sub);
   }
 }
 </style>

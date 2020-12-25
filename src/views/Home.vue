@@ -199,10 +199,10 @@ export default {
       padding: .5rem .2rem;
       &:not(:first-child) {
         // margin-top: .8rem;
-        border-top: .05rem solid @color-border;
+        border-top: .05rem solid var(--color-border);
       }
       &:hover {
-        background-color: @color-background;
+        background-color: var(--color-background);
       }
     }
     .mr-ul-t1 {
@@ -218,7 +218,7 @@ export default {
     }
     .mr-ul-t3 {
       font-size: .5rem;
-      color: @color-disabled;
+      color: var(--color-disabled);
       i {
         margin-right: .2rem;
       }
@@ -228,7 +228,7 @@ export default {
     list-style: none;
     & > li {
       padding: .6rem 0;
-      border-bottom: .05rem solid @color-border;
+      border-bottom: .05rem solid var(--color-border);
       & > div {
         display: flex;
         &:first-child {
@@ -236,7 +236,7 @@ export default {
         }
         &:last-child {
           font-size: .5rem;
-          color: @color-disabled;
+          color: var(--color-disabled);
           i {
             font-size: .5rem;
             margin-right: .3rem;
@@ -277,7 +277,7 @@ export default {
         }
         &:last-child {
           font-size: .5rem;
-          color: @color-sub-color;
+          color: var(--color-text-sub);
           margin-left: .7rem;
         }
       }

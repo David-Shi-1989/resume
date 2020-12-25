@@ -221,11 +221,11 @@ export default {
     & > li {
       padding: .3rem;
       margin-bottom: 1rem;
-      border-bottom: .05rem solid @color-border;
+      border-bottom: .05rem solid var(--color-border);
     }
     .mr-p-title {
       
-      border-left: .2rem solid @color-primary;
+      border-left: .2rem solid var(--color-primary);
       padding-left: .5rem;
       margin-bottom: .5rem;
       display: flex;
@@ -245,9 +245,9 @@ export default {
       margin: .2rem 0;
       & > p {
         font-size: .6rem;
-        background-color: @color-background;
+        background-color: var(--color-background);
         padding: .05rem .2rem;
-        border: .05rem solid @color-border;
+        border: .05rem solid var(--color-border);
         border-radius: .2rem;
         &:not(:last-child) {
           margin-right: 1rem;

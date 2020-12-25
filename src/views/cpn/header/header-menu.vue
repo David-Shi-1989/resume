@@ -55,7 +55,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url('../../../style/color.less');
 @import url('../../../style/utils.less');
 @menu-width: 5rem;
 @menu-height: 1.5rem;
@@ -71,6 +70,7 @@ export default {
     height: @menu-height;
     line-height: @menu-height;
     padding: 0 @menu-item-gap;
+    color: var(--color-text-sub);
     .text-cannot-select();
     &:not(:last-child) {
       margin-right: @menu-item-gap;
@@ -79,11 +79,10 @@ export default {
       cursor: pointer;
     }
     &.active {
-      color: #fff;
+      color: var(--color-text-title);
     }
     &.mr-menu-item:not(.active):hover {
-      border-radius: .25rem;
-      background-color: #eee;
+      color: var(--color-text-title);
     }
     &.mr-header-menu-bg {
       position: absolute;
@@ -91,7 +90,7 @@ export default {
       z-index: 8;
       border-radius: .25rem;
       transition: left .2s;
-      background-color: @color-primary;
+      background-color: var(--color-primary);
     }
   }
 }

@@ -140,20 +140,20 @@ export default {
       & > span {
         display: block;
         &:first-child {
-          color: @color-warning;
+          color: var(--color-warning);
           width: @item-col1;
         }
         &:nth-child(2) {
-          color: @color-content;
+          color: var(--color-text-content);
           width: @item-col2;
         }
         &:nth-child(3) {
-          color: @color-sub-color;
+          color: var(--color-text-sub);
           width: @item-col3;
         }
       }
       &:hover {
-        background-color: @color-primary;
+        background-color: var(--color-primary);
         & > span {
           color: #f2f2f2;
         }

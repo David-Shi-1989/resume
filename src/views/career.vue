@@ -151,7 +151,7 @@ export default {
           &:first-child {
             font-size: 1.5rem;
             font-weight: bolder;
-            color: @color-primary;
+            color: var(--color-primary);
           }
         }
         .count-to-wrapper {
@@ -186,7 +186,7 @@ export default {
             }
           }
           &:last-child {
-            @hover-bg: @color-background;
+            @hover-bg: var(--color-background);
             background-color: @hover-bg;
             &::before {
               content: "";
@@ -222,7 +222,7 @@ export default {
             width: .7rem;
             height: .7rem;
             background-color: #fff;
-            border: .15rem solid @color-primary;
+            border: .15rem solid var(--color-primary);
             margin: .5rem auto 0 auto;
             transition: all .2s;
           }
@@ -231,7 +231,7 @@ export default {
             width: .16rem;
             height: 100%;
             position: absolute;
-            background-color: @color-primary;
+            background-color: var(--color-primary);
             left: calc((100% - .2rem) / 2);
           }
         }

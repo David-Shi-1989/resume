@@ -132,7 +132,7 @@ export default {
         "img img"
         "title score"
         "des des";
-      border: .05rem solid @color-border;
+      border: .05rem solid var(--color-border);
       transition: all .4s;
       margin-bottom: 1rem;
       @padding: .4rem;
@@ -145,7 +145,7 @@ export default {
       & > div.mr-d-img {
         grid-area: img;
         background-size: cover;
-        border-bottom: 1px solid @color-border;
+        border-bottom: 1px solid var(--color-border);
         & > p {
           margin: 2rem 0.5rem;
         }
@@ -166,7 +166,7 @@ export default {
       & > p.mr-d-d {
         grid-area: des;
         padding: 0 @padding;
-        color: @color-sub-color;
+        color: var(--color-text-sub);
         overflow: hidden;
         flex-wrap: nowrap;
         text-overflow: ellipsis;
