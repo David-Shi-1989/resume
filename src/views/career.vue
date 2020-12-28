@@ -1,13 +1,12 @@
 <template>
   <div class="mr-career-wrap">
+    <img src="/static/career/zoom.ico">
     <div>
       <div class="dash-card">
-        <p><CountTo :end="3"></CountTo><span class="mr-unit">家</span></p>
+        <p><CountTo :end="careerList.length"></CountTo><span class="mr-unit">家</span></p>
         <p>就职企业</p>
         <div class="mr-logo-list">
-          <img src="/static/career/kodak.png" >
-          <img src="/static/career/h3c.png" >
-          <img src="/static/career/arcu.jpg" >
+          <img v-for="item in careerList" :key="item.img" :src="item.img" :title="item.company">
         </div>
       </div>
       <div class="dash-card">
@@ -25,7 +24,8 @@
           <div>
             <p>
               <span>{{item.company}}</span>
-              <span>{{item.role}}</span>
+              <span>{{item.department}}</span>
+              <span>{{item.title}}</span>
               <span>
                 <i class="fa fa-map-marker"></i>
                 <span>{{item.region}}</span>
@@ -54,7 +54,9 @@ export default {
       workingYears: 5,
       careerList: [
         {
-          company: '柯达（中国）投资有限公司 PDC 产品研发中心',
+          company: '柯达（中国）投资有限公司',
+          img: './static/career/kodak.png',
+          department: 'PDC 产品研发中心',
           title: '软件开发工程师',
           region: '上海 浦东',
           datetime: '2013.7 - 2016.6',
@@ -85,7 +87,9 @@ export default {
         },
         {
           company: '屯溪农村商业银行',
-          title: '电子银行部职员',
+          img: './static/career/arcu.png',
+          department: '电子银行部',
+          title: '职员',
           region: '安徽 合肥',
           datetime: '2016.7 - 2017.5',
           descList: [
@@ -100,9 +104,11 @@ export default {
         },
         {
           company: '新华三信息安全技术有限公司',
-          title: '云安全开发部 前端项目经理',
+          img: './static/career/h3c.png',
+          department: '云安全开发部',
+          title: '前端项目经理',
           region: '安徽 合肥',
-          datetime: '2017.6 - 2020.1.28',
+          datetime: '2017.6 - 2021.1.28',
           descList: [
             {
               title: '工作内容',
@@ -120,6 +126,14 @@ export default {
               ]
             }
           ]
+        },
+        {
+          company: '软视软件（合肥）有限公司',
+          img: './static/career/zoom.png',
+          department: 'Billing Team',
+          title: '高级前端软件工程师',
+          region: '安徽 合肥',
+          datetime: '2021.2.1 - 至今'
         }
       ]
     }
@@ -144,12 +158,14 @@ export default {
       height: 30%;
       display: flex;
       & > div.dash-card {
-        width: 25rem;
-        margin-right: 1rem;
+        width: 50%;
         position: relative;
+        &:first-child {
+          margin-right: 1rem;
+        }
         & > p {
           &:first-child {
-            font-size: 1.5rem;
+            font-size: 3rem;
             font-weight: bolder;
             color: var(--color-primary);
           }
