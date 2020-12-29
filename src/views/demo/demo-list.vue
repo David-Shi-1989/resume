@@ -180,11 +180,11 @@ export default {
     margin-bottom: 1rem;
     .mr-total {
       span {
-        color: var(--color-primary);
+        color: var(--color-primasry);
         font-weight: bolder;
         display: inline-block;
         margin: 0 .2rem;
-        font-size: 0.8rem;
+        font-size: .8rem;
       }
     }
   }
