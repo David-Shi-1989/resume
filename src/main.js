@@ -12,6 +12,8 @@ import 'view-design/dist/styles/iview.css'
 
 import 'font-awesome/css/font-awesome.min.css'
 
+import './utils/theme-mixin-directive'
+
 Vue.config.productionTip = false
 
 Vue.use(iview)

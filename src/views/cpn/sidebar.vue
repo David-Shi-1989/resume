@@ -47,6 +47,7 @@
         备案/许可证编号：<a href="http://www.beian.miit.gov.cn/" target="_blank">皖ICP备19022141号</a>
       </p>
     </div>
+    <div class="mr-sidebar-bg"></div>
   </div>
 </template>
 
@@ -58,10 +59,14 @@ export default {
 
 <style lang="less" scoped>
 .mr-sidebar {
+  position: relative;
   display: grid;
   grid-template-rows: auto 4rem;
   min-width: 11rem;
-  & > div {
+  overflow: hidden;
+  & > div:not(.mr-sidebar-bg) {
+    position: relative;
+    z-index: 100;
     &:first-child {
       padding: 2rem 1rem;
     }
@@ -152,6 +157,14 @@ export default {
     height: .7rem;
     line-height: .7rem;
     color: var(--color-text-sub);
+  }
+  & > div.mr-sidebar-bg {
+    position: absolute;
+    z-index: 90;
+    width: 110%;
+    height: 110%;
+    top: -5%;
+    left: -5%;
   }
 }
 </style>

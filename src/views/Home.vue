@@ -2,7 +2,7 @@
   <div class="mr-home">
     <ul class="mr-home-t-ul">
       <li>
-        <b>个人自述</b>
+        <b v-color="MIXIN_ColorObj.textTitle">个人自述</b>
         <p><span class="mr-bolder">5</span>年前端开发经验</p>
         <p><span class="mr-bolder">3</span>年团队管理经验</p>
         <p>热爱前端技术，有完整项目开发经验，目前从事云安全管理平台项目开发工作。</p>
@@ -211,14 +211,15 @@ export default {
     .mr-ul-t-bg {
       font-size: .55rem;
       font-weight: bolder;
-      background-color: #d7ffe0;
+      background-color: var(--color-light-bg);
       border-radius: .35rem;
       display: inline-block;
       padding: .1rem .3rem;
+      color: var(--color-text-content);
     }
     .mr-ul-t3 {
       font-size: .5rem;
-      color: var(--color-disabled);
+      color: var(--color-text-sub);
       i {
         margin-right: .2rem;
       }
@@ -253,7 +254,7 @@ export default {
           }
         }
         .mr-bg {
-          background-color: #d7ffe0;
+          background-color: var(--color-light-bg);
           border-radius: .35rem;
           display: inline-block;
           padding: .1rem .5rem;

@@ -1,9 +1,11 @@
 #app {
+  color: var(--color-text-content);
   &.theme-light {
     .theme-style-mixin();
   }
   &.theme-dark {
     .theme-style-mixin(
+      @theme-name: dark,
       @color-primary: #3795ca,
       @color-text-title: #fff,
       @color-text-content: #becae5,
@@ -11,6 +13,7 @@
       @color-disabled: #424c65,
       @color-border: #3e4151,
       @color-background: #465e86,
+      @color-light-bg: #3795ca,
       @bg: linear-gradient(to bottom right, #324269, #182137 ),
       @sidebar-bg: #121832,
       @header-bg: #465e86
@@ -19,6 +22,7 @@
 }
 
 .theme-style-mixin (
+  @theme-name: light,
   @color-primary: #2d8cf0,
   @color-success: #5bd3a0,
   @color-error: #ef6b70,
@@ -29,6 +33,7 @@
   @color-border: #dcdee2,
   @color-warning: #ff9900,
   @color-background: #f8f8f9,
+  @color-light-bg: #d7ffe0,
   @bg: #fff, // 总体背景
   @sidebar-bg:#f2f2f2, // sidebar背景颜色
   @header-bg: #fff
@@ -43,15 +48,31 @@
   --color-border: @color-border;
   --color-warning: @color-warning;
   --color-background: @color-background;
+  --color-light-bg: @color-light-bg;
   background: @bg;
   #main {
     /*sidebar*/
     & > div.mr-sidebar {
-      background-color: @sidebar-bg;
+      .sidebar-style(@theme-name, @sidebar-bg);
     }
     /*header*/
     div.mr-header {
       background-color: @header-bg;
     }
+  }
+}
+/********************
+*   Sidebar Style   *
+*********************/
+// light
+.sidebar-style (@theme-name, @bg) when (@theme-name = light) {
+  background: @bg;
+}
+// dark
+.sidebar-style (@theme-name, @bg) when (@theme-name = dark) {
+  background: transparent;
+  & > div.mr-sidebar-bg {
+    background-image: linear-gradient(to bottom, #274054 , #4a4238, #2e2b31);
+    filter: blur(3px);
   }
 }
