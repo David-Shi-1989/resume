@@ -62,24 +62,28 @@ export default {
     & > li {
       cursor: pointer;
       transition: all .4s;
-      margin-bottom: 1rem;
+      border-bottom: .05rem solid var(--color-border);
+      padding-bottom: 1rem;
       @padding: .4rem;
       &:hover {
-        border-color: #f40;
+        p.mr-d-t {
+          text-decoration: underline;
+        }
       }
       &:not(:last-child) {
-        margin-right: 1rem;
+        margin-bottom: 1rem;
       }
       & > p.mr-d-t {
         height: @title-height;
         line-height: @title-height;
         font-weight: bolder;
+        color: var(--color-text-content);
       }
-      & > div.mr-d-score {
-        grid-area: score;
-        padding-right: @padding;
-        height: @title-height;
-        line-height: @title-height;
+      & > p.mr-d-c {
+        color: var(--color-text-sub);
+        &::after {
+          content: "...";
+        }
       }
       & > p.mr-d-d {
         grid-area: des;

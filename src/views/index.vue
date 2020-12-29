@@ -24,6 +24,8 @@ export default {
 @import url('../style/style.less');
 @import url('../style/utils.less');
 #main {
+  position: relative;
+  z-index: 20;
   display: grid;
   width: 100%;
   height: 100%;

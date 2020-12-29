@@ -1,3 +1,4 @@
+@dark-fade-bg: rgba(0,0,0,.15);
 #app {
   color: var(--color-text-content);
   &.theme-light {
@@ -11,12 +12,12 @@
       @color-text-content: #becae5,
       @color-text-sub: #80848f,
       @color-disabled: #424c65,
-      @color-border: #3e4151,
-      @color-background: #465e86,
+      @color-border: rgba(255,255,255,.1),
+      @color-background: @dark-fade-bg,
       @color-light-bg: #3795ca,
       @bg: linear-gradient(to bottom right, #324269, #182137 ),
       @sidebar-bg: #121832,
-      @header-bg: #465e86
+      @header-bg: @dark-fade-bg
     );
   }
 }
@@ -36,7 +37,7 @@
   @color-light-bg: #d7ffe0,
   @bg: #fff, // 总体背景
   @sidebar-bg:#f2f2f2, // sidebar背景颜色
-  @header-bg: #fff
+  @header-bg: #f2f2f2
 ) {
   --color-primary: @color-primary;
   --color-success: @color-success;
@@ -49,7 +50,7 @@
   --color-warning: @color-warning;
   --color-background: @color-background;
   --color-light-bg: @color-light-bg;
-  background: @bg;
+  .app-style(@theme-name);
   #main {
     /*sidebar*/
     & > div.mr-sidebar {
@@ -57,8 +58,26 @@
     }
     /*header*/
     div.mr-header {
-      background-color: @header-bg;
+      .header-style(@theme-name, @header-bg);
     }
+  }
+}
+/********************
+*   App Style   *
+*********************/
+// light
+.app-style (@theme-name) when (@theme-name = light) {
+  background: #fff;
+  #app_bg_layer {
+    display: none;
+  }
+}
+// dark
+.app-style (@theme-name) when (@theme-name = dark) {
+  background: #fff;
+  #app_bg_layer {
+    background-image: linear-gradient(to bottom right, #274054 , #4a4238, #2e2b31);
+    filter: blur(2px);
   }
 }
 /********************
@@ -67,12 +86,25 @@
 // light
 .sidebar-style (@theme-name, @bg) when (@theme-name = light) {
   background: @bg;
+  & > div.mr-sidebar-bg {
+    display: none;
+  }
 }
 // dark
 .sidebar-style (@theme-name, @bg) when (@theme-name = dark) {
-  background: transparent;
-  & > div.mr-sidebar-bg {
-    background-image: linear-gradient(to bottom, #274054 , #4a4238, #2e2b31);
-    filter: blur(3px);
+  background: @dark-fade-bg;
+}
+/********************
+*   Header Style   *
+*********************/
+// light
+.header-style (@theme-name, @bg) when (@theme-name = light) {
+  background: @bg;
+  .mr-header-border {
+    box-shadow: 0px 0px .1rem #ddd;
   }
+}
+// dark
+.header-style (@theme-name, @bg) when (@theme-name = dark) {
+  background: @bg;
 }

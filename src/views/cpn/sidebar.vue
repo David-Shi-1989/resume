@@ -44,7 +44,8 @@
       </ul>
       <p class="mr-copyright">
         <i class="fa fa-copyright"></i> 2020 shiwang.wang<br/>All Rights Reserved.<br/>
-        备案/许可证编号：<a href="http://www.beian.miit.gov.cn/" target="_blank">皖ICP备19022141号</a>
+        备案/许可证编号：<br/>
+        <a href="http://www.beian.miit.gov.cn/" target="_blank">皖ICP备19022141号</a>
       </p>
     </div>
     <div class="mr-sidebar-bg"></div>
@@ -59,11 +60,14 @@ export default {
 
 <style lang="less" scoped>
 .mr-sidebar {
+  margin: .5rem;
+  border-radius: .2rem;
   position: relative;
   display: grid;
-  grid-template-rows: auto 4rem;
+  grid-template-rows: auto 5rem;
   min-width: 11rem;
   overflow: hidden;
+  box-sizing: border-box;
   & > div:not(.mr-sidebar-bg) {
     position: relative;
     z-index: 100;
@@ -115,7 +119,7 @@ export default {
       height: @item-height;
       line-height: @item-height;
       &:not(:last-child) {
-        border-bottom: .05rem solid #657192;
+        border-bottom: .05rem solid var(--color-border);
       }
       i {
         display: block;

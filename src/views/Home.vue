@@ -153,6 +153,7 @@ export default {
 @import url('../style/color.less');
 @title1-width: 20rem;
 .mr-home {
+  padding-bottom: .5rem;
   ul.mr-home-t-ul {
     list-style: none;
     & > li {
@@ -216,7 +217,7 @@ export default {
       border-radius: .35rem;
       display: inline-block;
       padding: .1rem .3rem;
-      color: var(--color-text-content);
+      color: var(--color-text-title);
     }
     .mr-ul-t3 {
       font-size: .5rem;
@@ -267,6 +268,7 @@ export default {
   ul.mr-ul-skill {
     list-style: none;
     & > li {
+      padding: 0 .2rem;
       &:not(:last-child) {
         margin-bottom: .4rem;
       }
@@ -282,6 +284,9 @@ export default {
           color: var(--color-text-sub);
           margin-left: .7rem;
         }
+      }
+      &:hover {
+        background-color: var(--color-background);
       }
     }
   }
