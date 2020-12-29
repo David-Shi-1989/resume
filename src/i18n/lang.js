@@ -11,7 +11,11 @@ export const cn = {
   careerPage: '工作经历',
   projectPage: '项目经历',
   demoPage: '作品集',
-  theme: '主题'
+  theme: '主题',
+  langEn: '英文',
+  langCn: '中文',
+  themeLight: '浅色',
+  themeDark: '深色'
 }
 
 export const en = {
@@ -26,5 +30,9 @@ export const en = {
   careerPage: 'Career',
   projectPage: 'Project',
   demoPage: 'Demo',
-  theme: 'Theme'
+  theme: 'Theme',
+  langEn: 'English',
+  langCn: 'Chinese',
+  themeLight: 'Light',
+  themeDark: 'Dark'
 }

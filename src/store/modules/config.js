@@ -3,8 +3,8 @@ const state = {
   lang: localStorage.get('lang') || 'zhCN', // zhCN, enUS
   theme: {
     list: [
-      {name: 'Light', color: '#ddd'},
-      {name: 'Dark', color: '#101b3b'}
+      { name: 'Light', color: '#ddd' },
+      { name: 'Dark', color: '#101b3b' }
     ],
     current: localStorage.get('theme') || 'Light'
   }

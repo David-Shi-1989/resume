@@ -4,8 +4,8 @@
     <div>
       <!--语言-->
       <Dropdown trigger="click" @on-click="onLangChange">
-        <a href="javascript:void(0)" class="mr-dp-text">
-          {{$t('language')}}
+        <a href="javascript:void(0)" class="mr-dp-text" v-color="MIXIN_ColorObj.textContent">
+          {{getLangStr}}
           <Icon type="ios-arrow-down"></Icon>
         </a>
         <DropdownMenu slot="list">
@@ -15,8 +15,8 @@
       </Dropdown>
       <!--主题-->
       <Dropdown trigger="click" @on-click="onThemeChange">
-        <a href="javascript:void(0)" class="mr-dp-text">
-          {{$t('theme')}}
+        <a href="javascript:void(0)" class="mr-dp-text" v-color="MIXIN_ColorObj.textContent">
+          {{getThemeName}}
           <Icon type="ios-arrow-down"></Icon>
         </a>
         <DropdownMenu slot="list">
@@ -49,6 +49,28 @@ export default {
     },
     onThemeChange (key) {
       this.$store.commit('setTheme', key)
+    }
+  },
+  computed: {
+    getLangStr () {
+      const curLang = this.$store.getters.getLang
+      if (curLang === 'enUS') {
+        return this.$i18n.t('langEn')
+      } else if (curLang === 'zhCN') {
+        return this.$i18n.t('langCn')
+      } else {
+        return 'Null'
+      }
+    },
+    getThemeName () {
+      const curTheme = String(this.$store.getters.getTheme).toLowerCase()
+      if (curTheme === 'light') {
+        return this.$i18n.t('themeLight')
+      } else if (curTheme === 'dark') {
+        return this.$i18n.t('themeDark')
+      } else {
+        return 'NULL'
+      }
     }
   }
 }

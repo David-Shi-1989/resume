@@ -222,9 +222,11 @@ export default {
       padding: .3rem;
       margin-bottom: 1rem;
       border-bottom: .05rem solid var(--color-border);
+      &:hover {
+        background-color: var(--color-background);
+      }
     }
     .mr-p-title {
-      
       border-left: .2rem solid var(--color-primary);
       padding-left: .5rem;
       margin-bottom: .5rem;
@@ -245,7 +247,7 @@ export default {
       margin: .2rem 0;
       & > p {
         font-size: .6rem;
-        background-color: var(--color-background);
+        background-color: var(--color-light-bg);
         padding: .05rem .2rem;
         border: .05rem solid var(--color-border);
         border-radius: .2rem;

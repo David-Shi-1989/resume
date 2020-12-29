@@ -1,6 +1,5 @@
 <template>
   <div class="mr-career-wrap">
-    <img src="/static/career/zoom.ico">
     <div>
       <div class="dash-card">
         <p><CountTo :end="careerList.length"></CountTo><span class="mr-unit">家</span></p>
@@ -307,6 +306,8 @@ export default {
       height: 1.5rem;
       margin-right: 1rem;
       transition: height .2s ease-in-out;
+      background-color: #fff;
+      padding: .2rem;
       &:hover {
         height: 3rem;
       }
