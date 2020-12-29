@@ -79,7 +79,7 @@ export default {
       cursor: pointer;
     }
     &.active {
-      color: var(--color-text-title);
+      color: #fff;
     }
     &.mr-menu-item:not(.active):hover {
       color: var(--color-text-title);

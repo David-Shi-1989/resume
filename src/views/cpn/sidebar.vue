@@ -72,7 +72,7 @@ export default {
     position: relative;
     z-index: 100;
     &:first-child {
-      padding: 2rem 1rem;
+      padding: 2rem .6rem;
     }
   }
   .mr-avatar {
