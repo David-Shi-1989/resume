@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import url('../../style/color.less');
+@import url('../../../style/color.less');
 @item-height: 30px;
 @item-col1: 80px;
 @item-col2: 120px;

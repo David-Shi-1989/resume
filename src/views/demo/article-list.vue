@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import starScore from '../components/skill-line'
+import starScore from '../../components/skill-line'
 export default {
   components: { starScore },
   data () {
@@ -103,7 +103,7 @@ export default {
     demoList () {
       let list = this.list
       list.forEach(item => {
-        if (!item.img){
+        if (!item.img) {
           item.img = './static/image/demo/placeholder.jpg'
         }
       })
@@ -111,10 +111,9 @@ export default {
     }
   }
 }
-</script>
-
+</script >
 <style lang="less" scoped>
-@import url('../style/color.less');
+@import url('../../style/color.less');
 @title-height: 1.5rem;
 .mr-demo-wrap {
   & > ul {

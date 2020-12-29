@@ -33,12 +33,12 @@ const routes = [
       {
         path: 'demo',
         name: 'Demo',
-        component: () => import('../views/demo.vue')
+        component: () => import('../views/demo/index.vue')
       },
       {
         path: 'demo/log-animate',
         name: 'Demo_Animate',
-        component: () => import('../views/demos/log-animate.vue')
+        component: () => import('../views/demo/demos/log-animate.vue')
       }
     ]
   }

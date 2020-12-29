@@ -179,7 +179,7 @@ export default {
       }
     }
     &:last-child {
-      height: calc(70% - 1rem);
+      min-height: calc(70% - 1rem);
       margin-top: 1rem;
     }
   }

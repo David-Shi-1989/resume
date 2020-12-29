@@ -15,7 +15,9 @@ export const cn = {
   langEn: '英文',
   langCn: '中文',
   themeLight: '浅色',
-  themeDark: '深色'
+  themeDark: '深色',
+  article: '文章',
+  demo: '作品'
 }
 
 export const en = {
@@ -34,5 +36,7 @@ export const en = {
   langEn: 'English',
   langCn: 'Chinese',
   themeLight: 'Light',
-  themeDark: 'Dark'
+  themeDark: 'Dark',
+  article: 'Article',
+  demo: 'Demo'
 }
