@@ -4,7 +4,9 @@
       <li v-for="(item,idx) in demoList" :key="idx" @click="onDemoItemClick(item)">
         <p class="mr-d-t fs-lg">{{item.title}}</p>
         <p class="mr-d-c">{{item.content}}</p>
-        <p class="mr-d-d">{{item.description}}</p>
+        <div class="mr-d-bottom">
+          <p class="mr-d-d"><i class="fa fa-calendar"></i>{{item.datetime}}</p>
+        </div>
       </li>
     </ul>
   </div>
@@ -63,7 +65,7 @@ export default {
       cursor: pointer;
       transition: all .4s;
       border-bottom: .05rem solid var(--color-border);
-      padding-bottom: 1rem;
+      padding-bottom: .4rem;
       @padding: .4rem;
       &:hover {
         p.mr-d-t {
@@ -85,13 +87,15 @@ export default {
           content: "...";
         }
       }
-      & > p.mr-d-d {
-        grid-area: des;
-        padding: 0 @padding;
-        color: var(--color-text-sub);
-        overflow: hidden;
-        flex-wrap: nowrap;
-        text-overflow: ellipsis;
+      & > div.mr-d-bottom {
+        margin-top: .5rem;
+        i {
+          font-size: .5rem;
+          margin-right: .3rem;
+        }
+        p.mr-d-d {
+          color: var(--color-disabled);
+        }
       }
     }
   }
