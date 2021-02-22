@@ -1,6 +1,6 @@
 export const cn = {
   myName: '施旺旺',
-  myPosition: '云安全 前端项目经理',
+  myPosition: '高级前端开发',
   myPlace: '中国-安徽-合肥',
   language: '语言',
   lang_cn: '中文',
@@ -22,7 +22,7 @@ export const cn = {
 
 export const en = {
   myName: 'David Shi',
-  myPosition: 'Frontend Leader of Cloud Secutity Project',
+  myPosition: 'Advanced Front End Development',
   myPlace: 'Hefei-Anhui-China',
   language: 'Language',
   lang_cn: 'CN',
