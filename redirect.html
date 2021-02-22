@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #222;
+        }
+        #app {
+            width: 14em;
+            height: 3em;
+            margin: calc((100% - 3em) / 4) auto;
+        }
+        #app p {
+           color: #f1f1f1;
+           font-size: .8em;
+           text-align: center;
+        }
+        .nihong{
+            /* 深色底色，浅色文字，多层浅色文字阴影，弥散大 */
+            /* background-color: darkgray; */
+            color: white;
+            text-shadow: 0px 0px 15px #00FFFF,0px 0px 15px #00FFFF,0px 0px 15px #00FFFF;
+        }
+        #countVal {
+            margin: 0 .3em;
+            font-family:'Courier New', Courier, monospace;
+        }
+    </style>
+    <style>
+        /*
+ * Loading Dots
+ * Can we use pseudo elements here instead :after?
+ */
+        .loading {
+            text-align: center;
+        }
+        .loading span {
+            display: inline-block;
+            vertical-align: middle;
+            width: .6em;
+            height: .6em;
+            margin: .2em;
+            background: #007DB6;
+            border-radius: .6em;
+            -webkit-animation: loading 1s infinite alternate;
+            animation: loading 1s infinite alternate;
+        }
+
+        /*
+ * Dots Colors
+ * Smarter targeting vs nth-of-type?
+ */
+        .loading span:nth-of-type(2) {
+            background: #008FB2;
+            -webkit-animation-delay: 0.2s;
+            animation-delay: 0.2s;
+        }
+
+        .loading span:nth-of-type(3) {
+            background: #009B9E;
+            -webkit-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+        }
+
+        .loading span:nth-of-type(4) {
+            background: #00A77D;
+            -webkit-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+        }
+
+        .loading span:nth-of-type(5) {
+            background: #00B247;
+            -webkit-animation-delay: 0.8s;
+            animation-delay: 0.8s;
+        }
+
+        .loading span:nth-of-type(6) {
+            background: #5AB027;
+            -webkit-animation-delay: 1.0s;
+            animation-delay: 1.0s;
+        }
+
+        .loading span:nth-of-type(7) {
+            background: #A0B61E;
+            -webkit-animation-delay: 1.2s;
+            animation-delay: 1.2s;
+        }
+
+        /*
+ * Animation keyframes
+ * Use transition opacity instead of keyframes?
+ */
+        @-webkit-keyframes loading {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes loading {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>即将跳转至<span class="nihong" style="margin:0 .8em;">施旺旺的个人主页</span></p>
+        <div class="loading">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <p>倒计时：<span id="countVal"></span>秒</p>
+    </div>
+</body>
+<script>
+    var countSecond = 5, interval = null;
+    setCountVal(countSecond)
+    function setCountVal (val) {
+        document.getElementById('countVal').innerText = val
+    }
+    function redirect () {
+        clearInterval(interval)
+        window.location.href = 'https://david-shi-1989.github.io/resume/dist/#/home'
+    }
+    window.onload = function () {
+        interval = setInterval(function () {
+            if (countSecond <= 0) {
+                redirect()
+                return
+            }
+            setCountVal(--countSecond)
+        }, 1000)
+    }
+</script>
+</html>
