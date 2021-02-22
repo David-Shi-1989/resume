@@ -50,4 +50,12 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((from, to, next) => {
+  let wrapEl = document.getElementById('routeWrap')
+  if (wrapEl) {
+    wrapEl.scrollTop = 0
+  }
+  next()
+})
+
 export default router

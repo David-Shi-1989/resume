@@ -80,8 +80,6 @@ export default {
 @import url('../../../style/color.less');
 @header-height: 1.5rem;
 .mr-header {
-  margin: .5rem;
-  // border-radius: .1rem;
   padding: 1rem 1.5rem;
   display: flex;
   & > div {

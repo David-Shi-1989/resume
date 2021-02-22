@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <sideBar></sideBar>
+    <div class="mr-left"><sideBar></sideBar></div>
     <div class="mr-right">
       <myHeader :hasBorder="true"></myHeader>
       <div id="routeWrap">
@@ -26,12 +26,18 @@ export default {
 #main {
   position: relative;
   z-index: 20;
-  display: grid;
   width: 100%;
   height: 100%;
-  grid-template-columns: @sidebar-width auto;
+  display: flex;
+  .mr-left {
+    width: @sidebar-width;
+    padding: .5rem;
+    flex-shrink: 0;
+  }
   .mr-right {
-    padding-left: 0;
+    width: 100%;
+    flex-shrink: 1;
+    padding: .5rem;
     overflow: hidden;
     #routeWrap {
       padding: 1rem;

@@ -88,6 +88,13 @@ export default {
           score: 4.5,
           description: 'VueJS编写的日志滚动组件。',
           routerName: 'Demo_Animate'
+        },
+        {
+          title: 'webpack教程',
+          img: 'https://pic2.zhimg.com/v2-c5d2c67f829f3c79343413ee11d249bd_1440w.jpg?source=172ae18b',
+          score: 4.8,
+          description: 'Webpack入门教程，配合代码解析，适合新手深入浅出学习入门。',
+          url: 'https://david-shi-1989.github.io/MyCodeSnippet/gitbook/dist/webpack/'
         }
       ]
     }

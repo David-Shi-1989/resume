@@ -60,12 +60,13 @@ export default {
 
 <style lang="less" scoped>
 .mr-sidebar {
-  margin: .5rem;
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
   border-radius: .2rem;
   position: relative;
   display: grid;
   grid-template-rows: auto 5rem;
-  min-width: 11rem;
   overflow: hidden;
   box-sizing: border-box;
   & > div:not(.mr-sidebar-bg) {
