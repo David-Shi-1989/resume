@@ -18,9 +18,12 @@
             background-color: #222;
         }
         #app {
-            width: 14em;
-            height: 3em;
-            margin: calc((100% - 3em) / 4) auto;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         #app p {
            color: #f1f1f1;
@@ -36,6 +39,14 @@
         #countVal {
             margin: 0 .3em;
             font-family:'Courier New', Courier, monospace;
+        }
+        #beian {
+            position:fixed;
+            bottom: 30px;
+            font-size: 12px;
+        }
+        #beian a {
+            color: lightcoral;
         }
     </style>
     <style>
@@ -137,6 +148,9 @@
             <span></span>
         </div>
         <p>倒计时：<span id="countVal"></span>秒</p>
+        <div id="beian">
+            <a href="https://beian.miit.gov.cn" target="_blank">皖ICP 备19022141号-1</a>
+        </div>
     </div>
 </body>
 <script>
@@ -146,8 +160,7 @@
         document.getElementById('countVal').innerText = val
     }
     function redirect () {
-        clearInterval(interval)
-        window.location.href = 'https://david-shi-1989.github.io/resume/dist/#/home'
+        // clearInterval(interval)
     }
     window.onload = function () {
         interval = setInterval(function () {
