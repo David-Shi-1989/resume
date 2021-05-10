@@ -137,7 +137,7 @@
 
 <body>
     <div id="app">
-        <p>即将跳转至<span class="nihong" style="margin:0 .8em;">施旺旺的个人主页</span></p>
+        <p>即将跳转至<span class="nihong" style="margin:0 .8em;"><a href="https://david-shi-1989.github.io/resume/dist/#/home">施旺旺的个人主页</a></span></p>
         <div class="loading">
             <span></span>
             <span></span>
@@ -160,7 +160,8 @@
         document.getElementById('countVal').innerText = val
     }
     function redirect () {
-        // clearInterval(interval)
+        clearInterval(interval)
+        window.location.href = 'https://david-shi-1989.github.io/resume/dist/#/home'
     }
     window.onload = function () {
         interval = setInterval(function () {
