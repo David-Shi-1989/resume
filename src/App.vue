@@ -1,7 +1,6 @@
 <template>
   <div id="app" :class="wrapClass">
     <router-view></router-view>
-    <div id="app_bg_layer"></div>
   </div>
 </template>
 <script>

@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import i18n from './i18n'
 import gsap from 'gsap'
+import 'pattern.css/dist/pattern.min.css'
 
 import './style/style.less'
 

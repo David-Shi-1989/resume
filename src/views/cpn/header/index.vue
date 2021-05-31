@@ -1,106 +1,113 @@
 <template>
-  <div :class="{'mr-header':true,'mr-header-border':hasBorder}">
-    <div><headerMenu></headerMenu></div>
-    <div>
-      <!--语言-->
-      <Dropdown trigger="click" @on-click="onLangChange">
-        <a href="javascript:void(0)" class="mr-dp-text" v-color="MIXIN_ColorObj.textContent">
-          {{getLangStr}}
-          <Icon type="ios-arrow-down"></Icon>
-        </a>
-        <DropdownMenu slot="list">
-          <DropdownItem :selected="$store.getters.getLang=='zhCN'" name="zhCN">{{$t('lang_cn')}}</DropdownItem>
-          <DropdownItem :selected="$store.getters.getLang=='enUS'" name="enUS">{{$t('lang_en')}}</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-      <!--主题-->
-      <Dropdown trigger="click" @on-click="onThemeChange">
-        <a href="javascript:void(0)" class="mr-dp-text" v-color="MIXIN_ColorObj.textContent">
-          {{getThemeName}}
-          <Icon type="ios-arrow-down"></Icon>
-        </a>
-        <DropdownMenu slot="list">
-          <DropdownItem v-for="theme in $store.getters.getThemeList" :key="theme.name"
-            :selected="$store.getters.getTheme==theme.name" :name="theme.name">
-            <span>{{theme.name}}</span>
-            <i class="mr-dot" :style="{background: theme.color,marginLeft:'.5rem'}"></i>
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+  <div class="mr-header">
+    <div class="section section-1">
+      <div class="logo-menu">
+        <div class="logo">LOGO</div>
+        <ul class="menu">
+          <li v-for="menu in menus" :key="menu" :class="menu==activeMenu?'active':''" @click="onMenuClick(menu)">
+            <a href="javascript:void(0);">{{menu}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="introduction">
+
+      </div>
+    </div>
+    <div class="section section-2">
+      <div class="pattern-dots-md gray-light my-pic"><img src="../../../assets/header-man.png"></div>
     </div>
   </div>
 </template>
 
 <script>
-import headerMenu from './header-menu'
 export default {
-  props: {
-    hasBorder: {
-      type: Boolean,
-      default: false
+  data () {
+    const menus = ['home', 'Case Study', 'Blog Post', 'Contact Me']
+    return {
+      menus,
+      activeMenu: menus[0]
     }
   },
+  props: {
+  },
   components: {
-    headerMenu
   },
   methods: {
-    onLangChange (key) {
-      this.$store.commit('setLang', key)
-    },
-    onThemeChange (key) {
-      this.$store.commit('setTheme', key)
+    onMenuClick (item) {
+      this.activeMenu = item
     }
   },
   computed: {
-    getLangStr () {
-      const curLang = this.$store.getters.getLang
-      if (curLang === 'enUS') {
-        return this.$i18n.t('langEn')
-      } else if (curLang === 'zhCN') {
-        return this.$i18n.t('langCn')
-      } else {
-        return 'Null'
-      }
-    },
-    getThemeName () {
-      const curTheme = String(this.$store.getters.getTheme).toLowerCase()
-      if (curTheme === 'light') {
-        return this.$i18n.t('themeLight')
-      } else if (curTheme === 'dark') {
-        return this.$i18n.t('themeDark')
-      } else {
-        return 'NULL'
-      }
-    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import url('../../../style/color.less');
-@header-height: 1.5rem;
+@header-height: 50px;
 .mr-header {
-  padding: 1rem 1.5rem;
   display: flex;
-  & > div {
-    width: 50%;
+  height: @header-height;
+  .section {
     height: 100%;
-    // 右侧
-    &:last-child {
-      height: @header-height;
-      line-height: @header-height;
-      padding: 0 1rem;
+  }
+  .section-1 {
+    flex: 1 1 50%;
+  }
+  .section-2 {
+    flex: 1 1 50%;
+  }
+  .logo-menu {
+    display: flex;
+    height: 100%;
+    .logo {
+      flex: 0 0 200px;
+      height: 100%;
+      background-color: #2c2c2c;
+    }
+    .menu {
+      flex: 1 1 100%;
+      list-style: none;
       display: flex;
-      justify-content: flex-end;
-      & > div {
-        &:not(:last-child) {
-          margin-right: 1rem;
+      padding: 0 20px;
+      box-sizing: border-box;
+      cursor: pointer;
+      & > li {
+        text-transform: uppercase;
+        line-height: @header-height;
+        position: relative;
+        padding: 0 10px;
+        text-align: center;
+        opacity: .5;
+        transition: all .5s;
+        a {
+          text-decoration: none;
+          position: relative;
+          z-index: 10;
+          color: #2d2d2d;
+        }
+        &.active {
+          opacity: 1;
+          &::before {
+            content: "";
+            width: 25px;
+            height: @header-height / 2;
+            position: absolute;
+            top: @header-height / 4;
+            left: 0;
+            z-index: 9;
+            background-color: #88b9bd;
+          }
         }
       }
     }
   }
-  .ivu-dropdown .mr-dp-text {
-    color: var(--color-text-sub);
+  .my-pic {
+    width: 500px;
+    img {
+      width: 100%;
+      transform: translate(-20px, 20px);
+    }
   }
 }
 </style>
