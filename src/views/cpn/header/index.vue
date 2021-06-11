@@ -80,6 +80,7 @@ export default {
 
 <style lang="less" scoped>
 @import url('../../../style/color.less');
+@import url('../../../style/animation.less');
 @header-height: 50px;
 @border-color:#e1e1e1;
 
@@ -138,6 +139,8 @@ export default {
   .logo-menu {
     display: flex;
     height: 100%;
+    position: sticky;
+    top: 0;
     .logo {
       flex: 0 0 200px;
       height: 100%;
@@ -213,7 +216,7 @@ export default {
       @icon-size: 20px;
       margin-top: 20px;
       position: relative;
-      display: inline-block;
+      display: inline-flex;
       i {
         display: inline-block;
         width: @icon-size;
@@ -226,9 +229,12 @@ export default {
         font-size: 16px;
         margin-right: 15px;
         cursor: pointer;
+        transition: all .5s;
+        transition-timing-function: cubic-bezier(0.68,-0.55,0.27,1.55);
       }
       span {
         cursor: pointer;
+        display: block;
       }
       &::after {
         content: "";
@@ -238,6 +244,14 @@ export default {
         background-color: @border-color;
         right: -170px;
         top: 10px;
+      }
+      &:hover {
+        i {
+          transform: rotate(-90deg);
+        }
+        span {
+          .ant-bounce-right();
+        }
       }
     }
   }
