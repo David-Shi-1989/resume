@@ -6,6 +6,7 @@
         <h2>My CaseStudies</h2>
       </div>
       <div>ALL CASE STUDIES</div>
+      <div style="height:200px;">123</div>
     </div>
   </div>
 </template>
