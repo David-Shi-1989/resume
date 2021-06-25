@@ -1,13 +1,15 @@
 <template>
   <div class="mr-home">
-    HOMEHOME
+    <AboutMe></AboutMe>
+    <div class="divider" style="margin: 90px auto 60px auto;"></div>
+    <LatestWorks></LatestWorks>
   </div>
 </template>
-
 <script>
-import starScore from '../components/skill-line'
+import AboutMe from './cpn/about-me.vue'
+import LatestWorks from './cpn/latest-works.vue'
 export default {
-  components: { starScore },
+  components: { AboutMe, LatestWorks },
   data () {
     return {
       careerList: [
@@ -82,12 +84,18 @@ export default {
         }
       ]
     }
-  }
+  },
+  created () {
+    console.log('created')
+  },
+  
 }
 </script>
 <style lang="less" scoped>
 @import url('../style/color.less');
+
 @title1-width: 20rem;
 .mr-home {
+  
 }
 </style>
