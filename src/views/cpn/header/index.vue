@@ -66,6 +66,9 @@ export default {
   height: @header-height;
   position: sticky;
   top: 0;
+  z-index: 990;
+  background-color: #fff;
+  border-bottom: 1px solid var(--color-border);
   &::before {
     content: "";
     position: absolute;

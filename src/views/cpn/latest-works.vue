@@ -5,16 +5,19 @@
       <h5>My Career</h5>
       <div class="list-wrap">
         <ul class="company-logo-list">
-          <li class="kodak"><div></div></li>
-          <li class="h3c"><div></div></li>
-          <li class="zoom"><div></div></li>
+          <li v-for="c in companyList" :key="c" :class="[c, activeCompany==c?'active':'']" @click="activeCompany=c"><div></div></li>
         </ul>
-        <ul class="company-info-list">
-          <li>9 years</li>
-          <li class="kodak">2 years</li>
-          <li class="h3c">3 years</li>
-          <li class="zoom">1 years</li>
-        </ul>
+        <div class="company-info-list-wrap">
+          <div class="header">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="body">
+            <div><span>2013年-2016年</span></div>
+            <div><span>软件工程师</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -23,7 +26,11 @@
 <script>
 export default {
   data () {
-    return {}
+    const companyList = ['kodak', 'h3c', 'zoom']
+    return {
+      companyList,
+      activeCompany: companyList[0]
+    }
   },
 }
 </script>
@@ -63,9 +70,20 @@ export default {
         cursor: pointer;
         position: relative;
         background: #fff;
-        // background: linear-gradient(45deg, rgb(254, 182, 146), rgb(234, 84, 85));
         &:not(:last-child) {
           margin-bottom: 40px;
+        }
+        &:hover, &.active {
+          animation: backpos 4s linear 0s infinite;
+          &.kodak {
+            background: linear-gradient(45deg, rgb(254, 182, 146), rgb(234, 84, 85) 50%, rgb(254, 182, 146) 80%);
+          }
+          &.h3c {
+            background: linear-gradient(60deg, rgb(243, 118, 118), rgb(251, 0, 0) 50%, rgb(243, 118, 118) 80%);
+          }
+          &.zoom {
+            background: linear-gradient(45deg, rgb(128, 179, 236), rgb(36, 138, 253) 50%, rgb(128, 179, 236) 80%);
+          }
         }
         & > div {
           width: 100%;
@@ -88,15 +106,85 @@ export default {
           & > div {
             background-image: url('../../assets/zoom-logo.png');
           }
-          // &:hover {
-          //   background-color: #2f8efd;
-          // }
         }
       }
     }
-    .company-info-list {
+    .company-info-list-wrap {
       flex: 1 1 100%;
+      overflow: hidden;
+      @header-height: 25px;
+      @radius: 5px;
+      .header {
+        background-color: #d8d7d8;
+        height: @header-height;
+        border-top-right-radius: @radius;
+        border-top-left-radius: @radius;
+        padding: 0 15px;
+        border-bottom: 1px solid #ccc;
+        & > span {
+          @dot-size: 13px;
+          display: inline-block;
+          width: @dot-size;
+          height: @dot-size;
+          margin-top: (@header-height - @dot-size)/2;
+          border-radius: 50%;
+          margin-right: 10px;
+          border:1px solid;
+          &:first-child {
+            background-color: #ff424f;
+            border-color: darken(#ff424f, 5%);
+          }
+          &:nth-child(2) {
+            background-color: #ffbc00;
+            border-color: darken(#ffbc00, 5%);
+          }
+          &:nth-child(3) {
+            background-color: #00d422;
+            border-color: darken(#00d422, 5%);
+          }
+        }
+      }
+      .body {
+        background-color: #fff;
+        height: calc(100% - @header-height);
+        border-bottom-left-radius: @radius;
+        border-bottom-right-radius: @radius;
+        color: #1d0015;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-family: '微软雅黑';
+        @line-height: 16px;
+        & > div {
+          height: @line-height;
+          line-height: @line-height;
+          &:last-child {
+            span {
+              display: inline-block;
+              position: relative;
+              &::after{
+                content: "";
+                display: inline-block;
+                position: absolute;
+                width: 7px;
+                height: @line-height - 2px;
+                top: 1px;
+                line-height: @line-height;
+                margin-left: 5px;
+                background-color: #929292;
+              }
+            }
+          }
+        }
+      }
     }
+  }
+}
+@keyframes backpos {
+  0% {
+    background-position-x: -100px;
+  }
+  100% {
+    background-position-x: 200px;
   }
 }
 </style>

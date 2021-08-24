@@ -17,6 +17,9 @@ html {
   .screen-fit();
   .scroll-bar-style();
   min-width: 1400px;
+  each(@color, {
+    --color-@{key}: @value;
+  });
 }
 ul, ol {
   list-style: none;
@@ -79,6 +82,9 @@ ul, ol {
 .fs-s {
   font-size: .6rem;
 }
+
+// color
+
 
 
 /**
