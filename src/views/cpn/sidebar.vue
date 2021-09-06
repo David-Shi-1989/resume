@@ -45,7 +45,7 @@
       <p class="mr-copyright">
         <i class="fa fa-copyright"></i> 2020 shiwang.wang<br/>All Rights Reserved.<br/>
         备案/许可证编号：<br/>
-        <a href="http://www.beian.miit.gov.cn/" target="_blank">皖ICP备19022141号</a>
+        <a href="https://beian.miit.gov.cn" target="_blank">皖ICP备19022141号</a>
       </p>
     </div>
     <div class="mr-sidebar-bg"></div>
