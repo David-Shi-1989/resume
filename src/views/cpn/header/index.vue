@@ -3,8 +3,8 @@
     <div class="logo-menu">
       <div class="logo"></div>
       <ul class="menu">
-        <li v-for="menu in menus" :key="menu" :class="[menu==activeMenu?'active':'', 'menu-item']" @click="onMenuClick(menu)">
-          <a href="javascript:void(0);">{{menu}}</a>
+        <li v-for="menu in menus" :key="menu.title" :class="[menu.title==activeMenu?'active':'', 'menu-item']" @click="onMenuClick(menu)">
+          <a href="javascript:void(0);" @click="onMenuClick(menu)">{{menu.title}}</a>
         </li>
         <li class="move-bg" :style="{left:moveBgLeft + 'px'}"></li>
       </ul>
@@ -14,28 +14,39 @@
 
 <script>
 import LatestWorks from '../latest-works'
+import {headerMenus, getMenu1ByRouterName} from '@/router/menu'
 export default {
   data () {
-    const menus = ['home', 'Case Study', 'Blog Post', 'Contact Me']
+    const menus = headerMenus
     return {
       menus,
-      activeMenu: menus[0],
+      activeMenu: menus[0].title,
       moveBgLeft: 0
     }
   },
   props: {
   },
   components: {LatestWorks},
+  created () {
+    this.init()
+  },
   methods: {
+    init () {
+      const curRouterName = this.$route.name
+      const menuItem = getMenu1ByRouterName(curRouterName)
+      if (menuItem) {
+        this.activeMenu = menuItem.title
+      }
+    },
     onMenuClick (item) {
-      this.activeMenu = item
-      this.moveHeaderBg()
+      this.activeMenu = item.title
+      this.$router.push({name: item.routerName})
     },
     moveHeaderBg () {
       let idx = 0, left = 0
       const currentMenu = this.activeMenu
       this.menus.some((menu, index) => {
-        if (menu == currentMenu) {
+        if (menu.title == currentMenu) {
           idx = index
           return true
         }
@@ -48,16 +59,18 @@ export default {
       this.moveBgLeft = left
     }
   },
-  computed: {
+  watch: {
+    activeMenu () {
+      this.moveHeaderBg()
+    }
   }
 }
 </script>
 
 <style lang="less" scoped>
 @import url('../../../style/color.less');
-@header-height: 46px;
-@menu-height: 20px;
-@move-menu-bg-height: 25px;
+@import url('../../../style/utils.less');
+
 .mix-transition (@property: all, @duration: .5s) {
   transition: @property @duration;
   transition-timing-function: cubic-bezier(0.68,-0.55,0.27,1.55);
@@ -98,7 +111,6 @@ export default {
       display: flex;
       margin: 0 20px;
       box-sizing: border-box;
-      cursor: pointer;
       position: relative;
       & > li {
         text-transform: uppercase;
@@ -125,9 +137,9 @@ export default {
           height: 0;
           top: (@header-height - @menu-height) / 2;
           left: 0;
-          border-left: 10px solid #88b9bd;
+          border-left: 10px solid @color-menu-bg;
           border-right: 10px solid transparent;
-          border-bottom: 25px solid #88b9bd;
+          border-bottom: 25px solid @color-menu-bg;
           .mix-transition(@property: left);
         }
       }

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Index from '../views/index'
+import Storex from '@/store'
+import {routerList} from './menu'
 
 Vue.use(VueRouter)
 
@@ -14,33 +16,7 @@ const routes = [
     path: '/',
     component: Index,
     redirect: '/home',
-    children: [
-      {
-        path: 'home',
-        name: 'Home',
-        component: () => import('../views/home.vue')
-      },
-      {
-        path: 'career',
-        name: 'Career',
-        component: () => import('../views/career.vue')
-      },
-      {
-        path: 'project',
-        name: 'Project',
-        component: () => import('../views/project.vue')
-      },
-      {
-        path: 'demo',
-        name: 'Demo',
-        component: () => import('../views/demo/index.vue')
-      },
-      {
-        path: 'demo/log-animate',
-        name: 'Demo_Animate',
-        component: () => import('../views/demo/demos/log-animate.vue')
-      }
-    ]
+    children: routerList
   }
 ]
 
@@ -50,12 +26,24 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((from, to, next) => {
+router.beforeEach((to, from, next) => {
   let wrapEl = document.getElementById('routeWrap')
   if (wrapEl) {
     wrapEl.scrollTop = 0
   }
+  Storex.commit('setBackBtnRouterName', to.meta.backRouterName)
   next()
 })
+router.afterEach(() => {
+  var wrap = document.getElementById('main_container')
+  if (wrap) {
+    wrap.scrollTop = 0
+  }
+})
+
+const originalPush = VueRouter.prototype.push
+   VueRouter.prototype.push = function push(location) {
+   return originalPush.call(this, location).catch(err => err)
+}
 
 export default router

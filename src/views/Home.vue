@@ -1,8 +1,6 @@
 <template>
-  <div class="mr-home">
-    <AboutMe></AboutMe>
-    <div class="divider" style="margin: 90px auto 60px auto;"></div>
-    <LatestWorks></LatestWorks>
+  <div class="mr-home main-layout">
+    About
   </div>
 </template>
 <script>

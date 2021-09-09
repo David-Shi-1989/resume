@@ -6,8 +6,9 @@ const state = {
       { name: 'Light', color: '#ddd' },
       { name: 'Dark', color: '#101b3b' }
     ],
-    current: localStorage.get('theme') || 'Light'
-  }
+    current: localStorage.get('theme') || 'Light',
+  },
+  backBtnRouterName: ''
 }
 
 const getters = {
@@ -15,7 +16,8 @@ const getters = {
   getThemeList: state => state.theme.list,
   getTheme: state => {
     return state.theme.current
-  }
+  },
+  backBtnRouterName: state => state.backBtnRouterName
 }
 
 const actions = {}
@@ -35,6 +37,9 @@ const mutations = {
       localStorage.set('theme', theme)
       state.theme.current = theme
     }
+  },
+  setBackBtnRouterName: (state, routerName) => {
+    state.backBtnRouterName = routerName || ''
   }
 }
 

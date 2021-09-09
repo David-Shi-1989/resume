@@ -1,13 +1,13 @@
 <template>
   <div class="latest-work-wrapper">
     <div class="main">
-      <h4 class="title">LATEST WORKS</h4>
-      <h5>My Career</h5>
+      <h4 class="title">My Career</h4>
+      <h5>3 Companies</h5>
       <div class="list-wrap">
         <ul class="company-logo-list">
           <li v-for="c in companyList" :key="c" :class="[c, activeCompany==c?'active':'']" @click="activeCompany=c"><div></div></li>
         </ul>
-        <div class="company-info-list-wrap">
+        <!-- <div class="company-info-list-wrap">
           <div class="header">
             <span></span>
             <span></span>
@@ -17,7 +17,7 @@
             <div><span>2013年-2016年</span></div>
             <div><span>软件工程师</span></div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -59,13 +59,12 @@ export default {
     .company-logo-list {
       list-style: none;
       display: flex;
-      flex-direction: column;
-      flex: 0 0 200px;
+      // flex-direction: column;
       & > li {
         width: 100px;
         height: 30px;
         display: inline-block;
-        margin-right: 20px;
+        margin-right: 40px;
         transition: all .3s;
         cursor: pointer;
         position: relative;
@@ -73,7 +72,7 @@ export default {
         &:not(:last-child) {
           margin-bottom: 40px;
         }
-        &:hover, &.active {
+        &:hover, &.active2 {
           animation: backpos 4s linear 0s infinite;
           &.kodak {
             background: linear-gradient(45deg, rgb(254, 182, 146), rgb(234, 84, 85) 50%, rgb(254, 182, 146) 80%);
@@ -111,16 +110,18 @@ export default {
     }
     .company-info-list-wrap {
       flex: 1 1 100%;
+      border-radius: @radius;
+      box-shadow: 0px 0px 5px #aaa;
       overflow: hidden;
       @header-height: 25px;
-      @radius: 5px;
+      @radius: 3px;
       .header {
         background-color: #d8d7d8;
         height: @header-height;
         border-top-right-radius: @radius;
         border-top-left-radius: @radius;
         padding: 0 15px;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid darken(#d8d7d8, 8%);
         & > span {
           @dot-size: 13px;
           display: inline-block;
