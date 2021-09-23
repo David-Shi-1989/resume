@@ -4,7 +4,7 @@
       <div class="logo"></div>
       <ul class="menu">
         <li v-for="menu in menus" :key="menu.title" :class="[menu.title==activeMenu?'active':'', 'menu-item']" @click="onMenuClick(menu)">
-          <a href="javascript:void(0);" @click="onMenuClick(menu)">{{menu.title}}</a>
+          <a href="javascript:void(0);" @click="onMenuClick(menu)" class="text-cannot-select">{{menu.title}}</a>
         </li>
         <li class="move-bg" :style="{left:moveBgLeft + 'px'}"></li>
       </ul>
