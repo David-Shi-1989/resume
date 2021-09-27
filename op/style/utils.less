@@ -1,0 +1,28 @@
+@header-height: 52px;
+@header-bg: #292f39;
+
+@sidebar-width: 240px;
+
+@content-padding: 20px;
+
+@breadcrumb-height: 30px;
+
+.scroll-bar-style (
+  $width: .4rem,
+  $barColor: #f8f8f8,
+  $trackColor: #f8f8f8,
+  $thumbColor: #ccc
+) {
+  &::-webkit-scrollbar {
+    width: $width;
+    height: $width;
+    cursor: pointer;
+    background: $barColor;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $trackColor;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumbColor;
+  }
+}

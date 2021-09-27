@@ -1,13 +1,22 @@
 <template>
   <div class="mr-home main-layout">
-    About
+    <switch-card :count="3">
+      <div slot="card1">
+        card1
+      </div>
+      <div slot="card2">
+        card2
+      </div>
+      <div slot="card3">
+        card3
+      </div>
+    </switch-card>
   </div>
 </template>
 <script>
-import AboutMe from './cpn/about-me.vue'
-import LatestWorks from './cpn/latest-works.vue'
+import switchCard from '@/components/switch-card/index.vue'
 export default {
-  components: { AboutMe, LatestWorks },
+  components: {switchCard},
   data () {
     return {
       careerList: [

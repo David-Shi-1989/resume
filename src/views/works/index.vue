@@ -11,15 +11,6 @@
         </div>
       </transition-group>
     </div>
-    <!-- <transition-group name="fade"> -->
-      <!-- <Row :gutter="25" :key="1">
-        <transition-group name="slide-fade">
-          <i-Col span="6" v-for="(item) in showList" :key="item.title">
-            <work-card :title="item.title" :description="item.description" :img="item.img" :url="item.url"></work-card>
-          </i-Col>
-        </transition-group>
-      </Row> -->
-    <!-- </transition-group> -->
   </div>
 </template>
 

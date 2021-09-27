@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import i18n from './i18n'
-import gsap from 'gsap'
-import 'pattern.css/dist/pattern.min.css'
+// import gsap from 'gsap'
+// import 'pattern.css/dist/pattern.min.css'
 
 import './style/style.less'
 
@@ -20,7 +20,7 @@ Vue.config.productionTip = false
 Vue.use(iview)
 Vue.use(i18n)
 
-Vue.prototype.$gsap = gsap
+// Vue.prototype.$gsap = gsap
 
 window.vm = new Vue({
   router,

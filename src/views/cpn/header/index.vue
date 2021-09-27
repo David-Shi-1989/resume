@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import LatestWorks from '../latest-works'
 import {headerMenus, getMenu1ByRouterName} from '@/router/menu'
 export default {
   data () {
@@ -26,7 +25,6 @@ export default {
   },
   props: {
   },
-  components: {LatestWorks},
   created () {
     this.init()
   },
