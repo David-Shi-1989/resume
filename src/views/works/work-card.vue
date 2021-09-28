@@ -45,6 +45,7 @@ export default {
     margin-bottom: 10px;
     position: relative;
     cursor: pointer;
+    background-color: #fff;
     img {
       width: 100%;
       transition: transform .3s cubic-bezier(.2,0,.2,1);

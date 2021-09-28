@@ -1,22 +1,12 @@
 <template>
   <div class="mr-home main-layout">
-    <switch-card :count="3">
-      <div slot="card1">
-        card1
-      </div>
-      <div slot="card2">
-        card2
-      </div>
-      <div slot="card3">
-        card3
-      </div>
-    </switch-card>
+    <IntroducationCard></IntroducationCard>
   </div>
 </template>
 <script>
-import switchCard from '@/components/switch-card/index.vue'
+import IntroducationCard from '@/views/home/intro-card'
 export default {
-  components: {switchCard},
+  components: {IntroducationCard},
   data () {
     return {
       careerList: [

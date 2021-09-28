@@ -1,11 +1,11 @@
 <template>
   <div class="main-layout">
     <div class="list-container">
-      <div class="post-bar gray-box">
+      <div class="post-bar">
         <div><span>{{list.length}}</span>篇文章</div>
         <div><span>9</span>个标签</div>
       </div>
-      <ul>
+      <ul class="post-list">
         <li v-for="(post,idx) in list" :key="idx">
           <h2 @click="toItemPage(post.id)">{{post.title}}</h2>
           <p class="content" @click="toItemPage(post.id)">{{post.content}}</p>
@@ -143,14 +143,16 @@ export default {
 <style lang="less" scoped>
 @import url('../../style/color.less');
 .main-layout {
-  background-color: #fff;
   display: flex;
   .list-container {
     flex: 1 1 100%;
     margin-right: 40px;
     .post-bar {
-      margin-bottom: 10px;
+      margin-bottom: 10px 20px;
+      padding: 10px;
       display: flex;
+      border-bottom: dashed 1px var(--color-border);
+      background-color: #fff;
       & > div {
         font-size: 14px;
         span {
@@ -163,14 +165,16 @@ export default {
         }
       }
     }
-    & > ul > li {
-      padding: 10px;
+    ul.post-list > li {
+      background-color: #fff;
+      padding: 10px 20px;
       transition: all .2s;
+      margin-top: 10px;
       &:not(:last-child) {
         border-bottom: 1px solid var(--color-border);
       }
       &:hover {
-        background-color: aliceblue;
+        box-shadow: 0 0 6px #cdcdcd;
         h2 {
           color: var(--color-hover) !important;
         }
@@ -204,10 +208,13 @@ export default {
   }
   
   .tag-container {
-    width: 250px;
+    width: 300px;
     height: 100%;
     position: sticky;
     top: 0;
+    background-color: #fff;
+    box-shadow: 0 0 3px var(--color-divider);
+    padding: 10px;
   }
 }
 
