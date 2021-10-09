@@ -151,7 +151,6 @@ export default {
       margin-bottom: 10px 20px;
       padding: 10px;
       display: flex;
-      border-bottom: dashed 1px var(--color-border);
       background-color: #fff;
       & > div {
         font-size: 14px;

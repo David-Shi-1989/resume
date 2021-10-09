@@ -80,6 +80,8 @@ export default {
   .left-col {
     flex: 1 1 100%;
     margin-right: 40px;
+    padding: 20px 40px;
+    background-color: #fff;
     .top-row {
       padding-bottom: 10px;
       border-bottom: 2px dashed var(--color-border);
@@ -90,6 +92,7 @@ export default {
     .gray-box {
       position: sticky;
       top: 0;
+      background-color: #fff;
     }
   }
 }
@@ -104,10 +107,11 @@ h1.title {
 }
 .post-text {
   margin-top: 10px;
-  font-size: 16px;
-  line-height: 28px;
+  font-size: 18px;
   text-indent: 2rem;
   word-break: break-all;
+  line-height: 34px;
+  font-weight: 300;
 }
 .category-list {
   &.c1 {

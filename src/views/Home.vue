@@ -1,5 +1,5 @@
 <template>
-  <div class="mr-home main-layout">
+  <div class="mr-home">
     <IntroducationCard></IntroducationCard>
   </div>
 </template>

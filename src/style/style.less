@@ -32,11 +32,13 @@ ul, ol {
     height: 100%;
   }
   #main_container {
-    padding: 20px;
     box-sizing: border-box;
     height: calc(100% - @header-height);
     overflow-y: auto;
     .scroll-bar-style();
+    &:not(.no-padding) {
+      padding: 20px;
+    }
   }
   .main-layout {
     margin: 20px auto;

@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <myHeader></myHeader>
-    <div id="main_container">
+    <div id="main_container" :class="containerClass">
       <router-view />
     </div>
     <backIcon v-if="backBtnRouterName"></backIcon>
@@ -15,7 +15,12 @@ import {mapGetters} from 'vuex'
 export default {
   components: {myHeader, backIcon},
   computed: {
-    ...mapGetters(['backBtnRouterName'])
+    ...mapGetters(['backBtnRouterName']),
+    containerClass () {
+      return {
+        'no-padding': this.$route.meta.noPadding === true
+      }
+    }
   }
 }
 </script>

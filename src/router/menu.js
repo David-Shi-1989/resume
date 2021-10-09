@@ -3,7 +3,10 @@ const menuList = [
     title: 'home',
     path: 'home',
     name: 'Home',
-    component: () => import('../views/home.vue')
+    component: () => import('../views/home.vue'),
+    meta: {
+      noPadding: true
+    }
   },
   {
     title: 'Works',
