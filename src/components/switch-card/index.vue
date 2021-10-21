@@ -35,14 +35,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@bg-color: rgb(235, 240, 242);
+@bg-color: #F7F9FA;
 @active-color: rgb(48, 76, 253);
 .switch-card-wrap {
   width: 100%;
   overflow: hidden;
   /deep/ .VueCarousel {
     .card-item {
-      padding: 0 10px;
+      padding-right: 30px;
       & > div {
         padding: 20px;
         border-radius: 5px;

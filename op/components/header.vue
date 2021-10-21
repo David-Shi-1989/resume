@@ -2,7 +2,7 @@
   <header>
     <router-link :to="{name:'Index'}" class="login-info">
       <img :src="logo" class="logo-img">
-      <p>在线答题管理系统</p>
+      <p>Shiwang.wang</p>
     </router-link>
     <ul class="right-list">
       <li class="userInfo">
@@ -15,7 +15,7 @@
   </header>
 </template>
 <script>
-import logo from 'op/assets/image/logo.png'
+import logo from '@/assets/lyman-logo.png'
 import userAvatar from 'op/assets/image/user-icon-man.svg'
 import {mapGetters, mapActions} from 'vuex'
 import {logout} from 'op/api/op.js'

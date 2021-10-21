@@ -1,0 +1,29 @@
+[2021-10-21T09:30:02.707] [ERROR] err - [SQL Execute Error]: SELECT id,title,tags,summary,create_datetime,visit_count,like_count,is_top,is_draft FROM op_article WHERE is_enable > 0 order by mat.endTime DESC Error: ER_BAD_FIELD_ERROR: Unknown column 'mat.endTime' in 'order clause'
+    at Query.Sequence._packetToError (c:\Personal Files\github\resume-new\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (c:\Personal Files\github\resume-new\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (c:\Personal Files\github\resume-new\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (c:\Personal Files\github\resume-new\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (c:\Personal Files\github\resume-new\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (c:\Personal Files\github\resume-new\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (c:\Personal Files\github\resume-new\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (c:\Personal Files\github\resume-new\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:314:20)
+    at addChunk (_stream_readable.js:297:12)
+    --------------------
+    at Protocol._enqueue (c:\Personal Files\github\resume-new\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at Connection.query (c:\Personal Files\github\resume-new\node_modules\mysql\lib\Connection.js:198:25)
+    at c:\Personal Files\github\resume-new\server\sql\index.js:8:12
+    at new Promise (<anonymous>)
+    at Object.execute (c:\Personal Files\github\resume-new\server\sql\index.js:7:12)
+    at c:\Personal Files\github\resume-new\server\api\module\op.js:94:16
+    at Layer.handle [as handle_request] (c:\Personal Files\github\resume-new\node_modules\express\lib\router\layer.js:95:5)
+    at next (c:\Personal Files\github\resume-new\node_modules\express\lib\router\route.js:137:13)
+    at Route.dispatch (c:\Personal Files\github\resume-new\node_modules\express\lib\router\route.js:112:3)
+    at Layer.handle [as handle_request] (c:\Personal Files\github\resume-new\node_modules\express\lib\router\layer.js:95:5) {
+  code: 'ER_BAD_FIELD_ERROR',
+  errno: 1054,
+  sqlMessage: "Unknown column 'mat.endTime' in 'order clause'",
+  sqlState: '42S22',
+  index: 0,
+  sql: 'SELECT id,title,tags,summary,create_datetime,visit_count,like_count,is_top,is_draft FROM op_article WHERE is_enable > 0 order by mat.endTime DESC'
+}

@@ -8,7 +8,7 @@
           <tagList :list="tagList"></tagList>
         </div>
       </div>
-      <div class="post-text">{{text}}</div>
+      <div class="post-text" v-html="text"></div>
     </div>
     <div class="right-col">
       <div class="gray-box">
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import {getArticleById} from '@/api/op'
 import tagList from './tag-item.vue'
 export default {
   props: {
@@ -37,21 +38,10 @@ export default {
   components: {tagList},
   data () {
     return {
-      title: 'Spring拓展点',
-      datetime: '2021/09/04 14:22:04',
-      tagList: ['Spring', 'Java'],
-      text: `经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。,
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。经历了一系列复杂的spring应用后，你的项目可能已经用上注解，也用上了xxx.properties，你对这神奇的用法感到欣喜，但你不知道他是怎么被实现的，现在就让我们来揭开这些神秘的面纱。
-      在Spring生成bean的过程这篇文章中，我们了解了spring在生成bean前会先生成bean的定义，然后注册到BeanFactory中，再之后才能生成bean。那么对于从xml配置好的BeanDefinition，如果想要增加删除修改该怎么办呢？这个接口扩展了标准的BeanFactoryPostProcessor 接口，允许在普通的BeanFactoryPostProcessor接口实现类执行之前注册更多的BeanDefinition。特别地是，BeanDefinitionRegistryPostProcessor可以注册BeanFactoryPostProcessor的BeanDefinition。\npostProcessBeanDefinitionRegistry方法可以修改在BeanDefinitionRegistry接口实现类中注册的任意BeanDefinition，也可以增加和删除BeanDefinition。原因是这个方法执行前所有常规的BeanDefinition已经被加载到BeanDefinitionRegistry接口实现类中，但还没有bean被实例化。`,
+      title: '',
+      datetime: '',
+      tagList: [],
+      text: '',
       category: [
         {title: 'TypeScript简介'},
         {
@@ -71,6 +61,20 @@ export default {
       ]
     }
   },
+  created () {
+    this.initData()
+  },
+  methods: {
+    initData () {
+      getArticleById(this.id).then(obj => {
+        this.title = obj.title
+        this.datetime = obj.create_datetime
+        this.tagList = obj.tags
+        this.text = obj.content
+        console.log(obj)
+      })
+    }
+  }
 }
 </script>
 

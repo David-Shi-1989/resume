@@ -1,6 +1,6 @@
 <template>
   <div class="intro-card-wrap">
-    <div class="intro-card">
+    <div class="intro-card main-layout card-shadow">
       <div class="avatar ant-rise-up" :style="{backgroundImage: `url('${avatar}')`}"></div>
       <div class="info-cols">
         <div class="name-col">
@@ -42,7 +42,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import url('./home.less');
 @padding-h: 150px;
+@card-height: 150px;
+@avatar-size: 140px;
+@avatar-border-size: 8px;
 .intro-card-wrap {
   position: relative;
   transition: box-shadow .3s ease-in-out;
@@ -59,25 +63,18 @@ export default {
 .intro-card {
   background-color: #fff;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgb(103 118 128 / 3%);
-  position: absolute;
-  bottom: 0;
-  transform: translateY(50%);
-  width: calc(100% - @padding-h * 2);
-  left: @padding-h;
+  transform: translateY(100%);
   padding: 20px 50px;
-  height: 180px;
+  height: @card-height;
   display: flex;
   .avatar {
-    @size: 160px;
-    @border-size: 8px;
-    flex: 0 0 @size;
-    height: @size;
-    background-size: calc(100% + @border-size), calc(100% + @border-size);
+    flex: 0 0 @avatar-size;
+    height: @avatar-size;
+    background-size: calc(100% + @avatar-border-size), calc(100% + @avatar-border-size);
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 40px;
-    border: @border-size solid #fff;
+    border: @avatar-border-size solid #fff;
     box-shadow: 0 0 8px #CCC;
   }
   .info-cols {
@@ -95,28 +92,10 @@ export default {
         flex-wrap: wrap;
         & > div {
           width: 50%;
-          height: 70px;
+          height: 55px;
           display: flex;
           flex-direction: column;
           justify-content: center;
-        }
-      }
-      .text {
-        font-family: 'Poppins',sans-serif !important;
-        &.name {
-          font-size: 1.5rem;
-        }
-        &.role {
-          color: var(--color-sub-color);
-        }
-        &.title {
-          text-transform: Uppercase;
-          color: rgba(94,110,128,0.8);
-          font-size: .55rem;
-        }
-        &.val {
-          color: #5E6E80;
-          font-size: .7rem;
         }
       }
     }
@@ -127,14 +106,14 @@ export default {
 }
 @keyframes ant-kf-rise-up {
   0% {
-    transform: translateY(0);
+    transform: translateY(@avatar-border-size * -2);
     opacity: .1;
   }
   50% {
     opacity: 1;
   }
   100% {
-    transform: translateY(-30%);
+    transform: translateY(-40%);
     opacity: 1;
   }
 }

@@ -96,7 +96,7 @@ export default {
     top: 0;
     .logo {
       flex: 0 0 200px;
-      height: 100%;
+      height: @header-height;
       background-color: #2c2c2c;
       background-image: url('../../../assets/lyman-logo.png');
       background-size: 80% auto;

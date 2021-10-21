@@ -5,7 +5,7 @@
       <Sidebar></Sidebar>
       <div id="content">
         <oBreadcrumb></oBreadcrumb>
-        <router-view/>
+        <div><router-view/></div>
       </div>
     </div>
   </div>
@@ -26,6 +26,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@import url('../style/utils.less');
 @header-height: 52px;
 #main {
   height: 100%;

@@ -15,10 +15,12 @@ html, body {
   #content {
     padding: @content-padding;
     & > div:last-child {
-      @self-padding: 10px;
+      @self-padding: 20px 25px;
       background-color: #fff;
       padding: @self-padding;
-      min-height: calc(100% - @breadcrumb-height);
+      height: calc(100% - @breadcrumb-height);
+      overflow-y: auto;
+      .scroll-bar-style();
     }
   }
 }
@@ -26,7 +28,7 @@ html, body {
 .page-table-wrap {
   .btn-wrap {
     margin-bottom: 10px;
-    & > button {
+    & > .ivu-btn {
       &:not(:last-child) {
         margin-right: 10px;
       }

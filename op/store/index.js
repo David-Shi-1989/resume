@@ -17,12 +17,19 @@ function getLoginStatusFromCookie () {
 }
 const sidebarMenu = [
   {
-    title: '题目导入',
-    icon: 'iconfont icon-guize',
+    title: '文章',
+    icon: 'iconfont icon-bianjiwenzhang_huaban',
     children: [
-      {title: '分类', name: 'q-category', routerName: 'Question_Category'},
-      {title: '题库', name: 'q-pool', routerName: 'Question_List'},
-      {title: '表格导入', name: 'q-excel', routerName: 'Question_Excel'}
+      {title: '标签', name: 'a-tag', routerName: 'Article_Tag'},
+      {
+        title: '列表',
+        name: 'a-list',
+        routerName: 'Article_List',
+        children: [
+          {title: '新建', name: 'a-list-create', routerName: 'Article_Create'},
+          {title: '编辑', name: 'a-list-edit', routerName: 'Article_Edit'}
+        ]
+      }
     ]
   },
   {
@@ -129,15 +136,33 @@ function findMenusByName (routerName) {
   if (routerName === 'Index') {
     return [{title: '主页'}]
   }
-  for (let idx1 = 0; idx1 < sidebarMenu.length; idx1++) {
-    const menu1 = sidebarMenu[idx1]
-    for (let idx2 = 0; idx2 < menu1.children.length; idx2++) {
-      const menu2 = menu1.children[idx2]
-      if (menu2.routerName === routerName) {
-        return [menu1, menu2]
+  let matchedMenuItem = recurArr(sidebarMenu)
+  if (matchedMenuItem) {
+    const result = [matchedMenuItem]
+    while (matchedMenuItem._parent) {
+      matchedMenuItem = matchedMenuItem._parent
+      result.unshift(matchedMenuItem)
+    }
+    return result
+  } else {
+    return []
+  }
+  function recurArr (arr) {
+    if (arr && Array.prototype.isPrototypeOf(arr)) {
+      for (let i = 0; i < arr.length; i++) {
+        let item = arr[i]
+        if (item.routerName === routerName) {
+          return item
+        }
+        if (item.children) {
+          item.children.forEach(child => {
+            child._parent = item
+          })
+          return recurArr(item.children)
+        }
       }
     }
+    return null
   }
-  return []
 }
 export default mainStore

@@ -4,6 +4,8 @@ import Main from '../views/main.vue'
 import Login from '../views/login.vue'
 import Store from 'op/store/index'
 
+import articleEditorPage from '../views/article/editor.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -22,6 +24,22 @@ const routes = [
         name: 'Index',
         component: () => import(/* webpackChunkName: "Index" */ '../views/index.vue')
       },
+      {
+        path: 'article/list',
+        name: 'Article_List',
+        component: () => import(/* webpackChunkName: "Article_List" */ '../views/article/list.vue')
+      },
+      {
+        path: 'article/create',
+        name: 'Article_Create',
+        component: articleEditorPage
+      },
+      {
+        path: 'article/:id',
+        name: 'Article_Edit',
+        props: true,
+        component: articleEditorPage
+      }
     ]
   }
 ]

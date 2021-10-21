@@ -2,13 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import iview from 'iview'
-// import '@/script/utils.js'
-import 'iview/dist/styles/iview.css'
+import ViewUI from 'view-design'
+import VueEditor from 'vue-md-editor'
+import 'view-design/dist/styles/iview.css'
 import './style/style.less'
-// import '../src/assets/font/iconfont.css'
+import '../src/assets/font/iconfont.css'
+import '../src/utils'
 
-Vue.use(iview)
+Vue.use(ViewUI)
+Vue.use(VueEditor)
 
 Vue.config.productionTip = false
 

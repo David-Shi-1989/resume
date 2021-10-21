@@ -1,6 +1,6 @@
 <template>
   <ul :class="wrapClass">
-    <li v-for="(tag,idx) in list" :key="idx">{{tag}}</li>
+    <li v-for="(tag,idx) in list" :key="idx">{{tag.title}}</li>
   </ul>
 </template>
 
