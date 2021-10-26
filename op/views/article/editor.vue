@@ -20,9 +20,9 @@
       </FormItem>
     </Form>
     <div class="btn-wrap">
-      <Button type="primary" size="large" @click="onPublishBtn">发布</Button>
-      <Button size="large">保存草稿</Button>
-      <Button type="error" size="large">取消返回</Button>
+      <Button type="primary" size="large" @click="onPublishBtn">{{publishBtnName}}</Button>
+      <Button size="large" @click="onPublishBtn(true)">存为草稿</Button>
+      <Button type="error" size="large" @click="onBackBtn">取消返回</Button>
     </div>
   </div>
 </template>
@@ -62,9 +62,9 @@ export default {
       this.loading(true)
       getArticleById(this.id).then(res => {
         Object.assign(this.article, {
-          md: res.content,
+          md: res.md,
           title: res.title,
-          tag: res.tags.split(','),
+          tag: res.tags.map(t => t.id),
           isTop: res.is_top > 0,
           isDraft: res.is_draft > 0
         })
@@ -98,38 +98,51 @@ export default {
         this.loading(false)
       })
     },
-    getArticleData () {
-      return {
+    getArticleData (isDraft = false) {
+      const formData = {
         title: this.article.title,
         tagList: this.article.tag,
         isTop: this.article.isTop,
-        isDraft: false,
-        content: this.$refs.mdEditor.compiledMarkdown,
-        summary: $('.vmd-body').innerText.replace(/\n/g, ' ').slice(0, 50)
+        isDraft,
+        html: this.$refs.mdEditor.compiledMarkdown,
+        md: this.$refs.mdEditor.vmdInput,
+        summary: document.querySelector('.vmd-body').innerText.replace(/[\n#`]/g, ' ').slice(0, 50)
       }
+      if (this.id) {
+        formData.id = this.id
+      }
+      return formData
     },
-    onPublishBtn () {
+    onPublishBtn (isDraft = false) {
       if (this.disAllowEdit) {
         return false
       }
       this.loading(true)
-      createArticle(this.getArticleData()).then(res => {
+      createArticle(this.getArticleData(isDraft)).then(res => {
         if (res.isSuccess) {
-          this.$Message.success('文章发布成功')
+          const successMsg = `文章${this.isEdit ? '保存' : '新建'}成功`
+          this.$Message.success(successMsg)
           this.disAllowEdit = true
           setTimeout(() => {
             this.$router.push({name: 'Article_List'})
           }, 1500)
         } else {
-          this.$Message.error(res.errorMsg || '文章发布失败')
+          const errorMsg = `文章${this.isEdit ? '保存' : '新建'}失败`
+          this.$Message.error(res.errorMsg || errorMsg)
         }
         this.loading(false)
       })
+    },
+    onBackBtn () {
+      this.$router.push({name: 'Article_List'})
     }
   },
   computed: {
     isEdit () {
       return !!this.id
+    },
+    publishBtnName () {
+      return this.isEdit ? '保存' : '发布'
     }
   }
 }

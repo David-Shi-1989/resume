@@ -27,7 +27,7 @@ const routes = [
       {
         path: 'article/list',
         name: 'Article_List',
-        component: () => import(/* webpackChunkName: "Article_List" */ '../views/article/list.vue')
+        component: () => import(/* webpackChunkName: "Article_List" */ '../views/article/tab.vue')
       },
       {
         path: 'article/create',

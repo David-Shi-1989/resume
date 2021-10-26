@@ -29,9 +29,9 @@ export function getArticleById (id) {
     })
   })
 }
-export function createArticle ({title, tagList, isTop, isDraft, content}) {
+export function createArticle ({id, title, tagList, isTop, isDraft, content}) {
   return new Promise(function (resolve) {
-    Axios.post('/api/op/article', {title, tagList, isTop, isDraft, content}).then(res => {
+    Axios.post('/api/op/article', {id, title, tagList, isTop, isDraft, content}).then(res => {
       resolve(res.data)
     })
   })

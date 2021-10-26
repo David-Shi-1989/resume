@@ -2,6 +2,7 @@ const utils = require('../../utils')
 const sqlUtils = require('../../sql/index')
 const config = require('../../config')
 const { sql } = require('../../utils')
+const XSS = require('xss')
 
 const Cache = {
   tag: null
@@ -69,10 +70,22 @@ module.exports = function (router) {
   })
   // Article
   router.get('/op/article', async function (req, res) {
-    const {page, size} = req.query
-    var sql = `SELECT id,title,tags,summary,create_datetime,visit_count,like_count,is_top,is_draft FROM ${utils.tableName.article} WHERE is_enable > 0 order by create_datetime DESC`
+    const {page, size, type} = req.query
+    var sql = `SELECT id,title,tags,summary,create_datetime,visit_count,like_count,is_top,is_draft FROM ${utils.tableName.article}`
+    const conditionArr = []
+    if (type == 'draft') {
+      conditionArr.push('is_enable > 0')
+      conditionArr.push('is_draft > 0')
+    } else if (type == 'dash') {
+      conditionArr.push('is_enable <= 0')
+    } else {
+      conditionArr.push('is_enable > 0')
+      conditionArr.push('is_draft <= 0')
+    }
+    sql += ` WHERE ${conditionArr.join(' AND ')}`
+    sql += ` order by create_datetime DESC`
     if (page && size) {
-      const total = await getTotalFromTable(utils.tableName.article, 'id')
+      const total = await getTotalFromTable(utils.tableName.article, 'id', conditionArr)
       sql += ` LIMIT ${(page - 1) * size},${size}`
       sqlUtils.execute(sql).then(async list => {
         await parseArticleList(list)
@@ -94,31 +107,89 @@ module.exports = function (router) {
     })
   })
   router.post('/op/article', async function (req, res) {
-    const {title, tagList, isTop, isDraft, content, summary} = req.body
-    const resBody = {isSuccess: false}
-    // check title valid
-    const titleCheckSql = `SELECT * FROM ${utils.tableName.article} WHERE title = '${title}' AND is_enable > 0`
-    if (await sqlHasRecords(titleCheckSql)) {
-      resBody.errorMsg = '文章标题重复'
-      utils.response(res, resBody)
+    const {id} = req.body
+    if (id) {
+      editArticle(res, req.body)
     } else {
-      const newId = utils.uuid()
-      const createSql = `INSERT INTO ${utils.tableName.article} 
-      (id,title,tags,content,summary,create_by,create_datetime,is_top,is_draft) VALUES 
-      ('${newId}','${title}','${tagList.join(',')}','${content}','${summary||''}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
-      sqlUtils.execute(createSql).then(result => {
-        resBody.isSuccess = result.affectedRows > 0
-        utils.response(res, resBody)
+      createArticle(res, req, req.body)
+    }
+    
+  })
+  router.delete('/op/article', function (req, res) {
+    var {idList, isPermenent} = req.query
+    isPermenent = (isPermenent === 'true')
+    if (idList && idList.length > 0) {
+      const idStr = idList.map(id => `'${id}'`).join(',')
+      const sql = isPermenent ? `DELETE FROM ${utils.tableName.article} WHERE id IN (${idStr})` :
+        `UPDATE ${utils.tableName.article} SET is_enable = 0 WHERE id IN (${idStr})`
+      sqlUtils.execute(sql).then(result => {
+        const isSuccess = result.affectedRows === idList.length, affectedRows = result.affectedRows
+        if (isSuccess && !isPermenent) {
+          changeTagReferCount(idList, -1)
+        } else if (!isSuccess) {
+          utils.logger.warn('删除文章失败', idList, affectedRows)
+        }
+        utils.response(res, {isSuccess, affectedRows})
       })
     }
   })
+}
+// 新建文章
+async function createArticle (res, req, {title, tagList, isTop, isDraft, html, md, summary}) {
+  const resBody = {isSuccess: false}
+  // check title valid
+  const titleCheckSql = `SELECT * FROM ${utils.tableName.article} WHERE title = '${title}' AND is_enable > 0`
+  if (await sqlHasRecords(titleCheckSql)) {
+    resBody.errorMsg = '文章标题重复'
+    utils.response(res, resBody)
+  } else {
+    const newId = utils.uuid()
+    const createSql = `INSERT INTO ${utils.tableName.article} 
+    (id,title,tags,html,md,summary,create_by,create_datetime,is_top,is_draft) VALUES 
+    ('${newId}','${XSS(title)}','${tagList.join(',')}','${XSS(html)}','${XSS(md)}','${XSS(summary||'')}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
+    sqlUtils.execute(createSql).then(result => {
+      resBody.isSuccess = result.affectedRows > 0
+      if (resBody.isSuccess) {
+        changeTagReferCount(tagList, 1)
+      }
+      utils.response(res, resBody)
+    })
+  }
+}
+// 编辑文章
+async function editArticle (res, {id, title, tagList, isTop, isDraft, html, md, summary, isEnable}) {
+  const resBody = {isSuccess: false}
+  // check title valid
+  const titleCheckSql = `SELECT * FROM ${utils.tableName.article} WHERE title = '${title}' AND is_enable > 0 AND id NOT IN ('${id}')`
+  if (await sqlHasRecords(titleCheckSql)) {
+    resBody.errorMsg = '文章标题重复'
+    utils.response(res, resBody)
+  } else {
+    var createSql = `UPDATE ${utils.tableName.article} SET `
+    const setArr = [
+      title ? `title='${XSS(title)}'` : '',
+      tagList ? `tags='${tagList.join(',')}'` : '',
+      html ? `'${XSS(html)}'` : '',
+      md ? `'${XSS(md)}'` : '',
+      summary ? `'${XSS(summary||'')}'` : '',
+      'modify_datetime=NOW()',
+      typeof(is_top) === 'boolean' ? `is_top=${isTop ? 1 : 0}` : '',
+      typeof(isDraft) === 'boolean' ? `is_draft=${isDraft ? 1 : 0}` : '',
+      typeof(isEnable) === 'boolean' ? `is_enable=${isEnable ? 1 : 0}` : '',
+    ]
+    createSql += setArr.filter(i => !!i).join(',') + ` WHERE id='${id}'`
+    sqlUtils.execute(createSql).then(result => {
+      resBody.isSuccess = result.affectedRows > 0
+      utils.response(res, resBody)
+    })
+  }
 }
 function getTagList () {
   return new Promise(function (resolve, reject) {
     if (Cache.tag) {
       resolve(Cache.tag)
     } else {
-      const sql = `SELECT id, title FROM ${utils.tableName.op_tag} WHERE is_enable > 0`
+      const sql = `SELECT id, title, refer_count FROM ${utils.tableName.op_tag} WHERE is_enable > 0`
       sqlUtils.execute(sql).then(list => {
         Cache.tag = list
         resolve(list)
@@ -126,13 +197,18 @@ function getTagList () {
     }
   })
 }
+function changeTagReferCount (tagIdList, dis) {
+  const idStr = tagIdList.map(id => `'${id}'`).join(',')
+  const sql = `UPDATE ${utils.tableName.op_tag} SET refer_count = refer_count ${dis > 0 ? '+' : '-'} ${Math.abs(dis)} WHERE id IN (${idStr}) AND is_enable > 0`
+  sqlUtils.execute(sql).then(() => {
+    Cache.tag = null
+  })
+}
 function parseArticleList (list) {
   return new Promise(async function (resolve, reject) {
     for (var i = 0; i < list.length; i++) {
       var item = list[i]
-      if (item.tags) {
-        item.tags = await parseTagId2Name(item.tags)
-      }
+      item.tags = await parseTagId2Name(item.tags)
     }
     resolve(true)
   })
@@ -167,9 +243,12 @@ function  sqlHasRecords (sql) {
     })
   })
 }
-function getTotalFromTable (tableName, key) {
+function getTotalFromTable (tableName, key, conditionArr) {
   return new Promise(async function (resolve, reject) {
-    const sql = `SELECT COUNT(${key}) FROM ${tableName} WHERE is_enable > 0`
+    var sql = `SELECT COUNT(${key}) FROM ${tableName}`
+    if (conditionArr && conditionArr.length > 0) {
+      sql += ` WHERE ${conditionArr.join(' AND ')}`
+    }
     resolve(await sqlUtils.getCount(sql))
   })
 }

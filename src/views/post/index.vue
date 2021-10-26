@@ -20,7 +20,7 @@
     </div>
     <div class="tag-container">
       <p>标签:</p>
-      <tagListCpn :list="tagList" :wrap="true" size="large" style="margin-top: 10px;"></tagListCpn>
+      <tagListCpn :list="tagListWithCount" :wrap="true" size="large" style="margin-top: 10px;"></tagListCpn>
     </div>
   </div>
 </template>
@@ -52,6 +52,14 @@ export default {
       if (id) {
         this.$router.push({name: 'blogPostItem', params: {id}})
       }
+    }
+  },
+  computed: {
+    tagListWithCount () {
+      return this.tagList.map(tag => ({
+        title: tag.title + `(${tag.refer_count})`,
+        id: tag.id
+      }))
     }
   }
 }

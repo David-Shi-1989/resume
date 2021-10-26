@@ -8,7 +8,7 @@
           <tagList :list="tagList"></tagList>
         </div>
       </div>
-      <div class="post-text" v-html="text"></div>
+      <div class="post-text markdown-body" v-html="html"></div>
     </div>
     <div class="right-col">
       <div class="gray-box">
@@ -41,7 +41,7 @@ export default {
       title: '',
       datetime: '',
       tagList: [],
-      text: '',
+      html: '',
       category: [
         {title: 'TypeScript简介'},
         {
@@ -70,14 +70,16 @@ export default {
         this.title = obj.title
         this.datetime = obj.create_datetime
         this.tagList = obj.tags
-        this.text = obj.content
-        console.log(obj)
+        this.html = obj.html
       })
     }
   }
 }
 </script>
 
+<style lang="less">
+@import url('../../style/md-style.less');
+</style>
 <style lang="less" scoped>
 .main-layout {
   display: flex;

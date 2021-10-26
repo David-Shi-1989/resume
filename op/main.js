@@ -8,6 +8,7 @@ import 'view-design/dist/styles/iview.css'
 import './style/style.less'
 import '../src/assets/font/iconfont.css'
 import '../src/utils'
+import 'vue-md-editor/src/styles/markdown.css'
 
 Vue.use(ViewUI)
 Vue.use(VueEditor)

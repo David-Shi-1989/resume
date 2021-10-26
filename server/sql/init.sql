@@ -36,10 +36,12 @@ CREATE TABLE IF NOT EXISTS op_article
   id VARCHAR(36) NOT NULL PRIMARY KEY,
   title VARCHAR(128) NOT NULL,
   tags VARCHAR(200) NOT NULL,
-  content TEXT NOT NULL,
+  md TEXT NOT NULL,
+  html TEXT NOT NULL,
   summary VARCHAR(128),
   create_by VARCHAR (36) COMMENT '由哪个用户创建',
   create_datetime DATETIME NOT NULL,
+  modify_datetime DATETIME,
   visit_count INT(16) DEFAULT 0,
   like_count INT(16) DEFAULT 0,
   is_top TINYINT DEFAULT 0,
@@ -54,6 +56,7 @@ CREATE TABLE IF NOT EXISTS op_tag
 (
   id VARCHAR(36) NOT NULL PRIMARY KEY,
   title VARCHAR(128) NOT NULL,
+  refer_count INT(32) DEFAULT 0,
   create_by VARCHAR (36) COMMENT '由哪个用户创建',
   create_datetime DATETIME NOT NULL,
   is_enable TINYINT DEFAULT 1

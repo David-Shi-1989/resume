@@ -8,6 +8,7 @@ Vue.use(Vuex)
 const userNameFromCookie = Cookie.get('username')
 const userIdFromCookie = Cookie.get('userId')
 const isLoginFromCookie = Cookie.get('isLogin')
+const loginExpiredTime = 1000 * 60 * 60 * 8
 function getLoginStatusFromCookie () {
   if (userNameFromCookie && isLoginFromCookie && isLoginFromCookie === 'true') {
     return LoginStatus.Login
@@ -80,12 +81,12 @@ const mainStore = new Vuex.Store({
     },
     updateUserInfo: (state, userInfo) => {
       state.userInfo = userInfo
-      Cookie.set('username', userInfo.name, {expires: (new Date(Date.now() + 1000 * 60 * 30))})
-      Cookie.set('userId', userInfo.id, {expires: (new Date(Date.now() + 1000 * 60 * 30))})
+      Cookie.set('username', userInfo.name, {expires: (new Date(Date.now() + loginExpiredTime))})
+      Cookie.set('userId', userInfo.id, {expires: (new Date(Date.now() + loginExpiredTime))})
     },
     updateUserId: (state, id) => {
       state.userInfo.id = id
-      Cookie.set('userId', id, {expires: (new Date(Date.now() + 1000 * 60 * 30))})
+      Cookie.set('userId', id, {expires: (new Date(Date.now() + loginExpiredTime))})
     },
     initBreadcrumb: (state, routerName) => {
       const bc = []
@@ -117,7 +118,7 @@ const mainStore = new Vuex.Store({
     userLogin ({commit}, userInfo) {
       commit('updateUserInfo', userInfo)
       commit('updateLoginStatus', LoginStatus.Login)
-      Cookie.set('isLogin', 'true', {expires: (new Date(Date.now() + 1000 * 60 * 30))})
+      Cookie.set('isLogin', 'true', {expires: (new Date(Date.now() + loginExpiredTime))})
     },
     logout ({commit}) {
       commit('updateLoginStatus', LoginStatus.Unlogin)

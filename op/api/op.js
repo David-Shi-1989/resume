@@ -32,9 +32,9 @@ export function createTag (name) {
   })
 }
 // 文章
-export function getArticle ({page, size}) {
+export function getArticle ({page, size, type}) {
   return new Promise(function (resolve) {
-    Axios.get('/api/op/article', {params: {page, size}}).then(res => {
+    Axios.get('/api/op/article', {params: {page, size, type}}).then(res => {
       resolve(res.data)
     })
   })
@@ -46,9 +46,30 @@ export function getArticleById (id) {
     })
   })
 }
-export function createArticle ({title, tagList, isTop, isDraft, content, summary}) {
+export function createArticle ({id, title, tagList, isTop, isDraft, html, md, summary}) {
   return new Promise(function (resolve) {
-    Axios.post('/api/op/article', {title, tagList, isTop, isDraft, content, summary}).then(res => {
+    Axios.post('/api/op/article', {id, title, tagList, isTop, isDraft, html, md, summary}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+export function delteArticle (idList, isPermenent = false) {
+  return new Promise(function (resolve) {
+    Axios.delete('/api/op/article', {params: {idList, isPermenent}}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+export function draftArticle (id) {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/article', {id, isEnable: true, isDraft: true}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+export function publishArticle (id) {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/article', {id, isEnable: true, isDraft: false}).then(res => {
       resolve(res.data)
     })
   })

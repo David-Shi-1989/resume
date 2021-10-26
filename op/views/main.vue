@@ -35,7 +35,7 @@ export default {
   display: flex;
   height: calc(100% - @header-height);
   #content {
-    flex: 1 1 100%;
+    width: calc(100% - @sidebar-width);
   }
 }
 </style>
