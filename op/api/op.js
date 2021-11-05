@@ -1,4 +1,6 @@
 import Axios from './index'
+import {DATETIME_FORMAT} from 'op/constant'
+import {isArray} from 'lodash'
 
 export function login (username, password) {
   return new Promise(function (resolve) {
@@ -32,9 +34,18 @@ export function createTag (name) {
   })
 }
 // 文章
-export function getArticle ({page, size, type}) {
+export function getArticle ({page, size, type, tagIdList, search} = {}) {
   return new Promise(function (resolve) {
-    Axios.get('/api/op/article', {params: {page, size, type}}).then(res => {
+    Axios.get('/api/op/article', {params: {page, size, type, tagIdList, search}}).then(res => {
+      let list = []
+      if (isArray(res.data)) {
+        list = res.data
+      } else if (isArray(res.data.list)) {
+        list = res.data.list
+      }
+      list.forEach(r => {
+        r.create_datetime = formartDatetime(r.create_datetime)
+      })
       resolve(res.data)
     })
   })
@@ -42,7 +53,11 @@ export function getArticle ({page, size, type}) {
 export function getArticleById (id) {
   return new Promise(function (resolve) {
     Axios.get('/api/op/article/' + id).then(res => {
-      resolve(res.data && res.data.length > 0 ? res.data[0] : null)
+      let article = res.data && res.data.length > 0 ? res.data[0] : null
+      if (article) {
+        article.create_datetime = formartDatetime(article.create_datetime)
+      }
+      resolve(article)
     })
   })
 }
@@ -73,4 +88,8 @@ export function publishArticle (id) {
       resolve(res.data)
     })
   })
+}
+
+function formartDatetime (dt) {
+  return (new Date(dt)).format(DATETIME_FORMAT)
 }

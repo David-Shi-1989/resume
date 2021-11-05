@@ -70,7 +70,7 @@ module.exports = function (router) {
   })
   // Article
   router.get('/op/article', async function (req, res) {
-    const {page, size, type} = req.query
+    const {page, size, type, tagIdList, search} = req.query
     var sql = `SELECT id,title,tags,summary,create_datetime,visit_count,like_count,is_top,is_draft FROM ${utils.tableName.article}`
     const conditionArr = []
     if (type == 'draft') {
@@ -81,6 +81,16 @@ module.exports = function (router) {
     } else {
       conditionArr.push('is_enable > 0')
       conditionArr.push('is_draft <= 0')
+    }
+    if (tagIdList) {
+      let idArr = []
+      tagIdList.forEach(tagId => {
+        idArr.push(`tags LIKE '%${tagId}%'`)
+      })
+      conditionArr.push(`(${idArr.join(' OR ')})`)
+    }
+    if (search) {
+      conditionArr.push(`(md LIKE '%${search}%' OR title LIKE '%${search}%')`)
     }
     sql += ` WHERE ${conditionArr.join(' AND ')}`
     sql += ` order by create_datetime DESC`
@@ -146,7 +156,7 @@ async function createArticle (res, req, {title, tagList, isTop, isDraft, html, m
     const newId = utils.uuid()
     const createSql = `INSERT INTO ${utils.tableName.article} 
     (id,title,tags,html,md,summary,create_by,create_datetime,is_top,is_draft) VALUES 
-    ('${newId}','${XSS(title)}','${tagList.join(',')}','${XSS(html)}','${XSS(md)}','${XSS(summary||'')}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
+    ('${newId}','${XSS(title)}','${tagList.join(',')}','${html}','${md}','${XSS(summary||'')}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
     sqlUtils.execute(createSql).then(result => {
       resBody.isSuccess = result.affectedRows > 0
       if (resBody.isSuccess) {
@@ -169,9 +179,9 @@ async function editArticle (res, {id, title, tagList, isTop, isDraft, html, md, 
     const setArr = [
       title ? `title='${XSS(title)}'` : '',
       tagList ? `tags='${tagList.join(',')}'` : '',
-      html ? `'${XSS(html)}'` : '',
-      md ? `'${XSS(md)}'` : '',
-      summary ? `'${XSS(summary||'')}'` : '',
+      html ? `html='${html}'` : '',
+      md ? `md='${md}'` : '',
+      summary ? `summary='${XSS(summary||'')}'` : '',
       'modify_datetime=NOW()',
       typeof(is_top) === 'boolean' ? `is_top=${isTop ? 1 : 0}` : '',
       typeof(isDraft) === 'boolean' ? `is_draft=${isDraft ? 1 : 0}` : '',

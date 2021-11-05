@@ -2,8 +2,13 @@
   <div class="main-layout">
     <div class="list-container">
       <div class="post-bar">
-        <div><span>{{list.length}}</span>篇文章</div>
-        <div><span>9</span>个标签</div>
+        <div>
+          <div><span>{{list.length}}</span>篇文章</div>
+          <div><span>{{isSearching?activeTagList.length:tagList.length}}</span>个标签</div>
+          <Input v-model="filter.search" placeholder="搜索内容" @on-change="onSearchChange"
+            icon="ios-search" style="width: 200px" size="small"/>
+        </div>
+        <Button v-if="isSearching" type="text" size="small" @click="onStopSearch">关闭搜索</Button>
       </div>
       <ul class="post-list">
         <li v-for="(post,idx) in list" :key="idx">
@@ -20,19 +25,26 @@
     </div>
     <div class="tag-container">
       <p>标签:</p>
-      <tagListCpn :list="tagListWithCount" :wrap="true" size="large" style="margin-top: 10px;"></tagListCpn>
+      <tagListCpn ref="tagRight" :list="tagListWithCount" :wrap="true" style="margin-top: 10px;"
+        :width="72" :selectable="true" @onTagClick="onTagClick"></tagListCpn>
     </div>
   </div>
 </template>
 
 <script>
-import {getArticle, getTag} from '@/api/op'
+import {getArticle, getTag} from 'op/api/op'
 import tagListCpn from './tag-item.vue'
+import {mapMutations} from 'vuex'
+import {get, debounce} from 'lodash'
 export default {
   data () {
     return {
       tagList: [],
-      list: []
+      list: [],
+      activeTagList: [],
+      filter: {
+        search: ''
+      }
     }
   },
   components: {tagListCpn},
@@ -40,26 +52,61 @@ export default {
     this.initData()
   },
   methods: {
-    initData () {
-      getArticle(1, 20).then(list => {
-        this.list = list
-      })
-      getTag().then(list => {
-        this.tagList = list
+    ...mapMutations(['loading']),
+    initData (isFetchTag = true) {
+      const promiseArr = [
+        getArticle(
+          {
+            tagIdList: this.activeTagList.map(t => t.id),
+            search: this.filter.search
+          }
+        )
+      ]
+      if (isFetchTag) {
+        promiseArr.push(getTag())
+      }
+      this.loading(true)
+      Promise.all(promiseArr).then(res => {
+        this.list = res[0]
+        if (isFetchTag) {
+          this.tagList = res[1]
+        }
+      }).finally(() => {
+        this.loading(false)
       })
     },
     toItemPage (id) {
       if (id) {
         this.$router.push({name: 'blogPostItem', params: {id}})
       }
-    }
+    },
+    onTagClick (tag) {
+      if (this.activeTagList.some(t => t.id === tag.id)) {
+        this.activeTagList = this.activeTagList.filter(t => t.id !== tag.id)
+      } else {
+        this.activeTagList.push(tag)
+      }
+      this.initData(false)
+    },
+    onStopSearch () {
+      this.filter.search = ''
+      this.activeTagList = []
+      this.$refs.tagRight.stopSelect()
+      this.initData(false)
+    },
+    onSearchChange: debounce(function (evt) {
+      this.initData(false)
+    }, 1200)
   },
   computed: {
     tagListWithCount () {
       return this.tagList.map(tag => ({
-        title: tag.title + `(${tag.refer_count})`,
+        title: tag.title + ` (${tag.refer_count})`,
         id: tag.id
       }))
+    },
+    isSearching () {
+      return this.activeTagList.length > 0 || (this.filter.search || '').trim().length > 0
     }
   }
 }
@@ -74,18 +121,22 @@ export default {
     margin-right: 40px;
     .post-bar {
       margin-bottom: 10px 20px;
-      padding: 10px;
+      padding: 10px 20px;
       display: flex;
       background-color: #fff;
+      justify-content: space-between;
       & > div {
-        font-size: 14px;
-        span {
-          font-size: 18px;
-          font-weight: 700;
-          margin-right: 5px;
-        }
-        &:not(:last-child) {
-          margin-right: 30px;
+        display: flex;
+        & > div {
+          font-size: 14px;
+          span {
+            font-size: 18px;
+            font-weight: 700;
+            margin-right: 5px;
+          }
+          &:not(:last-child) {
+            margin-right: 30px;
+          }
         }
       }
     }
@@ -138,7 +189,7 @@ export default {
     top: 0;
     background-color: #fff;
     box-shadow: 0 0 3px var(--color-divider);
-    padding: 10px;
+    padding:20px;
   }
 }
 

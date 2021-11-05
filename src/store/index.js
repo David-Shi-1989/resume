@@ -7,9 +7,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    lang: 'zhCN' // zhCN enUS
+    lang: 'zhCN', // zhCN enUS
+    showLoading: false,
+  },
+  getters: {
+    showLoading: state => state.showLoading
   },
   mutations: {
+    loading: (state, isShow) => {
+      state.showLoading = (isShow === true)
+    }
   },
   actions: {
   },

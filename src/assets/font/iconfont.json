@@ -6,6 +6,55 @@
   "description": "My blog",
   "glyphs": [
     {
+      "icon_id": "549660",
+      "name": "location",
+      "font_class": "location",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "8231953",
+      "name": "demo-01",
+      "font_class": "demo-",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "3964842",
+      "name": "Sass",
+      "font_class": "Sass",
+      "unicode": "e6d0",
+      "unicode_decimal": 59088
+    },
+    {
+      "icon_id": "6496026",
+      "name": "Vue",
+      "font_class": "Vue",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "6496056",
+      "name": "Nodejs",
+      "font_class": "Nodejs",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
+      "icon_id": "15378906",
+      "name": "typescript",
+      "font_class": "typescript",
+      "unicode": "ecef",
+      "unicode_decimal": 60655
+    },
+    {
+      "icon_id": "22992134",
+      "name": "adobe photoshop",
+      "font_class": "a-adobephotoshop",
+      "unicode": "e8c1",
+      "unicode_decimal": 59585
+    },
+    {
       "icon_id": "12753474",
       "name": "编辑文章",
       "font_class": "bianjiwenzhang_huaban",

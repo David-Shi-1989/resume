@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2858513 */
-  src: url('iconfont.woff2?t=1634637070114') format('woff2'),
-       url('iconfont.woff?t=1634637070114') format('woff'),
-       url('iconfont.ttf?t=1634637070114') format('truetype');
+  src: url('iconfont.woff2?t=1636010238324') format('woff2'),
+       url('iconfont.woff?t=1636010238324') format('woff'),
+       url('iconfont.ttf?t=1636010238324') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,34 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-location:before {
+  content: "\e635";
+}
+
+.icon-demo-:before {
+  content: "\e600";
+}
+
+.icon-Sass:before {
+  content: "\e6d0";
+}
+
+.icon-Vue:before {
+  content: "\e799";
+}
+
+.icon-Nodejs:before {
+  content: "\e79b";
+}
+
+.icon-typescript:before {
+  content: "\ecef";
+}
+
+.icon-a-adobephotoshop:before {
+  content: "\e8c1";
 }
 
 .icon-bianjiwenzhang_huaban:before {

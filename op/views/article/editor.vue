@@ -105,7 +105,7 @@ export default {
         isTop: this.article.isTop,
         isDraft,
         html: this.$refs.mdEditor.compiledMarkdown,
-        md: this.$refs.mdEditor.vmdInput,
+        md: this.$refs.mdEditor.value,
         summary: document.querySelector('.vmd-body').innerText.replace(/[\n#`]/g, ' ').slice(0, 50)
       }
       if (this.id) {

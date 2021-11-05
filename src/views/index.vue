@@ -5,15 +5,17 @@
       <router-view />
     </div>
     <backIcon v-if="backBtnRouterName"></backIcon>
+    <loading></loading>
   </div>
 </template>
 
 <script>
 import myHeader from './cpn/header'
 import backIcon from '@/views/cpn/back-icon'
+import loading from '@/views/cpn/loading'
 import {mapGetters} from 'vuex'
 export default {
-  components: {myHeader, backIcon},
+  components: {myHeader, backIcon, loading},
   computed: {
     ...mapGetters(['backBtnRouterName']),
     containerClass () {

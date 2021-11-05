@@ -35,6 +35,7 @@ ul, ol {
     box-sizing: border-box;
     height: calc(100% - @header-height);
     overflow-y: auto;
+    padding-bottom: 20px;
     .scroll-bar-style();
     &:not(.no-padding) {
       padding: 20px;
@@ -43,7 +44,7 @@ ul, ol {
   .main-layout {
     margin: 0 auto;
     @media only screen and (min-width: 1440px){
-      width: 1420px;
+      width: 1300px;
     }
     @media only screen and (min-width: 1200px) and (max-width: 1439px){
       width: 1140px;
@@ -125,9 +126,13 @@ ul, ol {
   box-shadow: 0 0 10px lighten(#8a8a8a, 30%);
 }
 
-// color
-
-
+.d-flex {
+  display: flex;
+  &.a-center {
+    align-items: center;
+    justify-content: center;
+  }
+}
 
 /**
  * ----------------------------------------

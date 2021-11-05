@@ -1,6 +1,8 @@
 <template>
   <ul :class="wrapClass">
-    <li v-for="(tag,idx) in list" :key="idx">{{tag.title}}</li>
+    <li v-for="(tag,idx) in list" :key="idx" :title="tag.title"
+      :style="style" :class="tagClass(tag)"
+      @click="onItemClick(tag)">{{tag.title}}</li>
   </ul>
 </template>
 
@@ -19,14 +21,57 @@ export default {
     wrap: {
       type: Boolean,
       default: false
+    },
+    width: {
+      type: Number,
+      default: 0
+    },
+    selectable: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
-    return {}
+    return {
+      selectList: []
+    }
   },
   computed: {
     wrapClass () {
-      return ['post-tag-list', 'size-' + this.size, 'wrap-' + (this.wrap ? 'y' : 'n')]
+      const list = ['post-tag-list', 'size-' + this.size, 'wrap-' + (this.wrap ? 'y' : 'n')]
+      if (this.selectable && this.selectList.length > 0) {
+        list.push('is-select-ing')
+      }
+      return list
+    },
+    style () {
+      const style = {}
+      if (this.width > 0) {
+        style.width = this.width + 'px'
+      }
+      return style
+    }
+  },
+  methods: {
+    onItemClick (tag) {
+      if (this.selectable) {
+        if (this.selectList.includes(tag.id)) {
+          this.selectList = this.selectList.filter(id => id !== tag.id)
+        } else {
+          this.selectList.push(tag.id)
+        }
+      }
+      this.$emit('onTagClick', tag)
+    },
+    tagClass (tag) {
+      let classList = []
+      if (this.selectable && this.selectList.includes(tag.id)) {
+        classList.push('select-active')
+      }
+      return classList
+    },
+    stopSelect () {
+      this.selectList = []
     }
   }
 }
@@ -37,22 +82,19 @@ export default {
 .post-tag-list {
   display: flex;
   & > li {
-    @bg: @color-menu-bg;
-    border: 1px solid @bg;
-    color: @bg;
-    border-radius: 6px;
+    @bg: rgb(242,243,245);
+    color: rgb(29,33,41);
+    background-color: @bg;
+    border: 1px solid darken(@bg, 5%);
+    border-radius: 2px;
     cursor: pointer;
+    padding: 0 8px;
     transition: all .2s;
-    &:hover {
-      background-color: lighten(@bg, 5%);
-      color: #fff;
-    }
-    
   }
   &.size-default {
     & > li {
       font-size: 12px;
-      padding: 0 6px;
+      padding: 0 8px;
       &:not(:last-child) {
         margin-right: 6px;
       }
@@ -75,6 +117,11 @@ export default {
   }
   &.wrap-n {
     flex-wrap: nowrap;
+  }
+  &.is-select-ing {
+    & > li:not(.select-active) {
+      opacity: .4;
+    }
   }
 }
 </style>

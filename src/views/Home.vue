@@ -2,10 +2,13 @@
   <div class="mr-home">
     <IntroducationCard></IntroducationCard>
     <div class="main-card main-layout">
-      <div class="left-col card-shadow"></div>
+      <!-- <div class="left-col card-shadow"></div> -->
       <div class="right-col card-shadow">
         <CareerCard></CareerCard>
+        <hr/>
         <EduCard></EduCard>
+        <hr />
+        <SkillCard></SkillCard>
       </div>
     </div>
   </div>
@@ -14,8 +17,9 @@
 import IntroducationCard from '@/views/home/intro-card'
 import CareerCard from '@/views/home/career'
 import EduCard from '@/views/home/edu'
+import SkillCard from '@/views/home/skill'
 export default {
-  components: {IntroducationCard, CareerCard, EduCard},
+  components: {IntroducationCard, CareerCard, EduCard, SkillCard},
   data () {
     return {
     }
@@ -39,8 +43,15 @@ export default {
       margin-right: @row-gap;
     }
     &.right-col {
-      width: calc(100% - @left-col-width - @row-gap);
+      width: 100%;
+      // width: calc(100% - @left-col-width - @row-gap);
     }
   }
+}
+hr {
+  margin: 30px auto;
+  border:none;
+  height: 1px;
+  border-top: 1px solid #efefef;
 }
 </style>
