@@ -1,3 +1,8 @@
+@import url('./color.less');
+@header-height: 46px;
+@menu-height: 20px;
+@move-menu-bg-height: 25px;
+
 .scroll-bar-style (
   @width: .4rem;
   @barColor: #f8f8f8;
@@ -15,6 +20,10 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: @thumbColor;
+    width: 7px;
+    opacity: 0.4;
+    border-radius: 7px;
+    z-index: 99;
   }
 }
 
@@ -32,13 +41,13 @@
     font-size: 20px !important;
   }
   @media (min-width: 1921px) and (max-width: 2799px) {
-    font-size: 30px !important;
+    font-size: 16px !important;
   }
   @media (min-width: 2800px) and (max-width: 3839px) {
-    font-size: 50px !important;
+    font-size: 30px !important;
   }
   @media (min-width: 3840px) {
-    font-size: 56px !important;
+    font-size: 46px !important;
   }
 }
 
@@ -48,4 +57,11 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+.d-flex {
+  display: flex;
+  &.align-center {
+    align-items: center;
+    justify-content: center;
+  }
 }

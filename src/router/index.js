@@ -1,15 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Index from '../views/index'
-
-Vue.use(VueRouter)
+import Storex from '@/store'
 
 const routes = [
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
-  },
   {
     path: '/',
     component: Index,
@@ -18,44 +11,52 @@ const routes = [
       {
         path: 'home',
         name: 'Home',
-        component: () => import('../views/Home.vue')
+        meta: {
+          noPadding: true
+        },
+        component: () => import(/* webpackChunkName: "home" */ '../views/home.vue')
       },
       {
-        path: 'career',
-        name: 'Career',
-        component: () => import('../views/career.vue')
+        path: 'blog',
+        name: 'blogPost',
+        component: () => import(/* webpackChunkName: "post" */ '../views/post/index.vue')
       },
       {
-        path: 'project',
-        name: 'Project',
-        component: () => import('../views/project.vue')
+        path: 'blog/:id',
+        name: 'blogPostItem',
+        props: true,
+        meta: {
+          backRouterName: 'blogPost'
+        },
+        component: () => import(/* webpackChunkName: "post" */ '../views/post/item.vue')
       },
       {
-        path: 'demo',
-        name: 'Demo',
-        component: () => import('../views/demo/index.vue')
-      },
-      {
-        path: 'demo/log-animate',
-        name: 'Demo_Animate',
-        component: () => import('../views/demo/demos/log-animate.vue')
+        title: 'Works',
+        path: 'works',
+        name: 'Works',
+        component: () => import('../views/works/index.vue')
       }
     ]
   }
 ]
-
-const router = new VueRouter({
-  mode: 'hash',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 
-router.beforeEach((from, to, next) => {
-  let wrapEl = document.getElementById('routeWrap')
+router.beforeEach((to, from, next) => {
+  const wrapEl = document.getElementById('routeWrap')
   if (wrapEl) {
     wrapEl.scrollTop = 0
   }
+  Storex.commit('setBackBtnRouterName', to.meta.backRouterName)
   next()
+})
+router.afterEach(() => {
+  var wrap = document.getElementById('main_container')
+  if (wrap) {
+    wrap.scrollTop = 0
+  }
 })
 
 export default router

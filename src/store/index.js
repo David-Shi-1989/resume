@@ -1,19 +1,27 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
+import { LANG, THEME } from '@/script/constant'
 
-import configModule from './modules/config'
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default createStore({
   state: {
-    lang: 'zhCN' // zhCN enUS
+    lang: LANG.zhCN,
+    theme: THEME.light,
+    backBtnRouterName: '',
+    loading: false
+  },
+  getters: {
+    backBtnRouterName: state => state.backBtnRouterName,
+    showLoading: state => state.loading
   },
   mutations: {
+    setBackBtnRouterName: (state, routerName) => {
+      state.backBtnRouterName = routerName || ''
+    },
+    loading: (state, isShow) => {
+      state.loading = (isShow === true)
+    }
   },
   actions: {
   },
   modules: {
-    configModule
   }
 })
