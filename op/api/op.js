@@ -19,9 +19,13 @@ export function logout (userId) {
 }
 
 // 标签
-export function getTag () {
+export function getTag (params = {}) {
   return new Promise(function (resolve) {
-    Axios.get('/api/op/tag').then(res => {
+    let url = '/api/op/tag'
+    if (params.id) {
+      url += '/' + params.id
+    }
+    Axios.get(url).then(res => {
       resolve(res.data)
     })
   })

@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS op_article
   title VARCHAR(128) NOT NULL,
   tags VARCHAR(200) NOT NULL,
   md TEXT NOT NULL,
-  html TEXT NOT NULL,
   summary VARCHAR(128),
   create_by VARCHAR (36) COMMENT '由哪个用户创建',
   create_datetime DATETIME NOT NULL,

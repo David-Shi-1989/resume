@@ -47,6 +47,14 @@ module.exports = function (router) {
       utils.response(res, list)
     })
   })
+  router.get('/op/tag/:id', async function (req, res) {
+    const {id} = req.params
+    const tagItem = await getTagItem(id)
+    if (tagItem) {
+      tagItem.list = await getArticleListByTag([id])
+    }
+    utils.response(res, tagItem)
+  })
   router.post('/op/tag', async function (req, res) {
     const {name} = req.body
     const resBody = {isSuccess: false}
@@ -199,12 +207,34 @@ function getTagList () {
     if (Cache.tag) {
       resolve(Cache.tag)
     } else {
-      const sql = `SELECT id, title, refer_count FROM ${utils.tableName.op_tag} WHERE is_enable > 0`
+      const sql = `SELECT id, title, refer_count, create_datetime FROM ${utils.tableName.op_tag} WHERE is_enable > 0`
       sqlUtils.execute(sql).then(list => {
         Cache.tag = list
         resolve(list)
       })
     }
+  })
+}
+function getTagItem (id) {
+  return new Promise(function (resolve, reject) {
+    if (Cache.tag) {
+      resolve(Cache.tag.find(t => t.id === id))
+    } else {
+      const sql = `SELECT id, title, refer_count FROM ${utils.tableName.op_tag} WHERE is_enable > 0 AND id = '${id}'`
+      sqlUtils.execute(sql).then(tags => {
+        resolve(tags.length > 0 ? tags[0] : null)
+      })
+    }
+  })
+}
+function getArticleListByTag (tagIdList) {
+  return new Promise((resolve, reject) => {
+    const idCondition = tagIdList.map(tagId => `tags LIKE '%${tagId}%'`).join(' OR ')
+    let sql = `SELECT id,title,tags,summary,create_datetime,visit_count,like_count,is_top,is_draft FROM ${utils.tableName.article}
+    WHERE is_enable > 0 AND is_draft <= 0 AND (${idCondition})`
+    sqlUtils.execute(sql).then(list => {
+      resolve(list)
+    })
   })
 }
 function changeTagReferCount (tagIdList, dis) {
