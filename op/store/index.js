@@ -24,7 +24,9 @@ const mainStore = new createStore({
     breadcrumbList: [],
     sidebarMenu: sidebarList,
     sidebarCollapsed: false,
-    loading: false
+    loading: false,
+    hasNoBackground: false,
+    hasNoPadding: false
   },
   getters: {
     isLogin: state => state.loginStatus === LoginStatus.Login,
@@ -36,7 +38,9 @@ const mainStore = new createStore({
       return document.body.clientHeight - 52 - 20 - 30 - 120 - 20 - 100
     },
     sidebarCollapsed: state => state.sidebarCollapsed,
-    loading: state => state.loading
+    loading: state => state.loading,
+    hasNoBackground: state => state.hasNoBackground,
+    hasNoPadding: state => state.hasNoPadding
   },
   mutations: {
     updateLoginStatus: (state, val) => {
@@ -78,6 +82,12 @@ const mainStore = new createStore({
     },
     loading: (state, val) => {
       state.loading = !!val
+    },
+    hasNoBackground: (state, val) => {
+      state.hasNoBackground = !!val
+    },
+    hasNoPadding: (state, val) => {
+      state.hasNoPadding = !!val
     }
   },
   actions: {

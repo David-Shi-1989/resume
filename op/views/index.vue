@@ -5,7 +5,7 @@
       <Header></Header>
       <a-layout style="padding: 0 24px">
         <BreadCrumb></BreadCrumb>
-        <a-layout-content>
+        <a-layout-content :class="mainWrapClass">
           <router-view></router-view>
         </a-layout-content>
       </a-layout>
@@ -40,7 +40,13 @@ export default defineComponent({
     Loading
   },
   computed: {
-    ...mapGetters(['loading'])
+    ...mapGetters(['loading', 'hasNoBackground', 'hasNoPadding']),
+    mainWrapClass () {
+      return {
+        'no-background': this.hasNoBackground,
+        'no-padding': this.hasNoPadding
+      }
+    }
   }
 });
 </script>

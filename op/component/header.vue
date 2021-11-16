@@ -6,9 +6,10 @@
       </a-button>
     </div>
     <a-space size="large" class="header-btn-right">
-      <icon-user :style="{fontSize: '20px'}" :stroke-width="3" />
-      <icon-skin :style="{fontSize: '20px'}" :stroke-width="3" />
-      <icon-poweroff :style="{fontSize: '20px'}" :stroke-width="3" @click="onSignOutBtn"/>
+      <icon-home :style="indexIconStyle" :stroke-width="3" @click="onHomePageBtn"/>
+      <icon-user :style="iconStyle" :stroke-width="3" />
+      <icon-skin :style="iconStyle" :stroke-width="3" />
+      <icon-poweroff :style="iconStyle" :stroke-width="3" @click="onSignOutBtn"/>
     </a-space>
   </a-layout-header>
 </template>
@@ -23,10 +24,23 @@ export default {
     return {}
   },
   computed: {
+    iconStyle () {
+      return {fontSize: '20px'}
+    },
+    indexIconStyle () {
+      const style = {}
+      if (this.$route.name === 'Index') {
+        style.color = 'rgb(var(--arcoblue-6))'
+      }
+      return Object.assign({}, style, this.iconStyle)
+    }
   },
   methods: {
     ...mapMutations(['setSidebarCollapsed']),
     ...mapActions(['logout']),
+    onHomePageBtn () {
+      this.$router.push({name: 'Index'})
+    },
     onSignOutBtn () {
       this.$modal.confirm({
         title: '请确认',

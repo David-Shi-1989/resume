@@ -37,5 +37,7 @@ router.beforeEach((to, from, next) => {
       next({name: signUpPageRouterName})
     }
   }
+  Store.commit('hasNoBackground', !!to.meta.noBg)
+  Store.commit('hasNoPadding', !!to.meta.noPadding)
 })
 export default router

@@ -59,6 +59,10 @@ const menuList = [
     path: 'index',
     name: 'Index',
     showInMenu: false,
+    meta: {
+      noBg: true,
+      noPadding: true
+    },
     component: () => import(/* webpackChunkName: "Home" */'../views/home.vue')
   }
 ]
