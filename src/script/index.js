@@ -42,7 +42,7 @@ export function getRandomNum (min = 0, max = 10) {
 }
 
 /* eslint-disable */
-Date.prototype.format = function (fmt) {
+Date.prototype.format = function (fmt = 'yyyy/MM/dd hh:mm:ss') {
 /* eslint-disable */
   var o = {
     'M+': this.getMonth() + 1, // 月份

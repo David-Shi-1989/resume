@@ -21,6 +21,7 @@
           </template>
           <template #default>删除</template>
         </a-button>
+        <slot name="button"></slot>
       </a-space>
       <!-- search wrap -->
       <a-space>

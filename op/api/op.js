@@ -37,6 +37,27 @@ export function createTag (name) {
     })
   })
 }
+export function editTag (name, id) {
+  return new Promise((resolve, reject) => {
+    Axios.post('/api/op/tag', {id, name}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+export function syncTag () {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/tag/async').then(res => {
+      resolve(res.data)
+    })
+  })
+}
+export function deleteTag (id) {
+  return new Promise((resolve, reject) => {
+    Axios.delete('/api/op/tag/' + id).then(res => {
+      resolve(res.data)
+    })
+  })
+}
 // 文章
 export function getArticle ({page, size, type, tagIdList, search} = {}) {
   return new Promise(function (resolve) {

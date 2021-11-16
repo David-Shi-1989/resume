@@ -56,25 +56,23 @@ module.exports = function (router) {
     utils.response(res, tagItem)
   })
   router.post('/op/tag', async function (req, res) {
-    const {name} = req.body
-    const resBody = {isSuccess: false}
-    // check name is valid
-    const nameCheckSql = `SELECT * FROM ${utils.tableName.op_tag} WHERE title='${name}' AND is_enable > 0`
-    if (await sqlHasRecords(nameCheckSql)) {
-      resBody.errorMsg = '标签名称重复'
-      utils.response(res, resBody)
+    const {id, name} = req.body
+    if (id) {
+      editTag(res, {id, name})
     } else {
-      const newId = utils.uuid()
-      const sql = `INSERT INTO ${utils.tableName.op_tag} (id,title,create_by,create_datetime) VALUES ('${newId}','${name}','${utils.getUserIdFromReq(req)}',NOW())`
-      sqlUtils.execute(sql).then(result => {
-        resBody.isSuccess = result.affectedRows > 0
-        if (resBody.isSuccess) {
-          resBody.id = newId
-          Cache.tag = null
-        }
-        utils.response(res, resBody)
-      })
+      createTag(res, req, {name})
     }
+  })
+  router.delete('/op/tag/:id', function (req, res) {
+    const {id} = req.params
+    deleteTag(id).then(isSuccess => {
+      utils.response(res, {isSuccess})
+    })
+  })
+  router.post('/op/tag/async', async function (req, res) {
+    asyncTag().then(() => {
+      utils.response(res, {isSuccess: true})
+    })
   })
   // Article
   router.get('/op/article', async function (req, res) {
@@ -196,18 +194,113 @@ async function editArticle (res, {id, title, tagList, isTop, isDraft, html, md, 
       typeof(isEnable) === 'boolean' ? `is_enable=${isEnable ? 1 : 0}` : '',
     ]
     createSql += setArr.filter(i => !!i).join(',') + ` WHERE id='${id}'`
-    sqlUtils.execute(createSql).then(result => {
+    sqlUtils.execute(createSql).then(async result => {
       resBody.isSuccess = result.affectedRows > 0
+      if (resBody.isSuccess) {
+        await asyncTag()
+      }
       utils.response(res, resBody)
     })
   }
 }
+// 新建tag
+async function createTag (res, req, {name}) {
+  const resBody = {isSuccess: false}
+  // check name is valid
+  const nameCheckSql = `SELECT * FROM ${utils.tableName.op_tag} WHERE title='${name}' AND is_enable > 0`
+  if (await sqlHasRecords(nameCheckSql)) {
+    resBody.errorMsg = '标签名称重复'
+    utils.response(res, resBody)
+  } else {
+    const newId = utils.uuid()
+    const sql = `INSERT INTO ${utils.tableName.op_tag} (id,title,create_by,create_datetime) VALUES ('${newId}','${name}','${utils.getUserIdFromReq(req)}',NOW())`
+    sqlUtils.execute(sql).then(result => {
+      resBody.isSuccess = result.affectedRows > 0
+      if (resBody.isSuccess) {
+        resBody.id = newId
+        Cache.tag = null
+      }
+      utils.response(res, resBody)
+    })
+  }
+}
+// 编辑tag
+async function editTag (res, {id, name}) {
+  const resBody = {isSuccess: false}
+  // check name is valid
+  const nameCheckSql = `SELECT * FROM ${utils.tableName.op_tag} WHERE title='${name}' AND is_enable > 0 AND id NOT IN ('${id}')`
+  if (await sqlHasRecords(nameCheckSql)) {
+    resBody.errorMsg = '标签名称重复'
+    utils.response(res, resBody)
+  } else {
+    const sql = `UPDATE ${utils.tableName.op_tag} SET title='${name}' WHERE id='${id}'`
+    sqlUtils.execute(sql).then(result => {
+      resBody.isSuccess = result.affectedRows > 0
+      if (resBody.isSuccess) {
+        Cache.tag.find(t => t.id === id).name = name
+      }
+      utils.response(res, resBody)
+    })
+  }
+}
+// async tag ref count
+async function asyncTag () {
+  return new Promise(async (resolve) => {
+    const tagList = await getTagList()
+    if (tagList.length > 0) {
+      const articleList = await sqlUtils.execute(`SELECT id,title,tags FROM ${utils.tableName.article} WHERE is_enable > 0 AND is_draft = 0`)
+      let sql = `UPDATE ${utils.tableName.op_tag} SET refer_count = CASE id `
+      tagList.forEach(tag => {
+        tag.articleList = articleList.filter(a => (a.tags || '').includes(tag.id))
+        tag.refer_count = tag.articleList.length
+        sql += `
+        WHEN '${tag.id}' then ${tag.refer_count}
+        `
+      })
+      sql += `END`
+      await sqlUtils.execute(sql)
+      Cache.tag = tagList
+    }
+    resolve(true)
+  })
+}
+// 删除tag
+function deleteTag (deleteTagId) {
+  return new Promise(async (resolve, reject) => {
+    const tag = await getTagItem(deleteTagId)
+    if (tag.refer_count > 0) {
+      // 先取消article里的tag
+      const articleList = await sqlUtils.execute(`SELECT id,tags FROM ${utils.tableName.article} WHERE tags LIKE '%${deleteTagId}%'`)
+      let sql = `UPDATE ${utils.tableName.article} SET tags = CASE id`
+      articleList.forEach(({id, tags}) => {
+        let tagArr = tags.split(',').filter(t => t !== deleteTagId)
+        sql += `
+        WHEN '${id}' THEN '${tagArr.join(',')}'
+        `
+      })
+      sql += 'END'
+      const disassociateArtSuccess = ((await sqlUtils.execute(sql)).changedRows === articleList.length)
+      if (!disassociateArtSuccess) {
+        utils.logger.error(`Disassociate article with tag `, deleteTagId, ' failed.')
+      }
+    }
+    const deleteSql = `DELETE FROM ${utils.tableName.op_tag} WHERE id = '${deleteTagId}'`
+    sqlUtils.execute(deleteSql).then(result => {
+      const isSuccess = (result.affectedRows === 1)
+      if (isSuccess) {
+        Cache.tag = Cache.tag.filter(t => t.id !== deleteTagId)
+      }
+      resolve(isSuccess)
+    })
+  })
+}
+// 获取Tag
 function getTagList () {
   return new Promise(function (resolve, reject) {
     if (Cache.tag) {
       resolve(Cache.tag)
     } else {
-      const sql = `SELECT id, title, refer_count, create_datetime FROM ${utils.tableName.op_tag} WHERE is_enable > 0`
+      const sql = `SELECT id, title, refer_count, create_datetime FROM ${utils.tableName.op_tag} WHERE is_enable > 0 ORDER BY create_datetime DESC`
       sqlUtils.execute(sql).then(list => {
         Cache.tag = list
         resolve(list)

@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS op_article
 (
   id VARCHAR(36) NOT NULL PRIMARY KEY,
   title VARCHAR(128) NOT NULL,
-  tags VARCHAR(200) NOT NULL,
+  tags VARCHAR(200) DEFAULT '',
   md TEXT NOT NULL,
   summary VARCHAR(128),
   create_by VARCHAR (36) COMMENT '由哪个用户创建',
