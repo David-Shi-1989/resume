@@ -202,6 +202,7 @@ export default {
           createDatetime: ''
         }
       })
+      this.$refs.tagForm.resetFields()
     }
   },
   computed: {

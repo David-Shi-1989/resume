@@ -27,6 +27,26 @@
             <template v-if="post.tags">
               <tagListCpn style="margin-left:30px;" :list="post.tags" :hasMarginBottom="true"></tagListCpn>
             </template>
+            <div :style="{justifyItems:'flex-end',marginLeft:'auto'}">
+              <a-button type="text" size="mini" :style="{color:'var(--color-heart-red)'}">
+                <template #icon>
+                  <icon-heart-fill />
+                </template>
+                <template #default>{{post.like_count}}</template>
+              </a-button>
+              <a-button type="text" size="mini" :style="{color:'var(--color-text-2)'}">
+                <template #icon>
+                  <icon-message />
+                </template>
+                <template #default>{{post.comment_count}}</template>
+              </a-button>
+              <a-button type="text" size="mini" :style="{color:'var(--color-text-2)'}">
+                <template #icon>
+                  <icon-eye />
+                </template>
+                <template #default>{{post.visit_count}}</template>
+              </a-button>
+            </div>
           </div>
         </li>
       </ul>
@@ -34,7 +54,7 @@
     <div class="tag-container">
       <p>标签:</p>
       <tagListCpn ref="tagRight" :list="tagListWithCount" :wrap="true" style="margin-top: 10px;"
-        :width="95" :selectable="true" @onTagClick="onTagClick"></tagListCpn>
+        :width="100" size="large" :hasIcon="false" :selectable="true" @onTagClick="onTagClick"></tagListCpn>
     </div>
   </div>
 </template>

@@ -1,7 +1,9 @@
 <template>
-  <div class="back-btn" title="返回" @click="onClick">
-    <icon-left />
-  </div>
+  <a-button title="返回" @click="onClick" shape="circle" class="back-btn">
+    <template #icon>
+      <icon-left />
+    </template>
+  </a-button>
 </template>
 
 <script>
@@ -29,24 +31,5 @@ export default {
   position: fixed;
   top: 50%;
   left: 20px;
-  height: @size;
-  width: @size;
-  background-color: rgba(0,0,0,.15);
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all .2s;
-  i {
-    font-size: 16px;
-    color: rgba(0,0,0,.2);
-  }
-  &:hover {
-    background-color: rgba(0,0,0,.3);
-    i {
-      color: rgba(0,0,0,.6);
-    }
-  }
 }
 </style>

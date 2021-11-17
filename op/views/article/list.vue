@@ -65,6 +65,18 @@ export default {
           }
         },
         {
+          title: '评论数量',
+          dataIndex: 'comment_count'
+        },
+        {
+          title: '阅读数量',
+          dataIndex: 'visit_count'
+        },
+        {
+          title: '点赞数量',
+          dataIndex: 'like_count'
+        },
+        {
           title: '创建时间',
           render ({record}) {
             return createVNode('span', {}, record.create_datetime)

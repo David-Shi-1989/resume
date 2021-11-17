@@ -119,6 +119,8 @@ module.exports = function (router) {
     const sql = `SELECT * FROM ${utils.tableName.article} WHERE id='${id}' AND is_enable > 0`
     sqlUtils.execute(sql).then(async list => {
       await parseArticleList(list)
+      list[0].visit_count++
+      articleVisitCountAdd(id)
       utils.response(res, list)
     })
   })
@@ -129,7 +131,6 @@ module.exports = function (router) {
     } else {
       createArticle(res, req, req.body)
     }
-    
   })
   router.delete('/op/article', function (req, res) {
     var {idList, isPermenent} = req.query
@@ -149,6 +150,52 @@ module.exports = function (router) {
       })
     }
   })
+  router.post('/op/article/like', async function (req, res) {
+    const {id} = req.body
+    articleLikeCountAdd(id).then(isSuccess => {
+      utils.response(res, {isSuccess})
+    })
+  })
+  // Web User
+  router.post('/op/webuser', async function (req, res) {
+    const {name, avatar, email} = req.body
+    const nameIsConflict = await sqlHasRecords(`SELECT id FROM ${utils.tableName.web_user} WHERE name = '${name}'`)
+    if (!nameIsConflict) {
+      const id = utils.uuid()
+      const sql = `INSERT INTO ${utils.tableName.web_user} (id,name,avatar,email,ip,create_datetime) VALUES 
+      ('${id}','${name}','${avatar}','${email || ''}','${utils.getIpFromReq(req)}',NOW())`
+      sqlUtils.execute(sql).then(result => {
+        const resResult = {isSuccess: result.affectedRows === 1}
+        if (resResult.isSuccess) {
+          resResult.user = {id, name, avatar, email}
+        }
+        utils.response(res, resResult)
+      })
+    } else {
+      utils.response(res, {isSuccess: false, errorMsg: '不好意思，昵称已经被占用了'})
+    }
+  })
+  // get comment
+  router.get('/op/comment', function (req, res) {
+    const {resourceId} = req.query
+    const sql = `SELECT Com.id,Com.content,Com.parent_comment_id,Com.create_datetime,Com.userId,User.name,User.avatar,User.email FROM ${utils.tableName.web_comment} AS Com
+    LEFT JOIN ${utils.tableName.web_user} AS User ON Com.userId = User.id
+    WHERE Com.is_enable > 0 AND Com.resource_id = '${resourceId}' ORDER BY Com.create_datetime DESC`
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, result || [])
+    })
+  })
+  // add comment
+  router.post('/op/comment', async function (req, res) {
+    const {userId, content, resourceId, parentCommentId} = req.body
+    const id = utils.uuid()
+    let sql = `INSERT INTO ${utils.tableName.web_comment}
+    (id,content,userId,resource_id,parent_comment_id,create_datetime) VALUES
+    ('${id}','${parseUserInput(content)}','${userId}','${resourceId||''}','${parentCommentId||''}',NOW())`
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, {isSuccess: result.affectedRows === 1})
+    })
+  })
 }
 // 新建文章
 async function createArticle (res, req, {title, tagList, isTop, isDraft, html, md, summary}) {
@@ -161,8 +208,8 @@ async function createArticle (res, req, {title, tagList, isTop, isDraft, html, m
   } else {
     const newId = utils.uuid()
     const createSql = `INSERT INTO ${utils.tableName.article} 
-    (id,title,tags,html,md,summary,create_by,create_datetime,is_top,is_draft) VALUES 
-    ('${newId}','${XSS(title)}','${tagList.join(',')}','${html}','${md}','${XSS(summary||'')}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
+    (id,title,tags,md,summary,create_by,create_datetime,is_top,is_draft) VALUES 
+    ('${newId}','${XSS(title)}','${tagList.join(',')}','${parseUserInput(md)}','${XSS(summary||'')}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
     sqlUtils.execute(createSql).then(result => {
       resBody.isSuccess = result.affectedRows > 0
       if (resBody.isSuccess) {
@@ -185,8 +232,7 @@ async function editArticle (res, {id, title, tagList, isTop, isDraft, html, md, 
     const setArr = [
       title ? `title='${XSS(title)}'` : '',
       tagList ? `tags='${tagList.join(',')}'` : '',
-      html ? `html='${html}'` : '',
-      md ? `md='${md.replace(/\'/g, '\\\'')}'` : '',
+      md ? `md='${parseUserInput(md)}'` : '',
       summary ? `summary='${XSS(summary||'')}'` : '',
       'modify_datetime=NOW()',
       typeof(isTop) === 'boolean' ? `is_top=${isTop ? 1 : 0}` : '',
@@ -213,7 +259,7 @@ async function createTag (res, req, {name}) {
     utils.response(res, resBody)
   } else {
     const newId = utils.uuid()
-    const sql = `INSERT INTO ${utils.tableName.op_tag} (id,title,create_by,create_datetime) VALUES ('${newId}','${name}','${utils.getUserIdFromReq(req)}',NOW())`
+    const sql = `INSERT INTO ${utils.tableName.op_tag} (id,title,create_by,create_datetime) VALUES ('${newId}','${parseUserInput(name)}','${utils.getUserIdFromReq(req)}',NOW())`
     sqlUtils.execute(sql).then(result => {
       resBody.isSuccess = result.affectedRows > 0
       if (resBody.isSuccess) {
@@ -342,6 +388,7 @@ function parseArticleList (list) {
     for (var i = 0; i < list.length; i++) {
       var item = list[i]
       item.tags = await parseTagId2Name(item.tags)
+      item.comment_count = await getArticleCommentCount(item.id)
     }
     resolve(true)
   })
@@ -364,15 +411,28 @@ function parseTagId2Name (tagIdListStr) {
     }
   })
 }
+function getArticleCommentCount (id) {
+  return new Promise(async (resolve, reject) => {
+    const sql = `SELECT id FROM ${utils.tableName.web_comment} WHERE resource_id = '${id}' AND is_enable > 0`
+    resolve(await getCount(sql))
+  })
+}
 function responseSqlResult (sql, res) {
   sqlUtils.execute(sql).then(result => {
     utils.response(res, result)
   })
 }
-function  sqlHasRecords (sql) {
+function sqlHasRecords (sql) {
   return new Promise((resolve, reject) => {
     sqlUtils.execute(sql).then(result => {
       resolve(result.length > 0)
+    })
+  })
+}
+function getCount (sql) {
+  return new Promise((resolve, reject) => {
+    sqlUtils.execute(sql).then(result => {
+      resolve(result.length)
     })
   })
 }
@@ -388,4 +448,25 @@ function getTotalFromTable (tableName, key, conditionArr) {
 function logLoginRecord (userid, ip) {
   const sql = `INSERT INTO ${utils.tableName.op_user_login} (user_id,login_datetime,ip) VALUES ('${userid}', now(), '${ip}')`
   sqlUtils.execute(sql)
+}
+
+function articleVisitCountAdd (id) {
+  return new Promise((resolve, reject) => {
+    const sql = `UPDATE ${utils.tableName.article} SET visit_count = visit_count + 1 WHERE id = '${id}'`
+    sqlUtils.execute(sql).then(result => {
+      resolve(result.affectedRows === 1)
+    })
+  })
+}
+function articleLikeCountAdd (id) {
+  return new Promise((resolve, reject) => {
+    const sql = `UPDATE ${utils.tableName.article} SET like_count = like_count + 1 WHERE id = '${id}'`
+    sqlUtils.execute(sql).then(result => {
+      resolve(result.affectedRows === 1)
+    })
+  })
+}
+
+function parseUserInput (input = '') {
+  return input.replace(/\'/g, '\\\'')
 }

@@ -60,3 +60,31 @@ CREATE TABLE IF NOT EXISTS op_tag
   create_datetime DATETIME NOT NULL,
   is_enable TINYINT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+-----------------------------------------------------------
+-- Table Create
+-- web-visitor
+-----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS web_user
+(
+  id VARCHAR(36) NOT NULL PRIMARY KEY,
+  name VARCHAR(128) NOT NULL,
+  avatar VARCHAR(32) DEFAULT '',
+  email VARCHAR(128) DEFAULT '',
+  ip VARCHAR(32),
+  create_datetime DATETIME NOT NULL,
+  is_enable TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+-----------------------------------------------------------
+-- Table Create
+-- web-comment
+-----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS web_comment
+(
+  id VARCHAR(36) NOT NULL PRIMARY KEY,
+  content VARCHAR(128) NOT NULL,
+  userId VARCHAR(36) NOT NULL,
+  resource_id VARCHAR(36) DEFAULT '',
+  parent_comment_id VARCHAR(36) DEFAULT '',
+  create_datetime DATETIME NOT NULL,
+  is_enable TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

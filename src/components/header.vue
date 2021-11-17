@@ -8,12 +8,24 @@
         </li>
         <li class="move-bg" :style="{left:moveBgLeft + 'px'}"></li>
       </ul>
+      <ul class="right-list">
+        <li>
+          <a-avatar v-if="userAvatar" :size="26">
+            <img :src="getAvatar(userAvatar)" />
+          </a-avatar>
+          <a-avatar v-else :style="{ backgroundColor: 'var(--color-fill-4)' }" :size="26">
+            <IconUser />
+          </a-avatar>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 import { headerMenus, getMenu1ByRouterName } from '@/router/menu'
+import { mapGetters } from 'vuex'
+import { getAvatar } from '@/components/avatar'
 export default {
   data () {
     const menus = headerMenus
@@ -56,9 +68,13 @@ export default {
         left += menuItems[i].clientWidth
       }
       this.moveBgLeft = left
+    },
+    getAvatar (key) {
+      return getAvatar(key)
     }
   },
   computed: {
+    ...mapGetters(['userAvatar']),
     routerPath () {
       return this.$route.name
     }
@@ -151,6 +167,11 @@ export default {
         }
       }
     }
+  }
+  .right-list {
+    list-style: none;
+    align-self: center;
+    margin-right: 20px;
   }
 }
 </style>

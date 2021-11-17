@@ -93,6 +93,8 @@ module.exports = {
     op_user_login: 'op_user_login',
     op_tag: 'op_tag',
     article: 'op_article',
+    web_user: 'web_user',
+    web_comment: 'web_comment',
     // TODO delete below
     category: 'op_question_category',
     question: 'op_question_list',

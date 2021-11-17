@@ -4,12 +4,12 @@
       :style="style" :class="tagClass(tag)"
       @click="onItemClick(tag)">
         <a-tag :size="size" :color="tagColor(tag)">
-          <template #icon>
+          <template #icon v-if="hasIcon">
             <icon-tag />
           </template>
           {{tag.title}}
         </a-tag>
-      </li>
+    </li>
   </ul>
 </template>
 
@@ -40,6 +40,10 @@ export default {
     hasMarginBottom: {
       type: Boolean,
       default: false
+    },
+    hasIcon: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -103,6 +107,7 @@ export default {
   list-style: none;
   & > li {
     cursor: pointer;
+    margin-bottom: 5px;
     &:not(:last-child) {
       margin-right: 10px;
     }

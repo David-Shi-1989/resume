@@ -5,3 +5,5 @@ export const LANG = {
 export const THEME = {
   light: 1, dark: 2
 }
+
+export const LocalStorage_key_userInfo = '_sww_user_info'

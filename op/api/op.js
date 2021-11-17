@@ -114,6 +114,39 @@ export function publishArticle (id) {
     })
   })
 }
+export function articleLike (id) {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/article/like', {id}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+// web user
+export function webUserCreate (name, avatar, email) {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/webuser', {name, avatar, email}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+// comment
+export function getComment (resourceId = '') {
+  return new Promise(function (resolve) {
+    Axios.get('/api/op/comment', {params: {resourceId}}).then(res => {
+      res.data.forEach(i => {
+        i.create_datetime = (new Date(i.create_datetime)).format()
+      })
+      resolve(res.data)
+    })
+  })
+}
+export function addComment ({userId, content, resourceId, parentCommentId}) {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/comment', {userId, content, resourceId, parentCommentId}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
 
 function formartDatetime (dt) {
   return (new Date(dt)).format(DATETIME_FORMAT)
