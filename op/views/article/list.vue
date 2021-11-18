@@ -66,20 +66,30 @@ export default {
         },
         {
           title: '评论数量',
-          dataIndex: 'comment_count'
+          dataIndex: 'comment_count',
+          sortable: {
+            sortDirections: ['ascend', 'descend']
+          }
         },
         {
           title: '阅读数量',
-          dataIndex: 'visit_count'
+          dataIndex: 'visit_count',
+          sortable: {
+            sortDirections: ['ascend', 'descend']
+          }
         },
         {
           title: '点赞数量',
-          dataIndex: 'like_count'
+          dataIndex: 'like_count',
+          sortable: {
+            sortDirections: ['ascend', 'descend']
+          }
         },
         {
           title: '创建时间',
-          render ({record}) {
-            return createVNode('span', {}, record.create_datetime)
+          dataIndex: 'create_datetime',
+          sortable: {
+            sortDirections: ['ascend', 'descend']
           }
         }
       ],

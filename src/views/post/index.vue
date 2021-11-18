@@ -28,9 +28,15 @@
               <tagListCpn style="margin-left:30px;" :list="post.tags" :hasMarginBottom="true"></tagListCpn>
             </template>
             <div :style="{justifyItems:'flex-end',marginLeft:'auto'}">
-              <a-button type="text" size="mini" :style="{color:'var(--color-heart-red)'}">
+              <a-button v-if="post.hasLike" type="text" size="mini" :style="{color:'var(--color-heart-red)'}">
                 <template #icon>
                   <icon-heart-fill />
+                </template>
+                <template #default>{{post.like_count}}</template>
+              </a-button>
+              <a-button v-else type="text" size="mini" :style="{color:'var(--color-text-2)'}">
+                <template #icon>
+                  <icon-heart />
                 </template>
                 <template #default>{{post.like_count}}</template>
               </a-button>
@@ -65,6 +71,8 @@ import tagListCpn from './tag-item.vue'
 import {mapMutations} from 'vuex'
 import {debounce} from 'lodash'
 import topArticle from 'op/component/svg/article-top.svg'
+import {getLocalStorageArticleLikeList} from '@/script/constant'
+
 export default {
   data () {
     return {
@@ -97,7 +105,7 @@ export default {
       }
       this.loading(true)
       Promise.all(promiseArr).then(res => {
-        this.list = res[0]
+        this.list = this.fetchHasLike(res[0])
         if (isFetchTag) {
           this.tagList = res[1]
         }
@@ -131,6 +139,13 @@ export default {
     onSearchClear () {
       this.filter.search = ''
       this.initData(false)
+    },
+    fetchHasLike (list) {
+      const likeList = getLocalStorageArticleLikeList()
+      list.forEach(item => {
+        item.hasLike = likeList.includes(item.id)
+      })
+      return list
     }
   },
   computed: {

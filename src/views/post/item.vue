@@ -75,6 +75,7 @@ import {mapMutations} from 'vuex'
 import topArticle from 'op/component/svg/article-top.svg'
 import comment from '@/components/comments'
 import { Message } from '@arco-design/web-vue'
+import {getLocalStorageArticleLikeList, addLocalStorageArticleLike} from '@/script/constant'
 
 export default {
   props: {
@@ -93,8 +94,7 @@ export default {
       curIsLike: false,
       count: {
         like: 0, visit: 0, comment: 0
-      },
-      likeLocalStorageKey: '_sww_article_like'
+      }
     }
   },
   created () {
@@ -298,27 +298,19 @@ export default {
     },
     onLikeClick () {
       if (this.curIsLike) {
-        Message.info('谢谢! Like恒久远,一颗永流传.')
+        Message.info('谢谢! Like恒久远, 一颗永流传.')
       } else {
         articleLike(this.id).then(isSuccess => {
           if (isSuccess) {
             this.curIsLike = true
             this.count.like++
-            this.addLocalHasLike(this.id)
+            addLocalStorageArticleLike(this.id)
           }
         })
       }
     },
     isLocalHasLike () {
-      return this.getLocalHasLike().includes(this.id)
-    },
-    getLocalHasLike () {
-      return JSON.parse(localStorage.getItem(this.likeLocalStorageKey) || '[]')
-    },
-    addLocalHasLike (id) {
-      let localLikeArr = this.getLocalHasLike()
-      localLikeArr.push(id)
-      localStorage.setItem(this.likeLocalStorageKey, JSON.stringify(localLikeArr))
+      return getLocalStorageArticleLikeList().includes(this.id)
     },
     onCommentChange (list) {
       this.count.comment = list.length
