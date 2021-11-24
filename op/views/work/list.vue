@@ -1,75 +1,92 @@
 <template>
-  <a-table :columns="columns" :data="data" :row-selection="rowSelection" />
+  <div>
+    <page-table ref="table" :pageApi="getWorks" :isPagination="false" :columns="column"
+      size="small" @create-btn="onCreateBtn"></page-table>
+    <a-modal :visible="modal.isShow" @cancel="modal.isShow=false">
+      <template #title>
+        {{modalTitle}}
+      </template>
+      <a-form :model="modal.form" ref="workForm">
+        <a-form-item field="title" label="名称" :rules="modal.rules.name" :validate-trigger="['change', 'input']">
+          <a-input v-model="modal.form.name" placeholder="please enter work name" :max-length="32" allow-clear show-word-limit/>
+        </a-form-item>
+        <a-form-item field="description" label="描述" :rules="modal.rules.description" :validate-trigger="['change', 'input']">
+          <a-input v-model="modal.form.description" placeholder="please enter work description" :max-length="128" allow-clear show-word-limit/>
+        </a-form-item>
+        <a-form-item field="img" label="缩略图">
+          
+          <VuePictureCropper
+            :boxStyle="{
+              width: '100%',
+              height: '100%',
+              backgroundColor: '#f8f8f8',
+              margin: 'auto',
+            }"
+            :img="modal.form.img"
+            :options="{
+              viewMode: 1,
+              dragMode: 'crop',
+              aspectRatio: 16 / 9,
+              preview: 'img.copper-preview'
+            }"
+          />
+          <img class="copper-preview">
+        </a-form-item>
+      </a-form>
+    </a-modal>
+  </div>
 </template>
 
 <script>
+import pageTable from 'op/component/page-table'
+import {getWorks} from 'op/api/op'
+import VuePictureCropper, { cropper } from 'vue-picture-cropper'
+import myImg from '@/assets/image_header.jpg'
 export default {
+  components: {pageTable, VuePictureCropper},
   data () {
     return {
-      rowSelection: {
-        type: 'checkbox',
-        showCheckedAll: true
-      },
-      columns: [
+      getWorks,
+      column: [
         {
-          title: 'Name',
-          dataIndex: 'name',
+          title: '标题',
+          dataIndex: 'title'
         },
         {
-          title: 'Salary',
-          dataIndex: 'salary',
-        },
-        {
-          title: 'Address',
-          dataIndex: 'address',
-        },
-        {
-          title: 'Email',
-          dataIndex: 'email',
-        },
+          title: '描述',
+          dataIndex: 'description'
+        }
       ],
-      data: []
+      modal: {
+        isShow: false,
+        form: {
+          id: '',
+          title: '',
+          description: '',
+          img: myImg
+        },
+        rules: {
+          name: [
+            {required: true, message: '名称必填'}
+          ]
+        }
+      }
     }
   },
   created () {
-    this.data = [
-      {
-        key: '1',
-        name: 'Jane Doe',
-        salary: 23000,
-        address: '32 Park Road, London',
-        email: 'jane.doe@example.com'
-      },
-      {
-        key: '2',
-        name: 'Alisa Ross',
-        salary: 25000,
-        address: '35 Park Road, London',
-        email: 'alisa.ross@example.com'
-      },
-      {
-        key: '3',
-        name: 'Kevin Sandra',
-        salary: 22000,
-        address: '31 Park Road, London',
-        email: 'kevin.sandra@example.com',
-        disabled: true
-      },
-      {
-        key: '4',
-        name: 'Ed Hellen',
-        salary: 17000,
-        address: '42 Park Road, London',
-        email: 'ed.hellen@example.com'
-      },
-      {
-        key: '5',
-        name: 'William Smith',
-        salary: 27000,
-        address: '62 Park Road, London',
-        email: 'william.smith@example.com'
-      }
-    ]
+  },
+  methods: {
+    onCreateBtn () {
+      this.modal.isShow = true
+    }
+  },
+  computed: {
+    isEdit () {
+      return !!this.modal.form.id
+    },
+    modalTitle () {
+      return this.isEdit ? '编辑作品' : '新建作品'
+    }
   }
 }
 </script>

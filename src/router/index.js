@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import {routerList} from './menu'
 import Index from '../views/index'
 import Storex from '@/store'
 
@@ -7,36 +8,37 @@ const routes = [
     path: '/',
     component: Index,
     redirect: '/home',
-    children: [
-      {
-        path: 'home',
-        name: 'Home',
-        meta: {
-          noPadding: true
-        },
-        component: () => import(/* webpackChunkName: "home" */ '../views/home.vue')
-      },
-      {
-        path: 'blog',
-        name: 'blogPost',
-        component: () => import(/* webpackChunkName: "post" */ '../views/post/index.vue')
-      },
-      {
-        path: 'blog/:id',
-        name: 'blogPostItem',
-        props: true,
-        meta: {
-          backRouterName: 'blogPost'
-        },
-        component: () => import(/* webpackChunkName: "post" */ '../views/post/item.vue')
-      },
-      {
-        title: 'Works',
-        path: 'works',
-        name: 'Works',
-        component: () => import('../views/works/index.vue')
-      }
-    ]
+    children: routerList
+    // children: [
+    //   {
+    //     path: 'home',
+    //     name: 'Home',
+    //     meta: {
+    //       noPadding: true
+    //     },
+    //     component: () => import(/* webpackChunkName: "home" */ '../views/home.vue')
+    //   },
+    //   {
+    //     path: 'blog',
+    //     name: 'blogPost',
+    //     component: () => import(/* webpackChunkName: "post" */ '../views/post/index.vue')
+    //   },
+    //   {
+    //     path: 'blog/:id',
+    //     name: 'blogPostItem',
+    //     props: true,
+    //     meta: {
+    //       backRouterName: 'blogPost'
+    //     },
+    //     component: () => import(/* webpackChunkName: "post" */ '../views/post/item.vue')
+    //   },
+    //   {
+    //     title: 'Works',
+    //     path: 'works',
+    //     name: 'Works',
+    //     component: () => import('../views/works/index.vue')
+    //   }
+    // ]
   }
 ]
 const router = createRouter({

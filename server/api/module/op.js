@@ -196,6 +196,13 @@ module.exports = function (router) {
       utils.response(res, {isSuccess: result.affectedRows === 1})
     })
   })
+  // works
+  router.get('/op/work', function (req, res) {
+    const sql = `SELECT * FROM ${utils.tableName.work} WHERE is_enable > 0`
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, result)
+    })
+  })
 }
 // 新建文章
 async function createArticle (res, req, {title, tagList, isTop, isDraft, html, md, summary}) {

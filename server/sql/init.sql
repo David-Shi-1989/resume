@@ -88,3 +88,18 @@ CREATE TABLE IF NOT EXISTS web_comment
   create_datetime DATETIME NOT NULL,
   is_enable TINYINT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+-----------------------------------------------------------
+-- Table Create
+-- web-works
+-----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS web_work
+(
+  id VARCHAR(36) NOT NULL PRIMARY KEY,
+  title VARCHAR(32) NOT NULL,
+  description VARCHAR(128) DEFAULT '',
+  img VARCHAR(256) DEFAULT '',
+  type TINYINT DEFAULT 0 COMMENT '0:link 1:routerName',
+  link VARCHAR(128) NOT NULL,
+  create_date DATETIME NOT NULL,
+  is_enable TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

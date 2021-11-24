@@ -148,6 +148,15 @@ export function addComment ({userId, content, resourceId, parentCommentId}) {
   })
 }
 
+// work
+export function getWorks () {
+  return new Promise(function (resolve) {
+    Axios.get('/api/op/work').then(res => {
+      resolve(res.data)
+    })
+  })
+}
+
 function formartDatetime (dt) {
   return (new Date(dt)).format(DATETIME_FORMAT)
 }

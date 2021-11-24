@@ -102,7 +102,6 @@ export default {
           render: ({record}) => {
             const editBtn = createVNode(Button, {
               size: 'mini',
-              type: 'primary',
               onClick: () => {
                 this.onEditItem(record.id)
               }

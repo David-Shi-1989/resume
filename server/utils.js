@@ -95,6 +95,7 @@ module.exports = {
     article: 'op_article',
     web_user: 'web_user',
     web_comment: 'web_comment',
+    work: 'web_work',
     // TODO delete below
     category: 'op_question_category',
     question: 'op_question_list',

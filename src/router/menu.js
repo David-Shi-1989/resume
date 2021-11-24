@@ -3,17 +3,11 @@ const menuList = [
     title: 'home',
     path: 'home',
     name: 'Home',
-    component: () => import('../views/home.vue'),
+    component: () => import(/* webpackChunkName: "home" */ '../views/home.vue'),
     meta: {
       noPadding: true
     }
   },
-  // {
-  //   title: 'Works',
-  //   path: 'works',
-  //   name: 'Works',
-  //   component: () => import('../views/works/index.vue')
-  // },
   {
     title: 'Blog Post',
     path: 'blog',
@@ -22,13 +16,13 @@ const menuList = [
       {
         title: 'Blog List',
         name: 'blogPost',
-        component: () => import('../views/post/index.vue'),
+        component: () => import(/* webpackChunkName: "blogPost" */ '../views/post/index.vue'),
       },
       {
         title: 'Blog Article',
         path: ':id',
         name: 'blogPostItem',
-        component: () => import('../views/post/item.vue'),
+        component: () => import(/* webpackChunkName: "blogPostItem" */ '../views/post/item.vue'),
         props: true,
         meta: {
           backRouterName: 'blogPost'
@@ -40,13 +34,19 @@ const menuList = [
     title: 'Works',
     path: 'works',
     name: 'Works',
-    component: () => import('../views/works/index.vue')
+    component: () => import('../views/works/index.vue'),
+    children: [
+      {
+        title: 'Flip Logo',
+        path: 'flip-logo',
+        name: 'Demo_Flip_Logo',
+        meta: {
+          backRouterName: 'Works'
+        },
+        component: () => import(/* webpackChunkName: "Demo_Flip_Logo" */ '../views/works/list/logo-flip.vue'),
+      }
+    ]
   }
-  // {
-  //   title: 'Contact Me',
-  //   path: 'contact-me',
-  //   name: 'Home'
-  // }
 ]
 
 const headerMenus = menuList.map(item => ({

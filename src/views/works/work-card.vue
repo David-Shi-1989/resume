@@ -1,5 +1,5 @@
 <template>
-  <a class="work-card-wrap" target="_blank" :href="url">
+  <a class="work-card-wrap" href="javascript:void(0);" @click="onLinkClick">
     <div class="card-img">
       <img :src="img">
     </div>
@@ -27,11 +27,26 @@ export default {
     url: {
       type: String,
       default: ''
+    },
+    routerName: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {}
   },
+  methods: {
+    onLinkClick () {
+      if (this.url) {
+        window.open(this.url, '_blank')
+      } else if (this.routerName) {
+        this.$router.push({name: this.routerName})
+      } else {
+        console.error('Missing url and routerName')
+      }
+    }
+  }
 }
 </script>
 

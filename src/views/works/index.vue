@@ -7,7 +7,7 @@
     <div class="card-list">
       <transition-group name="bounce">
         <div v-for="(item) in showList" :key="item.title" class="card-item">
-          <work-card :title="item.title" :description="item.description" :img="item.img" :url="item.url"></work-card>
+          <work-card :title="item.title" :description="item.description" :img="item.img" :url="item.url" :routerName="item.routerName"></work-card>
         </div>
       </transition-group>
     </div>
@@ -115,6 +115,12 @@ export default {
           description: 'Webpack入门教程，配合代码解析，适合新手深入浅出学习入门。',
           url: 'https://david-shi-1989.github.io/MyCodeSnippet/gitbook/dist/webpack/',
           tag: 'JavaScript'
+        },
+        {
+          title: 'Flip Logo',
+          score: 4,
+          description: '灰色logo hover时翻转为彩色',
+          routerName: 'Demo_Flip_Logo',
         }
       ],
       tagList: ['所有', 'JavaScript', 'CSS'],
