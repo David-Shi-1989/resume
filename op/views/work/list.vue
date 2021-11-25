@@ -10,7 +10,7 @@ import { createVNode } from 'vue'
 import pageTable from 'op/component/page-table'
 import {getWorks, deleteWork} from 'op/api/op'
 import {Space, Button, Message} from '@arco-design/web-vue'
-import {IconImage, IconPenFill, IconDelete} from '@arco-design/web-vue/es/icon'
+import {IconImage, IconPenFill, IconDelete, IconLink} from '@arco-design/web-vue/es/icon'
 import {KEY_WORK} from 'op/constant'
 import { mapMutations } from 'vuex'
 export default {
@@ -36,7 +36,13 @@ export default {
         },
         {
           title: '链接',
-          dataIndex: 'link'
+          width: 120,
+          render: ({record}) => {
+            const {link} = record
+            const hasLink = !!link
+            let icon = hasLink ? createVNode(IconLink, {title: link}, {}) : null
+            return icon
+          }
         },
         {
           title: '类别',
@@ -45,7 +51,7 @@ export default {
         },
         {
           title: '图片',
-          width: 200,
+          width: 120,
           render: ({record}) => {
             const {img} = record
             const hasImg = !!img
@@ -59,10 +65,12 @@ export default {
         },
         {
           title: '描述',
-          dataIndex: 'description'
+          dataIndex: 'description',
+          ellipsis: true
         },
         {
           title: '操作',
+          width: 120,
           render: ({record}) => {
             const editBtn = createVNode(Button, {
               size: 'mini',

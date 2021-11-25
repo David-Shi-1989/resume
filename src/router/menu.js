@@ -44,7 +44,16 @@ const menuList = [
           backRouterName: 'Works'
         },
         component: () => import(/* webpackChunkName: "Demo_Flip_Logo" */ '../views/works/list/logo-flip.vue'),
-      }
+      },
+      // {
+      //   title: 'Animate Log',
+      //   path: 'animate-log',
+      //   name: 'Demo_Animate_Log',
+      //   meta: {
+      //     backRouterName: 'Works'
+      //   },
+      //   component: () => import(/* webpackChunkName: "Demo_Flip_Logo" */ '../views/works/list/log-animate/index.vue'),
+      // }
     ]
   }
 ]

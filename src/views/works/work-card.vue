@@ -1,11 +1,11 @@
 <template>
   <a class="work-card-wrap" href="javascript:void(0);" @click="onLinkClick">
     <div class="card-img">
-      <img :src="img">
+      <img class="card-img" :src="img || imgPlaceholder">
     </div>
-    <p class="text title">{{title}}</p>
-    <p class="text desc">{{description}}</p>
   </a>
+  <p class="text title" style="margin-top:10px;">{{title}}</p>
+  <p class="text desc">{{description}}</p>
 </template>
 
 <script>
@@ -24,26 +24,26 @@ export default {
       type: String,
       default: imgPlaceholder
     },
-    url: {
+    link: {
       type: String,
       default: ''
     },
-    routerName: {
-      type: String,
-      default: ''
+    type: {
+      type: Number,
+      default: 0
     }
   },
   data () {
-    return {}
+    return {
+      imgPlaceholder
+    }
   },
   methods: {
     onLinkClick () {
-      if (this.url) {
-        window.open(this.url, '_blank')
-      } else if (this.routerName) {
-        this.$router.push({name: this.routerName})
+      if (this.type === 0) {
+        window.open(this.link, '_blank')
       } else {
-        console.error('Missing url and routerName')
+        this.$router.push({name: this.link})
       }
     }
   }
@@ -55,31 +55,15 @@ export default {
   text-decoration: none;
   .card-img {
     width: 100%;
-    height: 200px;
     overflow: hidden;
     border: 1px solid var(--color-border);
-    margin-bottom: 10px;
     position: relative;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #ccc;
     img {
       width: 100%;
       transition: transform .3s cubic-bezier(.2,0,.2,1);
-    }
-  }
-  .text {
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
-    &.title {
-      font-weight: bolder;
-      font-size: 15px;
-      color: var(--color-text-2);
-    }
-    &.desc {
-      font-size: 13px;
-      color: var(--color-text-3);
+      display: block;
     }
   }
   &:hover {
@@ -99,9 +83,24 @@ export default {
         background-color: rgba(0,0,0,.3);
       }
       img {
-        transform: scale3d(1.1,1.1,1);
+        transform: scale3d(1.2,1.2,1);
       }
     }
+  }
+}
+.text {
+  cursor: text;
+  &:hover {
+    text-decoration: underline;
+  }
+  &.title {
+    font-weight: bolder;
+    font-size: 15px;
+    color: var(--color-text-2);
+  }
+  &.desc {
+    font-size: 13px;
+    color: var(--color-text-3);
   }
 }
 </style>

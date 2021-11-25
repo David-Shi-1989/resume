@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS web_work
   description VARCHAR(128) DEFAULT '',
   img VARCHAR(256) DEFAULT '',
   type TINYINT DEFAULT 0 COMMENT '0:url 1:routerName',
-  link VARCHAR(128) NOT NULL,
+  link VARCHAR(512) NOT NULL,
   category VARCHAR(128),
   create_date DATETIME NOT NULL,
   is_enable TINYINT DEFAULT 1

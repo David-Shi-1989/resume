@@ -10,7 +10,7 @@
       </a-radio-group>
     </a-form-item>
     <a-form-item field="link" :label="linkLabel" :rules="rules.link" :validate-trigger="['change', 'input']">
-      <a-input v-model="form.link" placeholder="please enter link" :max-length="256" allow-clear show-word-limit/>
+      <a-input v-model="form.link" placeholder="please enter link" :max-length="512" allow-clear show-word-limit/>
     </a-form-item>
     <a-form-item field="category" label="类别" :rules="rules.category" :validate-trigger="['change', 'input']">
       <a-select v-model="form.category">
