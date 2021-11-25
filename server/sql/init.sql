@@ -98,8 +98,9 @@ CREATE TABLE IF NOT EXISTS web_work
   title VARCHAR(32) NOT NULL,
   description VARCHAR(128) DEFAULT '',
   img VARCHAR(256) DEFAULT '',
-  type TINYINT DEFAULT 0 COMMENT '0:link 1:routerName',
+  type TINYINT DEFAULT 0 COMMENT '0:url 1:routerName',
   link VARCHAR(128) NOT NULL,
+  category VARCHAR(128),
   create_date DATETIME NOT NULL,
   is_enable TINYINT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

@@ -26,8 +26,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
-app.use('/static', express.static(path.join(ROOTPath, 'static')))
-
+app.use('/public', express.static(path.join(ROOTPath, 'static')))
 
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*')

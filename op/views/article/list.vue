@@ -229,18 +229,35 @@ export default {
         this.loading(false)
       })
     },
-    onDelete (id, isPermenent) {
-      this.loading(true)
-      delteArticle([id], isPermenent).then(isSuccess => {
-        if (isSuccess) {
-          Message.success('删除成功')
-          this.refreshCurrentTabTableData()
-        } else {
-          Message.error('删除失败')
-        }
-      }).finally(() => {
-        this.loading(false)
+    confirmDelete () {
+      return new Promise((resolve, reject) => {
+        this.$modal.confirm({
+          title: '请确认',
+          content: '确认删除吗?',
+          modalClass: 'confirm-modal',
+          onOk: () => {
+            resolve(true)
+          },
+          onCancel: () => {
+            resolve(false)
+          }
+        })
       })
+    },
+    async onDelete (id, isPermenent) {
+      if (await this.confirmDelete()) {
+        this.loading(true)
+        delteArticle([id], isPermenent).then(isSuccess => {
+          if (isSuccess) {
+            Message.success('删除成功')
+            this.refreshCurrentTabTableData()
+          } else {
+            Message.error('删除失败')
+          }
+        }).finally(() => {
+          this.loading(false)
+        })
+      }
     },
     refreshCurrentTabTableData (tabName = '') {
       const ptRefName = (tabName || this.activeTab) + 'PT'

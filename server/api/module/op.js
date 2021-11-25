@@ -191,17 +191,42 @@ module.exports = function (router) {
     const id = utils.uuid()
     let sql = `INSERT INTO ${utils.tableName.web_comment}
     (id,content,userId,resource_id,parent_comment_id,create_datetime) VALUES
-    ('${id}','${parseUserInput(content)}','${userId}','${resourceId||''}','${parentCommentId||''}',NOW())`
+    ('${id}','${utils.parseUserInput(content)}','${userId}','${resourceId||''}','${parentCommentId||''}',NOW())`
     sqlUtils.execute(sql).then(result => {
       utils.response(res, {isSuccess: result.affectedRows === 1})
     })
   })
   // works
   router.get('/op/work', function (req, res) {
-    const sql = `SELECT * FROM ${utils.tableName.work} WHERE is_enable > 0`
+    const sql = `SELECT * FROM ${utils.tableName.work} WHERE is_enable > 0 ORDER BY create_date DESC`
     sqlUtils.execute(sql).then(result => {
       utils.response(res, result)
     })
+  })
+  router.get('/op/work/:id', function (req, res) {
+    const {id} = req.params
+    const sql = `SELECT * FROM ${utils.tableName.work} WHERE is_enable > 0 AND id = '${id}'`
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, result[0])
+    })
+  })
+  router.delete('/op/work', function (req, res) {
+    var {idList, isPermenent} = req.query
+    isPermenent = (isPermenent === 'true')
+    if (idList && idList.length > 0) {
+      const idStr = idList.map(id => `'${id}'`).join(',')
+      const sql = isPermenent ? `DELETE FROM ${utils.tableName.work} WHERE id IN (${idStr})` :
+        `UPDATE ${utils.tableName.work} SET is_enable = 0 WHERE id IN (${idStr})`
+      sqlUtils.execute(sql).then(result => {
+        const isSuccess = result.affectedRows === idList.length, affectedRows = result.affectedRows
+        if (isSuccess && !isPermenent) {
+          // success
+        } else if (!isSuccess) {
+          utils.logger.warn('删除作品失败', idList, affectedRows)
+        }
+        utils.response(res, {isSuccess, affectedRows})
+      })
+    }
   })
 }
 // 新建文章
@@ -216,7 +241,7 @@ async function createArticle (res, req, {title, tagList, isTop, isDraft, html, m
     const newId = utils.uuid()
     const createSql = `INSERT INTO ${utils.tableName.article} 
     (id,title,tags,md,summary,create_by,create_datetime,is_top,is_draft) VALUES 
-    ('${newId}','${XSS(title)}','${tagList.join(',')}','${parseUserInput(md)}','${XSS(summary||'')}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
+    ('${newId}','${XSS(title)}','${tagList.join(',')}','${utils.parseUserInput(md)}','${XSS(summary||'')}','${utils.getUserIdFromReq(req)}',NOW(),${isTop ? 1 : 0},${isDraft ? 1 : 0})`
     sqlUtils.execute(createSql).then(result => {
       resBody.isSuccess = result.affectedRows > 0
       if (resBody.isSuccess) {
@@ -239,7 +264,7 @@ async function editArticle (res, {id, title, tagList, isTop, isDraft, html, md, 
     const setArr = [
       title ? `title='${XSS(title)}'` : '',
       tagList ? `tags='${tagList.join(',')}'` : '',
-      md ? `md='${parseUserInput(md)}'` : '',
+      md ? `md='${utils.parseUserInput(md)}'` : '',
       summary ? `summary='${XSS(summary||'')}'` : '',
       'modify_datetime=NOW()',
       typeof(isTop) === 'boolean' ? `is_top=${isTop ? 1 : 0}` : '',
@@ -266,7 +291,7 @@ async function createTag (res, req, {name}) {
     utils.response(res, resBody)
   } else {
     const newId = utils.uuid()
-    const sql = `INSERT INTO ${utils.tableName.op_tag} (id,title,create_by,create_datetime) VALUES ('${newId}','${parseUserInput(name)}','${utils.getUserIdFromReq(req)}',NOW())`
+    const sql = `INSERT INTO ${utils.tableName.op_tag} (id,title,create_by,create_datetime) VALUES ('${newId}','${utils.parseUserInput(name)}','${utils.getUserIdFromReq(req)}',NOW())`
     sqlUtils.execute(sql).then(result => {
       resBody.isSuccess = result.affectedRows > 0
       if (resBody.isSuccess) {
@@ -472,8 +497,4 @@ function articleLikeCountAdd (id) {
       resolve(result.affectedRows === 1)
     })
   })
-}
-
-function parseUserInput (input = '') {
-  return input.replace(/\'/g, '\\\'')
 }

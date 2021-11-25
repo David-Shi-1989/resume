@@ -5,6 +5,7 @@ const errorLogger = require('./middleware/log4js').getLogger('err')
 const loginLogger = require('./middleware/log4js').getLogger('login')
 const opLogger = require('./middleware/log4js').getLogger('op')
 const lodash = require('lodash')
+const XSS = require('xss')
 
 function isArray (obj) {
   return Array.prototype.isPrototypeOf(obj)
@@ -169,5 +170,8 @@ module.exports = {
     },
     values: lodash.values,
     uniq: lodash.uniq
+  },
+  parseUserInput (input = '') {
+    return XSS(input.replace(/\'/g, '\\\''))
   }
 }

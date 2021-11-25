@@ -152,6 +152,32 @@ export function addComment ({userId, content, resourceId, parentCommentId}) {
 export function getWorks () {
   return new Promise(function (resolve) {
     Axios.get('/api/op/work').then(res => {
+      res.data.forEach(work => {
+        work.create_date = (new Date(work.create_date)).format()
+      })
+      resolve(res.data)
+    })
+  })
+}
+export function getWork (id) {
+  return new Promise(function (resolve) {
+    Axios.get('/api/op/work/' + id).then(res => {
+      res.data.create_date = (new Date(res.data.create_date)).format()
+      resolve(res.data)
+    })
+  })
+}
+export function addWork (formData) {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/work', formData, {headers: { "Content-Type": "multipart/form-data" }}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+export function deleteWork (idList, isPermenent = false) {
+  let list = typeof idList === 'string' ? [idList] : idList
+  return new Promise(function (resolve) {
+    Axios.delete('/api/op/work', {params: {idList: list, isPermenent}}).then(res => {
       resolve(res.data)
     })
   })

@@ -52,6 +52,21 @@ const menuList = [
         name: 'Work_Category',
         component: () => import(/* webpackChunkName: "Works" */'../views/work/category.vue')
       },
+      {
+        title: '新建',
+        path: 'create',
+        name: 'Work_Create',
+        showInMenu: false,
+        component: () => import(/* webpackChunkName: "Works" */'../views/work/edit.vue')
+      },
+      {
+        title: '编辑',
+        path: ':id',
+        name: 'Work_Edit',
+        showInMenu: false,
+        props: true,
+        component: () => import(/* webpackChunkName: "Works" */'../views/work/edit.vue')
+      },
     ]
   },
   {

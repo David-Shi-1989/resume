@@ -2,48 +2,19 @@
   <div>
     <page-table ref="table" :pageApi="getWorks" :isPagination="false" :columns="column"
       size="small" @create-btn="onCreateBtn"></page-table>
-    <a-modal :visible="modal.isShow" @cancel="modal.isShow=false">
-      <template #title>
-        {{modalTitle}}
-      </template>
-      <a-form :model="modal.form" ref="workForm">
-        <a-form-item field="title" label="名称" :rules="modal.rules.name" :validate-trigger="['change', 'input']">
-          <a-input v-model="modal.form.name" placeholder="please enter work name" :max-length="32" allow-clear show-word-limit/>
-        </a-form-item>
-        <a-form-item field="description" label="描述" :rules="modal.rules.description" :validate-trigger="['change', 'input']">
-          <a-input v-model="modal.form.description" placeholder="please enter work description" :max-length="128" allow-clear show-word-limit/>
-        </a-form-item>
-        <a-form-item field="img" label="缩略图">
-          
-          <VuePictureCropper
-            :boxStyle="{
-              width: '100%',
-              height: '100%',
-              backgroundColor: '#f8f8f8',
-              margin: 'auto',
-            }"
-            :img="modal.form.img"
-            :options="{
-              viewMode: 1,
-              dragMode: 'crop',
-              aspectRatio: 16 / 9,
-              preview: 'img.copper-preview'
-            }"
-          />
-          <img class="copper-preview">
-        </a-form-item>
-      </a-form>
-    </a-modal>
   </div>
 </template>
 
 <script>
+import { createVNode } from 'vue'
 import pageTable from 'op/component/page-table'
-import {getWorks} from 'op/api/op'
-import VuePictureCropper, { cropper } from 'vue-picture-cropper'
-import myImg from '@/assets/image_header.jpg'
+import {getWorks, deleteWork} from 'op/api/op'
+import {Space, Button, Message} from '@arco-design/web-vue'
+import {IconImage, IconPenFill, IconDelete} from '@arco-design/web-vue/es/icon'
+import {KEY_WORK} from 'op/constant'
+import { mapMutations } from 'vuex'
 export default {
-  components: {pageTable, VuePictureCropper},
+  components: {pageTable},
   data () {
     return {
       getWorks,
@@ -53,40 +24,121 @@ export default {
           dataIndex: 'title'
         },
         {
+          title: '类型',
+          width: 150,
+          render: ({record}) => {
+            const {type} = record
+            let text = type === 0 ? 'URL' : 'RouterName'
+            return createVNode('span', {}, {
+              default: () => text
+            })
+          }
+        },
+        {
+          title: '链接',
+          dataIndex: 'link'
+        },
+        {
+          title: '类别',
+          width: 200,
+          dataIndex: 'category'
+        },
+        {
+          title: '图片',
+          width: 200,
+          render: ({record}) => {
+            const {img} = record
+            const hasImg = !!img
+            let icon = hasImg ? createVNode(IconImage, {}, {}) : null
+            return icon
+          }
+        },
+        {
+          title: '创建时间',
+          dataIndex: 'create_date'
+        },
+        {
           title: '描述',
           dataIndex: 'description'
+        },
+        {
+          title: '操作',
+          render: ({record}) => {
+            const editBtn = createVNode(Button, {
+              size: 'mini',
+              type: 'text',
+              title: '编辑',
+              onClick: () => {
+                this.onEditItem(record)
+              }
+            }, {
+              icon: () => createVNode(IconPenFill, {
+                style: {color: '#AAA'},
+              })
+            })
+            const deleteBtn = createVNode(Button, {
+              size: 'mini',
+              type: 'text',
+              title: '删除',
+              onClick: () => {
+                this.onDelete(record)
+              }
+            }, {
+              icon: () => createVNode(IconDelete, {
+                style: {color: 'rgb(var(--danger-6))'},
+              })
+            })
+            return createVNode(Space, {}, {
+              default: () => [editBtn, deleteBtn]
+            })
+          }
         }
       ],
-      modal: {
-        isShow: false,
-        form: {
-          id: '',
-          title: '',
-          description: '',
-          img: myImg
-        },
-        rules: {
-          name: [
-            {required: true, message: '名称必填'}
-          ]
-        }
-      }
     }
   },
   created () {
   },
   methods: {
+    ...mapMutations(['loading']),
     onCreateBtn () {
-      this.modal.isShow = true
+      this.$router.push({name: 'Work_Create'})
+    },
+    onEditItem (record) {
+      localStorage.setItem(KEY_WORK, JSON.stringify(record))
+      this.$router.push({name: 'Work_Edit', params: {id: record.id}})
+    },
+    confirmDelete (name) {
+      return new Promise((resolve, reject) => {
+        this.$modal.confirm({
+          title: '请确认',
+          content: `确认删除【${name}】吗?`,
+          modalClass: 'confirm-modal',
+          onOk: () => {
+            resolve(true)
+          },
+          onCancel: () => {
+            resolve(false)
+          }
+        })
+      })
+    },
+    async onDelete (record) {
+      if (await this.confirmDelete(record.title)) {
+        this.loading(true)
+        deleteWork(record.id).then(res => {
+          if (res.isSuccess) {
+            Message.success('删除成功')
+            this.$refs.table.initData()
+          } else {
+            Message.error('删除失败')
+          }
+        }).finally(() => {
+          this.loading(false)
+        })
+      }
     }
   },
   computed: {
-    isEdit () {
-      return !!this.modal.form.id
-    },
-    modalTitle () {
-      return this.isEdit ? '编辑作品' : '新建作品'
-    }
   }
 }
 </script>
