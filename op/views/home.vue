@@ -3,16 +3,16 @@
     <a-card hoverable :style="{ width: '100%', marginBottom: '20px' }">
       <ul class="statistic-list">
         <li>
-          <a-statistic title="Articles" :value="15" precision="0" :value-from="0" animation />
+          <a-statistic title="Articles" :start="count.start" :value="count.article" precision="0" :value-from="0" animation />
         </li>
         <li>
-          <a-statistic title="Tags" :value="8" precision="0" :value-from="0" animation />
+          <a-statistic title="Tags" :start="count.start" :value="count.tag" precision="0" :value-from="0" animation />
         </li>
         <li>
-          <a-statistic title="Works" :value="48" precision="0" :value-from="0" animation />
+          <a-statistic title="Works" :start="count.start" :value="count.work" precision="0" :value-from="0" animation />
         </li>
         <li>
-          <a-statistic title="Comments" :value="267" precision="0" :value-from="0" animation />
+          <a-statistic title="Comments" :start="count.start" :value="count.comment" precision="0" :value-from="0" animation />
         </li>
       </ul>
     </a-card>
@@ -40,10 +40,38 @@
 </template>
 
 <script>
+import {dashboard} from 'op/api/op'
+import { mapMutations } from 'vuex'
 export default {
   data () {
-    return {}
+    return {
+      count: {
+        start: false,
+        article: 0,
+        tag: 0,
+        work: 0,
+        comment: 0
+      }
+    }
   },
+  created () {
+    this.initData()
+  },
+  methods: {
+    ...mapMutations(['loading']),
+    initData () {
+      this.loading(true)
+      dashboard().then(res => {
+        this.count.article = res.article_num
+        this.count.tag = res.tag_num
+        this.count.work = res.work_num
+        this.count.comment = res.comment_num
+        this.count.start = true
+      }).finally(() => {
+        this.loading(false)
+      })
+    }
+  }
 }
 </script>
 

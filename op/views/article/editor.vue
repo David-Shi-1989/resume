@@ -27,7 +27,7 @@
       <icon-caret-left :class="collpaseClass" @click="onTopCollapseClick"/>
     </div>
     <div class="md-editor">
-      <MdEditor v-model="form.md" :showCodeRowNumber="true"></MdEditor>
+      <MdEditor v-model="form.md" :showCodeRowNumber="true" @onUploadImg="onUploadImg"></MdEditor>
     </div>
     <a-space class="btn-row" size="large">
       <a-button type="primary" @click="onSaveBtn">保存</a-button>
@@ -39,7 +39,7 @@
 <script>
 import MdEditor from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
-import {getArticleById, getTag, createArticle} from 'op/api/op'
+import {getArticleById, getTag, createArticle, uploadImg} from 'op/api/op'
 import { mapMutations } from 'vuex'
 export default {
   props: {
@@ -128,6 +128,11 @@ export default {
     },
     getSummary () {
       return this.form.md.replace(/[\n#`]/g, ' ').replace(/\s+/g, ' ').replace(/^\s+/, '').slice(0, 50)
+    },
+    onUploadImg (files, callback) {
+      uploadImg(files).then(res => {
+        callback(res.map(url => location.origin + url))
+      })
     }
   },
   computed: {

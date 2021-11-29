@@ -183,6 +183,27 @@ export function deleteWork (idList, isPermenent = false) {
   })
 }
 
+export function uploadImg (files) {
+  let formData = new FormData()
+  for (let i = 0; i < files.length; i++) {
+    let curFile = files[i]
+    formData.append(`img${i + 1}`, curFile)
+  }
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/img/upload', formData, {headers: { "Content-Type": "multipart/form-data" }}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+
+export function dashboard () {
+  return new Promise(function (resolve) {
+    Axios.get('/api/op/dashboard').then(res => {
+      resolve(res.data)
+    })
+  })
+}
+
 function formartDatetime (dt) {
   return (new Date(dt)).format(DATETIME_FORMAT)
 }

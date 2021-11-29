@@ -228,6 +228,17 @@ module.exports = function (router) {
       })
     }
   })
+  // dashboard
+  router.get('/op/dashboard', function (req, res) {
+    const sql = `SELECT a.article_num,t.tag_num,w.work_num,c.comment_num FROM
+    (SELECT COUNT(id) article_num FROM ${utils.tableName.article} WHERE is_enable > 0) AS a,
+    (SELECT COUNT(id) tag_num FROM ${utils.tableName.op_tag} WHERE is_enable > 0) AS t,
+    (SELECT COUNT(id) work_num FROM ${utils.tableName.work} WHERE is_enable > 0) AS w,
+    (SELECT COUNT(id) comment_num FROM ${utils.tableName.web_comment} WHERE is_enable > 0) AS c`
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, result[0])
+    })
+  })
 }
 // 新建文章
 async function createArticle (res, req, {title, tagList, isTop, isDraft, html, md, summary}) {

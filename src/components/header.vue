@@ -10,9 +10,19 @@
       </ul>
       <ul class="right-list">
         <li>
-          <a-avatar v-if="userAvatar" :size="26">
-            <img :src="getAvatar(userAvatar)" />
-          </a-avatar>
+          <a-popover v-if="userAvatar">
+            <a-avatar :size="26">
+              <img :src="getAvatar(userAvatar)" />
+            </a-avatar>
+            <!-- <template #title>
+              <a-avatar :size="26">
+                <img :src="getAvatar(userAvatar)" />
+              </a-avatar>
+            </template> -->
+            <template #content>
+              <a-descriptions :column="1" title="用户信息" :data="userHoverInfo"></a-descriptions>
+            </template>
+          </a-popover>
           <a-avatar v-else :style="{ backgroundColor: 'var(--color-fill-4)' }" :size="26">
             <IconUser />
           </a-avatar>
@@ -74,9 +84,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userAvatar']),
+    ...mapGetters(['userAvatar', 'userName', 'userEmail']),
     routerPath () {
       return this.$route.name
+    },
+    userHoverInfo () {
+      return [
+        {label: 'UserName', value: this.userName},
+        {label: 'Email', value: this.userEmail},
+      ]
     }
   },
   watch: {

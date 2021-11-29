@@ -3,7 +3,7 @@ const utils = require('../../utils')
 const multer = require('multer')
 const sqlUtils = require('../../sql')
 
-const upload = multer({
+const uploadDemo = multer({
   storage: multer.diskStorage({
     destination (req, file, cb) {
       cb(null, path.join(__dirname, '../../../static/demo'))
@@ -14,8 +14,19 @@ const upload = multer({
     }
   })
 })
+const uploadArticle = multer({
+  storage: multer.diskStorage({
+    destination (req, file, cb) {
+      cb(null, path.join(__dirname, '../../../static/article'))
+    },
+    filename (req, file, cb) {
+      const fileName = utils.formatDate(new Date(), 'yyyy-MM-dd_hh-mm-ss') + '-' + file.originalname
+      cb(null, fileName)
+    }
+  })
+})
 module.exports = function (router) {
-  router.post('/op/work', upload.single('workUploadImg'),async function (req, res) {
+  router.post('/op/work', uploadDemo.single('uploadImg'),async function (req, res) {
     let img = ''
     if (req && req.file) {
       const {filename} = req.file
@@ -33,6 +44,13 @@ module.exports = function (router) {
       resData.isSuccess = !!resData.id
     }
     utils.response(res, resData)
+  })
+  router.post('/op/img/upload', uploadArticle.any(), function (req, res, next) {
+    let img = '', files = []
+    if (req && req.files) {
+      files = req.files.map(file => `/public/article/${file.filename}`)
+    }
+    utils.response(res, files)
   })
 }
 
