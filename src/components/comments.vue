@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="comment-list">
     <a-empty v-if="list.length===0" description="快来抢占沙发"/>
     <a-comment v-for="chat1 in list" :key="chat1.id"
       :author="chat1.name" :avatar="chat1.avatar" :content="chat1.content"
@@ -234,5 +234,13 @@ export default {
 .username-text {
   color: var(--color-text-2);
   font-size: 12px;
+}
+.comment-list {
+  & > .arco-comment {
+    padding: 5px 10px;
+    &:hover {
+      background-color: rgba(0,0,0,.05);
+    }
+  }
 }
 </style>

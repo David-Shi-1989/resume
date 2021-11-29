@@ -190,8 +190,8 @@ module.exports = function (router) {
     const {userId, content, resourceId, parentCommentId} = req.body
     const id = utils.uuid()
     let sql = `INSERT INTO ${utils.tableName.web_comment}
-    (id,content,userId,resource_id,parent_comment_id,create_datetime) VALUES
-    ('${id}','${utils.parseUserInput(content)}','${userId}','${resourceId||''}','${parentCommentId||''}',NOW())`
+    (id,content,userId,resource_id,parent_comment_id,ip,create_datetime) VALUES
+    ('${id}','${utils.parseUserInput(content)}','${userId}','${resourceId||''}','${parentCommentId||''}','${utils.getIpFromReq(req)}',NOW())`
     sqlUtils.execute(sql).then(result => {
       utils.response(res, {isSuccess: result.affectedRows === 1})
     })
