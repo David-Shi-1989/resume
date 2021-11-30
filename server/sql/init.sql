@@ -92,6 +92,32 @@ CREATE TABLE IF NOT EXISTS web_comment
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 -----------------------------------------------------------
 -- Table Create
+-- web-like
+-----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS web_like
+(
+  id VARCHAR(36) NOT NULL PRIMARY KEY,
+  userId VARCHAR(36) NOT NULL,
+  resource_id VARCHAR(36) DEFAULT '',
+  type TINYINT(2) DEFAULT 0 COMMENT '0:article',
+  create_datetime DATETIME NOT NULL,
+  ip VARCHAR(64) DEFAULT '',
+  is_enable TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+-----------------------------------------------------------
+-- Table Create
+-- web-visitor
+-----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS web_visit
+(
+  id INT(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  userId VARCHAR(36) NOT NULL,
+  create_datetime DATETIME NOT NULL,
+  ip VARCHAR(64) DEFAULT '',
+  is_enable TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+-----------------------------------------------------------
+-- Table Create
 -- web-works
 -----------------------------------------------------------
 CREATE TABLE IF NOT EXISTS web_work

@@ -19,6 +19,14 @@ export function logout (userId) {
   })
 }
 
+export function visit (userId) {
+  return new Promise(function (resolve) {
+    Axios.post('/api/op/visit', {userId}).then(res => {
+      resolve(res.data.isSuccess)
+    })
+  })
+}
+
 // 标签
 export function getTag (params = {}) {
   return new Promise(function (resolve) {
@@ -115,9 +123,9 @@ export function publishArticle (id) {
     })
   })
 }
-export function articleLike (id) {
+export function articleLike (articleId, userId = null) {
   return new Promise(function (resolve) {
-    Axios.post('/api/op/article/like', {id}).then(res => {
+    Axios.post('/api/op/article/like', {articleId, userId}).then(res => {
       resolve(res.data)
     })
   })

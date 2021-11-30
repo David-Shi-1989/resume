@@ -40,7 +40,7 @@ export default defineComponent({
     Loading
   },
   computed: {
-    ...mapGetters(['loading', 'hasNoBackground', 'hasNoPadding']),
+    ...mapGetters(['loading', 'hasNoBackground', 'hasNoPadding', 'userId']),
     mainWrapClass () {
       return {
         'no-background': this.hasNoBackground,

@@ -71,7 +71,7 @@ import 'md-editor-v3/lib/style.css'
 import {getArticleById, articleLike} from 'op/api/op'
 import tagList from './tag-item.vue'
 import {isArray, get, debounce} from 'lodash'
-import {mapMutations} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import topArticle from 'op/component/svg/article-top.svg'
 import comment from '@/components/comments'
 import { Message } from '@arco-design/web-vue'
@@ -300,7 +300,7 @@ export default {
       if (this.curIsLike) {
         Message.info('谢谢! Like恒久远, 一颗永流传.')
       } else {
-        articleLike(this.id).then(isSuccess => {
+        articleLike(this.id, this.userId).then(isSuccess => {
           if (isSuccess) {
             this.curIsLike = true
             this.count.like++
@@ -322,6 +322,9 @@ export default {
         document.getElementById('main_container').onscroll = this.onContainerScroll
       }
     }, 2000)
+  },
+  computed: {
+    ...mapGetters(['userId'])
   },
   destroyed () {}
 }

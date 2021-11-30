@@ -3,26 +3,37 @@
     <a-card hoverable :style="{ width: '100%', marginBottom: '20px' }">
       <ul class="statistic-list">
         <li>
-          <a-statistic title="Articles" :start="count.start" :value="count.article" precision="0" :value-from="0" animation />
-        </li>
-        <li>
-          <a-statistic title="Tags" :start="count.start" :value="count.tag" precision="0" :value-from="0" animation />
-        </li>
-        <li>
-          <a-statistic title="Works" :start="count.start" :value="count.work" precision="0" :value-from="0" animation />
-        </li>
-        <li>
-          <a-statistic title="Comments" :start="count.start" :value="count.comment" precision="0" :value-from="0" animation>
+          <a-statistic title="Articles" :start="count.start" :value="count.article" precision="0" :value-from="0" animation>
             <template #title>
-              Comment
-              <icon-message />
+              <icon-file :style="iconStyle"/>
             </template>
           </a-statistic>
         </li>
         <li>
-          <a-statistic title="Users" :start="count.start" :value="count.comment" precision="0" :value-from="0" animation>
+          <a-statistic title="Tags" :start="count.start" :value="count.tag" precision="0" :value-from="0" animation>
             <template #title>
-              <icon-user />
+              <icon-tags :style="iconStyle"/>
+            </template>
+          </a-statistic>
+        </li>
+        <li>
+          <a-statistic title="Works" :start="count.start" :value="count.work" precision="0" :value-from="0" animation>
+            <template #title>
+              <icon-apps :style="iconStyle"/>
+            </template>
+          </a-statistic>
+        </li>
+        <li>
+          <a-statistic title="Comments" :start="count.start" :value="count.comment" precision="0" :value-from="0" animation>
+            <template #title>
+              <icon-message :style="iconStyle"/>
+            </template>
+          </a-statistic>
+        </li>
+        <li>
+          <a-statistic title="Users" :start="count.start" :value="count.user" precision="0" :value-from="0" animation>
+            <template #title>
+              <icon-user :style="iconStyle"/>
             </template>
           </a-statistic>
         </li>
@@ -43,7 +54,7 @@
         <a-card hoverable class="chart-card">
           <div class="card-head">
             <span class="dash-card-title">文章统计</span>
-            <icon-book :style="{marginLeft:'5px'}"/>
+            <icon-file :style="{marginLeft:'5px'}"/>
           </div>
           <ArticleStatistic></ArticleStatistic>
         </a-card>
@@ -100,6 +111,7 @@ export default {
         this.count.tag = res.tag_num
         this.count.work = res.work_num
         this.count.comment = res.comment_num
+        this.count.user = res.user_num
         this.count.start = true
       }).finally(() => {
         this.loading(false)
@@ -197,6 +209,13 @@ export default {
       setTimeout(() => {
         this.chartOption.visitor = option
       }, 6000)
+    }
+  },
+  computed: {
+    iconStyle () {
+      return {
+        fontSize: '20px'
+      }
     }
   }
 }

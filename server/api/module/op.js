@@ -1,7 +1,7 @@
 const utils = require('../../utils')
 const sqlUtils = require('../../sql/index')
 const config = require('../../config')
-const { sql } = require('../../utils')
+const { sql, tableName } = require('../../utils')
 const XSS = require('xss')
 
 const Cache = {
@@ -40,6 +40,16 @@ module.exports = function (router) {
     } else {
       utils.response(res, {isSuccess: true})
     }
+  })
+  router.post('/op/visit', function (req, res) {
+    const {userId} = req.body
+    const sql = `INSERT INTO ${utils.tableName.visit}
+    (userId,create_datetime,ip)
+    VALUES
+    ('${userId}',NOW(),'${utils.getIpFromReq(req)}')`
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, {isSuccess: result.affectedRows > 0})
+    })
   })
   // Tag
   router.get('/op/tag', async function (req, res) {
@@ -151,8 +161,8 @@ module.exports = function (router) {
     }
   })
   router.post('/op/article/like', async function (req, res) {
-    const {id} = req.body
-    articleLikeCountAdd(id).then(isSuccess => {
+    const {articleId, userId} = req.body
+    articleLikeCountAdd(req, articleId, userId).then(isSuccess => {
       utils.response(res, {isSuccess})
     })
   })
@@ -230,11 +240,12 @@ module.exports = function (router) {
   })
   // dashboard
   router.get('/op/dashboard', function (req, res) {
-    const sql = `SELECT a.article_num,t.tag_num,w.work_num,c.comment_num FROM
+    const sql = `SELECT a.article_num,t.tag_num,w.work_num,c.comment_num,u.user_num FROM
     (SELECT COUNT(id) article_num FROM ${utils.tableName.article} WHERE is_enable > 0) AS a,
     (SELECT COUNT(id) tag_num FROM ${utils.tableName.op_tag} WHERE is_enable > 0) AS t,
     (SELECT COUNT(id) work_num FROM ${utils.tableName.work} WHERE is_enable > 0) AS w,
-    (SELECT COUNT(id) comment_num FROM ${utils.tableName.web_comment} WHERE is_enable > 0) AS c`
+    (SELECT COUNT(id) comment_num FROM ${utils.tableName.web_comment} WHERE is_enable > 0) AS c,
+    (SELECT COUNT(id) user_num FROM ${utils.tableName.web_user} WHERE is_enable > 0) AS u`
     sqlUtils.execute(sql).then(result => {
       utils.response(res, result[0])
     })
@@ -529,11 +540,20 @@ function articleVisitCountAdd (id) {
     })
   })
 }
-function articleLikeCountAdd (id) {
+function articleLikeCountAdd (req, articleId, userId) {
   return new Promise((resolve, reject) => {
-    const sql = `UPDATE ${utils.tableName.article} SET like_count = like_count + 1 WHERE id = '${id}'`
+    const newId = utils.uuid()
+    const sql = `INSERT INTO ${utils.tableName.like}
+    (id,userId,resource_id,type,create_datetime,ip)
+    VALUES
+    ('${newId}','${userId || ''}','${articleId || ''}',0,NOW(),'${utils.getIpFromReq(req)}')`
     sqlUtils.execute(sql).then(result => {
-      resolve(result.affectedRows === 1)
+      const isSuccess = (result.affectedRows === 1)
+      if (isSuccess) {
+        let addCount = `UPDATE ${utils.tableName.article} SET like_count = like_count + 1 WHERE id='${articleId}'`
+        sqlUtils.execute(addCount)
+      }
+      resolve(isSuccess)
     })
   })
 }

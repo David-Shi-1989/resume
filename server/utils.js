@@ -97,6 +97,8 @@ module.exports = {
     web_user: 'web_user',
     web_comment: 'web_comment',
     work: 'web_work',
+    like: 'web_like',
+    visit: 'web_visit',
     // TODO delete below
     category: 'op_question_category',
     question: 'op_question_list',
