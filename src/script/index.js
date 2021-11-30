@@ -41,6 +41,13 @@ export function getRandomNum (min = 0, max = 10) {
   return (Math.floor(Math.random() * (dis + 1)) + min)
 }
 
+export function isEmptyObj (obj) {
+  for (let key in obj) {
+    return false
+  }
+  return true
+}
+
 /* eslint-disable */
 Date.prototype.format = function (fmt = 'yyyy/MM/dd hh:mm:ss') {
 /* eslint-disable */
@@ -62,6 +69,30 @@ Date.prototype.format = function (fmt = 'yyyy/MM/dd hh:mm:ss') {
     }
   }
   return fmt
+}
+Date.prototype.relative = function () {
+  const curTs = this.valueOf()
+  const nowTs = Date.now()
+  let dis = Math.abs(nowTs - curTs)
+  const hourMs = 1000 * 60 * 60
+  const result = {
+    days: Math.floor(dis / (hourMs * 24))
+  }
+  if (result.days > 365) {
+    return this.format()
+  } else if (result.days > 30) {
+    result.month = Math.floor(result.days / 30)
+    return `${result.month} month${result.month > 0 ? 's' : ''}`
+  } else if (result.days > 0) {
+    return `${result.days} day${result.days > 0 ? 's' : ''}`
+  } else {
+    result.hours = Math.floor(dis / hourMs)
+    if (result.hours > 0) {
+      return `${result.hours} hour${result.hours > 0 ? 's' : ''}`
+    } else {
+      return 'just now'
+    }
+  }
 }
 /* eslint-disable */
 String.prototype.random = function (length, dict) {

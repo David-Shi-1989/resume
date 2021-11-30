@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS web_comment
   content VARCHAR(128) NOT NULL,
   userId VARCHAR(36) NOT NULL,
   resource_id VARCHAR(36) DEFAULT '',
+  type TINYINT(2) DEFAULT 0 COMMENT '0:article',
   parent_comment_id VARCHAR(36) DEFAULT '',
   create_datetime DATETIME NOT NULL,
   ip VARCHAR(64) DEFAULT '',

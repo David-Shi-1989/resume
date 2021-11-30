@@ -239,6 +239,34 @@ module.exports = function (router) {
       utils.response(res, result[0])
     })
   })
+  router.get('/op/dash/article/rank', function (req, res) {
+    const {orderBy} = req.query
+    const count = 5
+    let sql = ''
+    if (orderBy === 'comment_count') {
+      sql = `SELECT art.id,art.title,COUNT(com.resource_id) AS value FROM ${utils.tableName.web_comment} AS com
+      LEFT JOIN ${utils.tableName.article} as art ON art.id = com.resource_id
+      WHERE art.is_enable > 0 AND com.is_enable > 0 AND com.type=0
+      GROUP BY com.resource_id
+      ORDER BY value DESC LIMIT 0,${count}`
+    } else {
+      sql = `SELECT title,${orderBy} AS value FROM ${utils.tableName.article} WHERE is_enable > 0  AND ${orderBy} > 0 ORDER BY ${orderBy} DESC LIMIT 0,${count}`
+    }
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, result)
+    })
+  })
+  router.get('/op/dash/message', function (req, res) {
+    const count = 10
+    const sql = `SELECT com.id,com.content,com.create_datetime,com.ip,user.name,user.avatar FROM ${utils.tableName.web_comment} AS com
+    LEFT JOIN ${utils.tableName.web_user} AS user ON com.userId = user.id
+    WHERE com.is_enable > 0
+    ORDER BY create_datetime DESC
+    LIMIT 0,${count}`
+    sqlUtils.execute(sql).then(result => {
+      utils.response(res, result)
+    })
+  })
 }
 // 新建文章
 async function createArticle (res, req, {title, tagList, isTop, isDraft, html, md, summary}) {

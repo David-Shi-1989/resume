@@ -12,37 +12,64 @@
           <a-statistic title="Works" :start="count.start" :value="count.work" precision="0" :value-from="0" animation />
         </li>
         <li>
-          <a-statistic title="Comments" :start="count.start" :value="count.comment" precision="0" :value-from="0" animation />
+          <a-statistic title="Comments" :start="count.start" :value="count.comment" precision="0" :value-from="0" animation>
+            <template #title>
+              Comment
+              <icon-message />
+            </template>
+          </a-statistic>
+        </li>
+        <li>
+          <a-statistic title="Users" :start="count.start" :value="count.comment" precision="0" :value-from="0" animation>
+            <template #title>
+              <icon-user />
+            </template>
+          </a-statistic>
         </li>
       </ul>
     </a-card>
-    <div class="row row-2">
-      <a-card hoverable>
-        <div>
-          <span class="dash-card-title">访客统计</span>
-          <icon-align-left :style="{transform: 'rotate(270deg)',marginLeft:'5px'}"/>
-        </div>
-      </a-card>
-      <a-card hoverable>
-        <div>
-          <span class="dash-card-title">文章统计</span>
-          <icon-book :style="{marginLeft:'5px'}"/>
-        </div>
-      </a-card>
-      <a-card hoverable>
-        <div>
-          <span class="dash-card-title">作品统计</span>
-          <icon-apps :style="{marginLeft:'5px'}"/>
-        </div>
-      </a-card>
-    </div>
+    <a-row :gutter="20" style="height:320px;" class="row2">
+      <a-col :span="8">
+        <a-card hoverable class="chart-card">
+          <div class="card-head">
+            <span class="dash-card-title">访客统计</span>
+            <icon-eye :style="{marginLeft:'5px'}"></icon-eye>
+            <!-- <icon-align-left :style="{transform: 'rotate(270deg)',marginLeft:'5px'}"/> -->
+          </div>
+          <chart :option="chartOption.visitor"></chart>
+        </a-card>
+      </a-col>
+      <a-col :span="8">
+        <a-card hoverable class="chart-card">
+          <div class="card-head">
+            <span class="dash-card-title">文章统计</span>
+            <icon-book :style="{marginLeft:'5px'}"/>
+          </div>
+          <ArticleStatistic></ArticleStatistic>
+        </a-card>
+      </a-col>
+      <a-col :span="8">
+        <a-card hoverable class="chart-card">
+          <div class="card-head">
+            <span class="dash-card-title">留言统计</span>
+            <icon-message :style="{marginLeft:'5px'}"/>
+          </div>
+          <MessageStatistic></MessageStatistic>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script>
 import {dashboard} from 'op/api/op'
 import { mapMutations } from 'vuex'
+import chart from 'op/component/charts'
+import ArticleStatistic from './dashboard/article-statistic'
+import MessageStatistic from './dashboard/message'
+
 export default {
+  components: {chart, ArticleStatistic, MessageStatistic},
   data () {
     return {
       count: {
@@ -50,12 +77,19 @@ export default {
         article: 0,
         tag: 0,
         work: 0,
-        comment: 0
+        comment: 0,
+        user: 0
+      },
+      chartOption: {
+        visitor: {}
       }
     }
   },
   created () {
     this.initData()
+  },
+  mounted () {
+    this.initVisitorChart()
   },
   methods: {
     ...mapMutations(['loading']),
@@ -70,6 +104,99 @@ export default {
       }).finally(() => {
         this.loading(false)
       })
+    },
+    initVisitorChart () {
+      const list = [
+        {label: '11/23', value: 19},
+        {label: '11/24', value: 14},
+        {label: '11/25', value: 29},
+        {label: '11/26', value: 39},
+        {label: '11/27', value: 25},
+        {label: '11/28', value: 17},
+        {label: '11/29', value: 18}
+      ]
+      const option = {
+        tooltip: {
+          trigger: 'axis'
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: list.map(i => i.label),
+            axisLine: {
+              lineStyle: {
+                color: "#999"
+              }
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            splitNumber: 4,
+            splitLine: {
+              lineStyle: {
+                type: 'dashed',
+                color: '#DDD'
+              }
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: "#333"
+              },
+            },
+            nameTextStyle: {
+              color: "#999"
+            },
+            splitArea: {
+              show: false
+            }
+          }
+        ],
+        series: [
+          {
+            name: '访问量',
+            type: 'line',
+            data: list.map(i => i.value),
+            lineStyle: {
+              normal: {
+                  width: 5,
+                  color: {
+                    type: 'linear',
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: '#A9F387' // 0% 处的颜色
+                      },
+                      {
+                        offset: 1,
+                        color: '#48D8BF' // 100% 处的颜色
+                      }
+                    ],
+                    globalCoord: false // 缺省为 false
+                  },
+                  shadowColor: 'rgba(72,216,191, 0.3)',
+                  shadowBlur: 10,
+                  shadowOffsetY: 20
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#fff',
+                borderWidth: 10,
+                /*shadowColor: 'rgba(72,216,191, 0.3)',
+                shadowBlur: 100,*/
+                borderColor: "#A9F387"
+              }
+            },
+            smooth: true
+          }
+        ]
+      }
+      setTimeout(() => {
+        this.chartOption.visitor = option
+      }, 6000)
     }
   }
 }
@@ -83,10 +210,32 @@ export default {
 }
 div.row {
   display: flex;
+  @gap: 20px;
   & > div {
     flex: 1 1 100%;
     &:not(:last-child) {
-      margin-right: 20px;
+      margin-right: @gap;
+    }
+  }
+}
+.row2 {
+  & > div {
+    height: 100%;
+  }
+}
+.arco-card.chart-card {
+  height: 100%;
+  :deep(.arco-card-body)  {
+    height: 100%;
+    @head-height: 30px;
+    .card-head {
+      height: @head-height;
+      line-height: @head-height;
+      margin-bottom: 15px;
+      border-bottom: 1px solid var(--color-border);
+      & + div {
+        height: calc(100% - @head-height);
+      }
     }
   }
 }

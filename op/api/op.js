@@ -1,6 +1,7 @@
 import Axios from './index'
 import {DATETIME_FORMAT} from 'op/constant'
 import {isArray} from 'lodash'
+import { getAvatar } from '@/components/avatar'
 
 export function login (username, password) {
   return new Promise(function (resolve) {
@@ -199,6 +200,28 @@ export function uploadImg (files) {
 export function dashboard () {
   return new Promise(function (resolve) {
     Axios.get('/api/op/dashboard').then(res => {
+      resolve(res.data)
+    })
+  })
+}
+
+// dashboard
+export function dashArticleStatistic (orderBy = 'visit_count') {
+  return new Promise(function (resolve) {
+    Axios.get('/api/op/dash/article/rank', {params: {orderBy}}).then(res => {
+      res.data.forEach((a, i) => a.index = (i + 1))
+      resolve(res.data)
+    })
+  })
+}
+
+export function dashMessageStatistic () {
+  return new Promise(function (resolve) {
+    Axios.get('/api/op/dash/message').then(res => {
+      res.data.forEach(mess => {
+        mess.avatar = getAvatar(mess.avatar)
+        mess.datetime = (new Date(mess.create_datetime)).relative()
+      })
       resolve(res.data)
     })
   })
