@@ -74,15 +74,14 @@ export default {
       top: 0;
       left: 0;
       backface-visibility: hidden;
-      // background-image: url('../../../assets/demo/vue-js-logo.png');
       background-repeat: no-repeat;
       background-size: 100%;
       cursor: pointer;
       &.front {
-        background-position: 0 0;
+        background-position: 0 @card-height * -1;
       }
       &.back {
-        background-position: 0 @card-height * -1;
+        background-position: 0 0;
       }
     }
   }

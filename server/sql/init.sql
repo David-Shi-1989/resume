@@ -132,3 +132,16 @@ CREATE TABLE IF NOT EXISTS web_work
   create_date DATETIME NOT NULL,
   is_enable TINYINT DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+-----------------------------------------------------------
+-- Table Create
+-- web-ip-region
+-----------------------------------------------------------
+CREATE TABLE IF NOT EXISTS web_ip_region
+(
+  id INT(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  ip VARCHAR(32) NOT NULL,
+  city VARCHAR(128) DEFAULT '',
+  province VARCHAR(128) DEFAULT '',
+  country VARCHAR(128) DEFAULT '',
+  is_enable TINYINT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

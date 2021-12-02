@@ -43,27 +43,42 @@
       <a-col :span="8">
         <a-card hoverable class="chart-card">
           <div class="card-head">
-            <span class="dash-card-title">访客统计</span>
-            <icon-eye :style="{marginLeft:'5px'}"></icon-eye>
-            <!-- <icon-align-left :style="{transform: 'rotate(270deg)',marginLeft:'5px'}"/> -->
+            <div>
+              <span class="dash-card-title">访客统计</span>
+              <icon-eye :style="{marginLeft:'5px'}"></icon-eye>
+            </div>
+            <a-radio-group type="button" size="mini" v-model="visit.activeTab">
+              <a-radio :value="7">近7天</a-radio>
+              <a-radio :value="30">近30天</a-radio>
+              <a-radio :value="12">近12月</a-radio>
+            </a-radio-group>
           </div>
-          <chart :option="chartOption.visitor"></chart>
+          <visitorChart :days="visit.activeTab"></visitorChart>
         </a-card>
       </a-col>
       <a-col :span="8">
         <a-card hoverable class="chart-card">
           <div class="card-head">
-            <span class="dash-card-title">文章统计</span>
-            <icon-file :style="{marginLeft:'5px'}"/>
+            <div>
+              <span class="dash-card-title">文章统计</span>
+              <icon-file :style="{marginLeft:'5px'}"/>
+            </div>
+            <a-radio-group type="button" size="mini" v-model="article.activeTab">
+              <a-radio value="visit_count">阅读量</a-radio>
+              <a-radio value="like_count">点赞</a-radio>
+              <a-radio value="comment_count">评论</a-radio>
+            </a-radio-group>
           </div>
-          <ArticleStatistic></ArticleStatistic>
+          <ArticleStatistic :activeTab="article.activeTab"></ArticleStatistic>
         </a-card>
       </a-col>
       <a-col :span="8">
         <a-card hoverable class="chart-card">
           <div class="card-head">
-            <span class="dash-card-title">留言统计</span>
-            <icon-message :style="{marginLeft:'5px'}"/>
+            <div>
+              <span class="dash-card-title">留言统计</span>
+              <icon-message :style="{marginLeft:'5px'}"/>
+            </div>
           </div>
           <MessageStatistic></MessageStatistic>
         </a-card>
@@ -75,12 +90,12 @@
 <script>
 import {dashboard} from 'op/api/op'
 import { mapMutations } from 'vuex'
-import chart from 'op/component/charts'
 import ArticleStatistic from './dashboard/article-statistic'
 import MessageStatistic from './dashboard/message'
+import visitorChart from './dashboard/visitor'
 
 export default {
-  components: {chart, ArticleStatistic, MessageStatistic},
+  components: {ArticleStatistic, MessageStatistic, visitorChart},
   data () {
     return {
       count: {
@@ -89,18 +104,18 @@ export default {
         tag: 0,
         work: 0,
         comment: 0,
-        user: 0
+        user: 0,
       },
-      chartOption: {
-        visitor: {}
+      visit: {
+        activeTab: 7
+      },
+      article: {
+        activeTab: 'visit_count'
       }
     }
   },
   created () {
     this.initData()
-  },
-  mounted () {
-    this.initVisitorChart()
   },
   methods: {
     ...mapMutations(['loading']),
@@ -117,99 +132,6 @@ export default {
         this.loading(false)
       })
     },
-    initVisitorChart () {
-      const list = [
-        {label: '11/23', value: 19},
-        {label: '11/24', value: 14},
-        {label: '11/25', value: 29},
-        {label: '11/26', value: 39},
-        {label: '11/27', value: 25},
-        {label: '11/28', value: 17},
-        {label: '11/29', value: 18}
-      ]
-      const option = {
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: list.map(i => i.label),
-            axisLine: {
-              lineStyle: {
-                color: "#999"
-              }
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            splitNumber: 4,
-            splitLine: {
-              lineStyle: {
-                type: 'dashed',
-                color: '#DDD'
-              }
-            },
-            axisLine: {
-              show: false,
-              lineStyle: {
-                color: "#333"
-              },
-            },
-            nameTextStyle: {
-              color: "#999"
-            },
-            splitArea: {
-              show: false
-            }
-          }
-        ],
-        series: [
-          {
-            name: '访问量',
-            type: 'line',
-            data: list.map(i => i.value),
-            lineStyle: {
-              normal: {
-                  width: 5,
-                  color: {
-                    type: 'linear',
-                    colorStops: [
-                      {
-                        offset: 0,
-                        color: '#A9F387' // 0% 处的颜色
-                      },
-                      {
-                        offset: 1,
-                        color: '#48D8BF' // 100% 处的颜色
-                      }
-                    ],
-                    globalCoord: false // 缺省为 false
-                  },
-                  shadowColor: 'rgba(72,216,191, 0.3)',
-                  shadowBlur: 10,
-                  shadowOffsetY: 20
-              }
-            },
-            itemStyle: {
-              normal: {
-                color: '#fff',
-                borderWidth: 10,
-                /*shadowColor: 'rgba(72,216,191, 0.3)',
-                shadowBlur: 100,*/
-                borderColor: "#A9F387"
-              }
-            },
-            smooth: true
-          }
-        ]
-      }
-      setTimeout(() => {
-        this.chartOption.visitor = option
-      }, 6000)
-    }
   },
   computed: {
     iconStyle () {
@@ -252,6 +174,8 @@ div.row {
       line-height: @head-height;
       margin-bottom: 15px;
       border-bottom: 1px solid var(--color-border);
+      display: flex;
+      justify-content: space-between;
       & + div {
         height: calc(100% - @head-height);
       }

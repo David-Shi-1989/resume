@@ -1,13 +1,5 @@
 <template>
-  <div>
-    <a-radio-group type="button" size="mini" v-model="activeTab" @change="initData">
-      <a-radio value="visit_count">阅读量</a-radio>
-      <a-radio value="like_count">点赞</a-radio>
-      <a-radio value="comment_count">评论</a-radio>
-    </a-radio-group>
-    <a-table :columns="columns" :data="data" size="small" :pagination="false" :loading="loading"
-      style="margin-top:10px;"></a-table>
-  </div>
+  <a-table :columns="columns" :data="data" size="small" :pagination="false" :loading="loading"></a-table>
 </template>
 
 <script>
@@ -17,9 +9,14 @@ import silver from '@/assets/svg/silver.svg'
 import bronze from '@/assets/svg/bronze.svg'
 import {dashArticleStatistic} from 'op/api/op'
 export default {
+  props: {
+    activeTab: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
-      activeTab: 'visit_count',
       loading: true,
       columns: [
         {
@@ -57,9 +54,6 @@ export default {
       data: []
     }
   },
-  created () {
-    this.initData()
-  },
   methods: {
     initData () {
       this.loading = true
@@ -68,6 +62,14 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    }
+  },
+  watch: {
+    activeTab: {
+      immediate: true,
+      handler () {
+        this.initData()
+      }
     }
   }
 }

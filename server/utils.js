@@ -6,6 +6,9 @@ const loginLogger = require('./middleware/log4js').getLogger('login')
 const opLogger = require('./middleware/log4js').getLogger('op')
 const lodash = require('lodash')
 const XSS = require('xss')
+const http = require('http')
+const iconv = require('iconv-lite')
+const BufferHelper = require('bufferhelper')
 
 function isArray (obj) {
   return Array.prototype.isPrototypeOf(obj)
@@ -99,6 +102,7 @@ module.exports = {
     work: 'web_work',
     like: 'web_like',
     visit: 'web_visit',
+    ipRegion: 'web_ip_region',
     // TODO delete below
     category: 'op_question_category',
     question: 'op_question_list',
@@ -175,5 +179,31 @@ module.exports = {
   },
   parseUserInput (input = '') {
     return XSS(input.replace(/\'/g, '\\\''))
+  },
+  httpGet (url, encode = 'UTF8') {
+    console.assert(/^http:\/\//.test(url), 'only support http')
+    url = url.replace(/^http:\/\//, '')
+    let idx = url.indexOf('/')
+    var options = {
+      hostname: url,
+      path: '',
+      method: 'GET'
+    }
+    if (idx > 0) {
+      options.hostname = url.substr(0, idx)
+      options.path = url.substr(idx)
+    }
+    return new Promise((resolve, reject) => {
+      var bufferHelper = new BufferHelper()
+      var req = http.request(options, function (res) {
+        res.on('data', (chunk) => {
+          bufferHelper.concat(chunk)
+        })
+        res.on('end', () => {
+          resolve(iconv.decode(bufferHelper.toBuffer(), encode))
+        })
+      })
+      req.end()
+    })
   }
 }

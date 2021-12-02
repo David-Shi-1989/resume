@@ -235,6 +235,14 @@ export function dashMessageStatistic () {
   })
 }
 
+export function dashVisitorStatistic (days) {
+  return new Promise(function (resolve) {
+    Axios.get('/api/op/dash/visitor', {params: {days}}).then(res => {
+      resolve(res.data)
+    })
+  })
+}
+
 function formartDatetime (dt) {
   return (new Date(dt)).format(DATETIME_FORMAT)
 }
